@@ -129,6 +129,9 @@ public class LoginActivity extends AppCompatActivity {
     private void updateUiWithUser(LoggedInUserView model) {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        // prevent users going back in history after login
+        // they should properly log out
+        finish();
     }
 
     private void showLoginFailed(@StringRes Integer errorString) {
