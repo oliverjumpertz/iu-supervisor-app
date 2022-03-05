@@ -9,7 +9,9 @@
         <entry key="app/src/main/res/layout-w936dp/activity_login.xml" value="0.37359008789062503" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.24512023925781254" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.33444430586220564" />
+        <entry key="app/src/main/res/layout/fragment_advertised_theses.xml" value="0.2180633544921875" />
         <entry key="app/src/main/res/layout/fragment_main.xml" value="0.2105978260869565" />
+        <entry key="app/src/main/res/layout/list_item_row.xml" value="0.21082916259765627" />
         <entry key="app/src/main/res/layout/main_activity.xml" value="0.15208333333333332" />
       </map>
     </option>
