@@ -9,4 +9,7 @@
     <string name="invalid_username">Kein valider Nutzername</string>
     <string name="invalid_password">Falsches Passwort</string>
     <string name="login_failed">"Login fehlgeschlagen"</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
 </resources>
