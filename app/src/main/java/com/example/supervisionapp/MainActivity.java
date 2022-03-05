@@ -1,7 +1,10 @@
 package com.example.supervisionapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.supervisionapp.data.LoginRepository;
+import com.example.supervisionapp.ui.login.LoginActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
@@ -32,5 +35,14 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = binding.tabs;
         tabs.setupWithViewPager(viewPager);
+    }
+
+    public void onClickLogout(View view) {
+        LoginRepository loginRepository = LoginRepository.getInstance(null);
+        loginRepository.logout();
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        // prevent users from going back in history after they logged out
+        finish();
     }
 }
