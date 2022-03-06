@@ -26,15 +26,21 @@ public class FragmentAdvertisedTheses extends Fragment {
         return new FragmentAdvertisedTheses();
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        final List<ListItem> items = new ArrayList<>();
+        items.add(new ListItem("Die Paarung Der Fliege", "Das Paarungsverhalten der gemeinen Fliege ist ein lange erforschtes Problem, das allerdings noch nicht tiefgreifend genug erforscht wurde."));
+        items.add(new ListItem("Die Paarung Der Fliege", "Das Paarungsverhalten der gemeinen Fliege ist ein lange erforschtes Problem, das allerdings noch nicht tiefgreifend genug erforscht wurde."));
+        ListAdapter listAdapter = new ListAdapter(getActivity(), items);
+        ListView listView = (ListView) getView().findViewById(R.id.advertisedTheses);
+        listView.setAdapter(listAdapter);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        final List<ListItem> items = new ArrayList<>();
-        items.add(new ListItem("1", "1"));
-        items.add(new ListItem("2", "2"));
-        ListAdapter listAdapter = new ListAdapter(getActivity(), items);
-        ListView listView = (ListView) getActivity().findViewById(R.id.advertisedTheses);
         return inflater.inflate(R.layout.fragment_advertised_theses, container, false);
     }
 

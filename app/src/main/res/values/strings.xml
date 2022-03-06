@@ -13,5 +13,13 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
+    <string name="tab_advertised_theses">Ausgeschriebene Arbeiten</string>
+    <string name="tab_my_thesis">Meine Arbeit</string>
     <string name="fragment_advertised_theses_header_textView">Ausgeschriebene Arbeiten</string>
+    <string name="fragment_my_thesis_header_title_thesis">Titel:</string>
+    <string name="fragment_my_thesis_header_title_no_thesis">Du hast noch keine Abschlussarbeit angefangen</string>
+    <string name="fragment_my_thesis_header_first_supervisor">Erstgutachter:</string>
+    <string name="fragment_my_thesis_header_second_supervisor">Zweitgutachter:</string>
+    <string name="fragment_my_thesis_header_expose">Exposé:</string>
+    <string name="fragment_my_thesis_header_status">Status:</string>
 </resources>
