@@ -13,12 +13,12 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.supervisionapp.R;
 
-public class FragmentMyThesis extends Fragment {
+public class FragmentSupervisedThesis extends Fragment {
 
     private ViewModelMyThesis mViewModel;
 
-    public static FragmentMyThesis newInstance() {
-        return new FragmentMyThesis();
+    public static FragmentSupervisedThesis newInstance() {
+        return new FragmentSupervisedThesis();
     }
 
     @Override
@@ -40,7 +40,7 @@ public class FragmentMyThesis extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_my_thesis, container, false);
+        return inflater.inflate(R.layout.fragment_supervised_thesis, container, false);
     }
 
     @Override

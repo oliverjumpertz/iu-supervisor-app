@@ -2,13 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment_my_thesis_constraintLayout"
+    android:id="@+id/fragment_supervised_thesis_constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.FragmentMyThesis">
+    tools:context=".ui.main.FragmentSupervisedThesis">
 
     <ScrollView
-        android:id="@+id/fragment_my_thesis_scrollView"
+        android:id="@+id/fragment_supervised_thesis_scrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:id="@+id/fragment_my_thesis_linearLayout"
+            android:id="@+id/fragment_supervised_thesis_linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="1dp"
@@ -26,115 +26,142 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/fragment_my_thesis_headerTitle"
+                android:id="@+id/fragment_supervised_thesis_headerTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:gravity="center"
-                android:text="@string/fragment_my_thesis_header_title_thesis"
+                android:text="@string/fragment_supervised_thesis_headerTitle"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/fragment_my_thesis_textTitle"
+                android:id="@+id/fragment_supervised_thesis_headerText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:gravity="center"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="24sp"
-                android:textStyle="bold"
-                android:visibility="visible" />
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/fragment_my_thesis_headerFirstSupervisor"
+                android:id="@+id/fragment_supervised_thesis_supervisorStatusTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="@string/fragment_my_thesis_header_first_supervisor"
+                android:gravity="center"
+                android:text="@string/fragment_supervised_thesis_supervisorStatusTitle"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="24sp"
-                android:textStyle="bold"
-                android:visibility="visible" />
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/fragment_my_thesis_textFirstSupervisor"
+                android:id="@+id/fragment_supervised_thesis_supervisorStatusText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:gravity="center"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="24sp"
-                android:visibility="visible" />
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/fragment_my_thesis_headerSecondSupervisor"
+                android:id="@+id/fragment_supervised_thesis_studentHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="@string/fragment_supervised_thesis_studentHeader"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="24sp"
-                android:textStyle="bold"
-                android:visibility="visible"
-                tools:text="@string/fragment_my_thesis_header_second_supervisor" />
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/fragment_my_thesis_textSecondSupervisor"
+                android:id="@+id/fragment_supervised_thesis_studentText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:gravity="center"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="24sp"
-                android:visibility="visible" />
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/fragment_my_thesis_headerExpose"
+                android:id="@+id/fragment_supervised_thesis_exposeHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="@string/fragment_supervised_thesis_exposeHeader"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="24sp"
-                android:textStyle="bold"
-                tools:text="@string/fragment_my_thesis_header_expose"
-                android:visibility="visible" />
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/fragment_my_thesis_todoIcon"
+                android:id="@+id/fragment_supervised_thesis_exposeText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="TODO fileIcon here"
-                android:textAlignment="center"
-                android:textSize="24sp"
-                android:visibility="visible" />
-
-            <TextView
-                android:id="@+id/fragment_my_thesis_headerStatus"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:gravity="center"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="24sp"
-                android:textStyle="bold"
-                tools:text="@string/fragment_my_thesis_header_status"
-                android:visibility="visible" />
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/fragment_my_thesis_textStatus"
+                android:id="@+id/fragment_supervised_thesis_statusHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="@string/fragment_supervised_thesis_statusHeader"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="24sp"
-                android:visibility="visible" />
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/fragment_supervised_thesis_statusText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/fragment_supervised_thesis_invoiceStatusHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="@string/fragment_supervised_thesis_invoiceStatusHeader"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/fragment_supervised_thesis_invoiceStatusText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
     </ScrollView>

@@ -2,13 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constraintLayout"
+    android:id="@+id/fragment_advertised_theses_constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.main.FragmentAdvertisedTheses">
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/fragment_advertised_theses_linearLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="1dp"
@@ -23,7 +23,7 @@
         app:layout_constraintVertical_bias="0.0">
 
         <TextView
-            android:id="@+id/headerTitle"
+            android:id="@+id/fragment_advertised_theses_headerTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -33,7 +33,7 @@
             android:textStyle="bold" />
 
         <ListView
-            android:id="@+id/advertisedTheses"
+            android:id="@+id/fragment_advertised_theses_advertisedTheses"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="20dp"

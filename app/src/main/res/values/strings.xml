@@ -22,4 +22,10 @@
     <string name="fragment_my_thesis_header_second_supervisor">Zweitgutachter:</string>
     <string name="fragment_my_thesis_header_expose">Exposé:</string>
     <string name="fragment_my_thesis_header_status">Status:</string>
+    <string name="fragment_supervised_thesis_headerTitle">Titel:</string>
+    <string name="fragment_supervised_thesis_supervisorStatusTitle">Betreuungsstatus:</string>
+    <string name="fragment_supervised_thesis_studentHeader">Student:</string>
+    <string name="fragment_supervised_thesis_exposeHeader">Exposé:</string>
+    <string name="fragment_supervised_thesis_statusHeader">Status:</string>
+    <string name="fragment_supervised_thesis_invoiceStatusHeader">Rechnungsstatus:</string>
 </resources>
