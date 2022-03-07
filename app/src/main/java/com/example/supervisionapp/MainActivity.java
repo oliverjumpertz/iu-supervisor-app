@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.supervisionapp.ui.main.SectionsPagerAdapter;
 import com.example.supervisionapp.databinding.ActivityMainBinding;
@@ -44,5 +45,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
         // prevent users from going back in history after they logged out
         finish();
+    }
+
+    public void onClickListItem(View view) {
+        Toast.makeText(this, "Test!", Toast.LENGTH_LONG).show();
     }
 }
