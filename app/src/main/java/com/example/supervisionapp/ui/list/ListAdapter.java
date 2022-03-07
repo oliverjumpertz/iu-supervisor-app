@@ -41,10 +41,11 @@ public class ListAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View row = inflater.inflate(R.layout.list_item_row, viewGroup, false);
-        TextView title = (TextView) row.findViewById(R.id.txtTitle);
-        TextView description = (TextView) row.findViewById(R.id.txtDescription);
-        title.setText(items.get(i).getTitle());
-        description.setText(items.get(i).getDescription());
+        TextView title = (TextView) row.findViewById(R.id.list_item_row_textTitle);
+        TextView description = (TextView) row.findViewById(R.id.list_item_row_textDescription);
+        ListItem item = items.get(i);
+        title.setText(item.getTitle());
+        description.setText(item.getDescription());
         return row;
     }
 }

@@ -28,4 +28,13 @@
     <string name="fragment_supervised_thesis_exposeHeader">Exposé:</string>
     <string name="fragment_supervised_thesis_statusHeader">Status:</string>
     <string name="fragment_supervised_thesis_invoiceStatusHeader">Rechnungsstatus:</string>
+    <string name="fragment_submit_thesis_textViewTitle">Titel:</string>
+    <string name="fragment_submit_thesis_plainTextTitle">Titel</string>
+    <string name="fragment_submit_thesis_textViewSubTitle">Untertitel:</string>
+    <string name="fragment_submit_thesis_plainTextSubTitle">Untertitel</string>
+    <string name="fragment_submit_thesis_textViewDescription">Beschreibung:</string>
+    <string name="fragment_submit_thesis_multiLineTextDescription">Beschreibung</string>
+    <string name="fragment_submit_thesis_headerExpose">Exposé hochladen:</string>
+    <string name="fragment_submit_thesis_buttonSend">Absenden</string>
+    <string name="fragment_submit_thesis_buttonCancel">Abbrechen</string>
 </resources>

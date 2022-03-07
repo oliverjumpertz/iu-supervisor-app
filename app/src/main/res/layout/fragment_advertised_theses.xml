@@ -30,6 +30,8 @@
             android:gravity="center"
             android:text="@string/fragment_advertised_theses_header_textView"
             android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="14sp"
             android:textStyle="bold" />
 
         <ListView
