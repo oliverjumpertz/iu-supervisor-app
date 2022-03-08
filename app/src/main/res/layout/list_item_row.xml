@@ -31,7 +31,6 @@
             android:textColor="@color/black"
             android:textSize="12dp"
             android:textStyle="bold"
-            android:onClick="onClickListItem"
             android:clickable="true" />
 
         <TextView
@@ -49,7 +48,6 @@
             android:textColor="@color/light_grey"
             android:textSize="12dp"
             android:textStyle="bold"
-            android:onClick="onClickListItem"
             android:clickable="true" />
 
     </LinearLayout>

@@ -46,8 +46,4 @@ public class MainActivity extends AppCompatActivity {
         // prevent users from going back in history after they logged out
         finish();
     }
-
-    public void onClickListItem(View view) {
-        Toast.makeText(this, "Test!", Toast.LENGTH_LONG).show();
-    }
 }

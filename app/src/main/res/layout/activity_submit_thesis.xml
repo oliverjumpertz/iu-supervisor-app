@@ -2,13 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment_my_thesis_constraintLayout"
+    android:id="@+id/activity_submit_thesis_constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.FragmentSubmitThesis">
+    tools:context=".ui.main.ActivitySubmitThesis">
 
     <ScrollView
-        android:id="@+id/fragment_submit_thesis_scrollView"
+        android:id="@+id/activity_submit_thesis_scrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:id="@+id/fragment_submit_thesis_linearLayout"
+            android:id="@+id/activity_submit_thesis_linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="1dp"
@@ -25,73 +25,106 @@
             android:layout_marginBottom="1dp"
             android:orientation="vertical">
 
+            <com.google.android.material.appbar.AppBarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/Theme.SupervisionApp.AppBarOverlay">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/activity_submit_thesis_app_bar_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:minHeight="?actionBarSize"
+                        android:padding="@dimen/appbar_padding"
+                        android:text="@string/app_name"
+                        android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title" />
+
+                    <Button
+                        android:id="@+id/activity_submit_thesis_app_bar_logout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:minHeight="?actionBarSize"
+                        android:onClick="onClickLogout"
+                        android:text="@string/app_bar_logout_text" />
+                </LinearLayout>
+
+            </com.google.android.material.appbar.AppBarLayout>
+
             <TextView
-                android:id="@+id/fragment_submit_thesis_textViewTitle"
+                android:id="@+id/activity_submit_thesis_textViewTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"
-                android:labelFor="@id/fragment_submit_thesis_plainTextTitle"
-                android:text="@string/fragment_submit_thesis_textViewTitle"
+                android:labelFor="@id/activity_submit_thesis_plainTextTitle"
+                android:text="@string/activity_submit_thesis_textViewTitle"
                 android:textAlignment="viewStart"
                 android:textColor="@color/black"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/fragment_submit_thesis_plainTextTitle"
+                android:id="@+id/activity_submit_thesis_plainTextTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="10dp"
                 android:ems="10"
                 android:inputType="text"
-                android:text="@string/fragment_submit_thesis_plainTextTitle"
+                android:text="@string/activity_submit_thesis_plainTextTitle"
                 android:textColor="@color/black"
                 android:textSize="24sp"
                 tools:ignore="DuplicateSpeakableTextCheck" />
 
             <TextView
-                android:id="@+id/fragment_submit_thesis_textViewSubTitle"
+                android:id="@+id/activity_submit_thesis_textViewSubTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"
-                android:labelFor="@id/fragment_submit_thesis_plainTextSubTitle"
-                android:text="@string/fragment_submit_thesis_textViewSubTitle"
+                android:labelFor="@id/activity_submit_thesis_plainTextSubTitle"
+                android:text="@string/activity_submit_thesis_textViewSubTitle"
                 android:textAlignment="viewStart"
                 android:textColor="@color/black"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/fragment_submit_thesis_plainTextSubTitle"
+                android:id="@+id/activity_submit_thesis_plainTextSubTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="10dp"
                 android:ems="10"
                 android:inputType="text"
-                android:text="@string/fragment_submit_thesis_plainTextSubTitle"
+                android:text="@string/activity_submit_thesis_plainTextSubTitle"
                 android:textColor="@color/black"
                 android:textSize="24sp"
                 tools:ignore="DuplicateSpeakableTextCheck" />
 
             <TextView
-                android:id="@+id/fragment_submit_thesis_textViewDescription"
+                android:id="@+id/activity_submit_thesis_textViewDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"
-                android:labelFor="@id/fragment_submit_thesis_multiLineTextDescription"
-                android:text="@string/fragment_submit_thesis_textViewDescription"
+                android:labelFor="@id/activity_submit_thesis_multiLineTextDescription"
+                android:text="@string/activity_submit_thesis_textViewDescription"
                 android:textAlignment="viewStart"
                 android:textColor="@color/black"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/fragment_submit_thesis_multiLineTextDescription"
+                android:id="@+id/activity_submit_thesis_multiLineTextDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -101,18 +134,18 @@
                 android:inputType="textMultiLine"
                 android:minLines="6"
                 android:scrollbars="vertical"
-                android:text="@string/fragment_submit_thesis_multiLineTextDescription"
+                android:text="@string/activity_submit_thesis_multiLineTextDescription"
                 android:textColor="@color/black"
                 android:textSize="24sp"
                 tools:ignore="DuplicateSpeakableTextCheck" />
 
             <TextView
-                android:id="@+id/fragment_submit_thesis_headerExpose"
+                android:id="@+id/activity_submit_thesis_headerExpose"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"
-                android:text="@string/fragment_submit_thesis_headerExpose"
+                android:text="@string/activity_submit_thesis_headerExpose"
                 android:textAlignment="center"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
@@ -120,7 +153,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/fragment_submit_thesis_todoExposeIcon"
+                android:id="@+id/activity_submit_thesis_todoExposeIcon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="TODO Exposé Icon"
@@ -129,7 +162,7 @@
                 android:layout_marginBottom="10dp" />
 
             <LinearLayout
-                android:id="@+id/fragment_submit_thesis_linearLayoutButtons"
+                android:id="@+id/activity_submit_thesis_linearLayoutButtons"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
@@ -137,22 +170,22 @@
                 android:layout_marginBottom="10dp" >
 
                 <Button
-                    android:id="@+id/fragment_submit_thesis_buttonSend"
+                    android:id="@+id/activity_submit_thesis_buttonSend"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_weight="1"
-                    android:text="@string/fragment_submit_thesis_buttonSend" />
+                    android:text="@string/activity_submit_thesis_buttonSend" />
 
                 <Button
-                    android:id="@+id/fragment_submit_thesis_buttonCancel"
+                    android:id="@+id/activity_submit_thesis_buttonCancel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_weight="1"
-                    android:text="@string/fragment_submit_thesis_buttonCancel" />
+                    android:text="@string/activity_submit_thesis_buttonCancel" />
             </LinearLayout>
 
 
