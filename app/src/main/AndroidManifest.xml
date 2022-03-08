@@ -15,7 +15,7 @@
             android:label="@string/title_activity_main"
             android:theme="@style/Theme.SupervisionApp.NoActionBar" />
         <activity
-            android:name=".ui.main.ActivitySubmitThesis"
+            android:name=".ActivitySubmitThesis"
             android:exported="false"
             android:label="@string/title_activity_submit_thesis"
             android:theme="@style/Theme.SupervisionApp.NoActionBar" />

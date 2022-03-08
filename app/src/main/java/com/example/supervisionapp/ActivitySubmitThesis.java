@@ -1,4 +1,4 @@
-package com.example.supervisionapp.ui.main;
+package com.example.supervisionapp;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,11 +17,30 @@ public class ActivitySubmitThesis extends AppCompatActivity {
     private ActivitySubmitThesisBinding binding;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
-
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         binding = ActivitySubmitThesisBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        // TODO: retrieve bundle and use to fill ViewModel, etc.
+
+        View buttonSend = findViewById(R.id.activity_submit_thesis_buttonSend);
+        buttonSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // submit...
+                finish();
+            }
+        });
+
+        View buttonCancel = findViewById(R.id.activity_submit_thesis_buttonCancel);
+        buttonCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // just go back. We don't want to save anything.
+                finish();
+            }
+        });
     }
 
     public void onClickLogout(View view) {

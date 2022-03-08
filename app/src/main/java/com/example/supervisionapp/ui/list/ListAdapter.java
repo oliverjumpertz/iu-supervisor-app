@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.example.supervisionapp.R;
 import com.example.supervisionapp.data.list.model.ListItem;
-import com.example.supervisionapp.ui.main.ActivitySubmitThesis;
+import com.example.supervisionapp.ActivitySubmitThesis;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +51,10 @@ public class ListAdapter extends BaseAdapter implements View.OnClickListener {
         View linearLayout = row.findViewById(R.id.list_item_row_linearLayout);
         linearLayout.setClickable(true);
         linearLayout.setOnClickListener(this);
+        title.setClickable(true);
+        title.setOnClickListener(this);
+        description.setClickable(true);
+        description.setOnClickListener(this);
         return row;
     }
 
@@ -58,8 +62,11 @@ public class ListAdapter extends BaseAdapter implements View.OnClickListener {
     public void onClick(View view) {
         switch(view.getId()) {
             case R.id.list_item_row_linearLayout:
+            case R.id.list_item_row_textTitle:
+            case R.id.list_item_row_textDescription:
                 Intent intent = new Intent(context, ActivitySubmitThesis.class);
                 context.startActivity(intent);
+                // TODO: send bundle so activity knows what to load or show
                 break;
             default:
                 throw new IllegalStateException("Unrecognized id passed to onClick handler");
