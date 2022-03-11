@@ -22,4 +22,9 @@
     <style name="Theme.SupervisionApp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.SupervisionApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="Button.White" parent="ThemeOverlay.AppCompat">
+        <item name="backgroundTint">@android:color/white</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
 </resources>

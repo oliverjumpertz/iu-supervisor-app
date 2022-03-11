@@ -13,6 +13,8 @@
         <entry key="app/src/main/res/layout/activity_main2.xml" value="0.32211151123046877" />
         <entry key="app/src/main/res/layout/activity_main3.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_submit_thesis.xml" value="0.2981688448055061" />
+        <entry key="app/src/main/res/layout/activity_view-thesis-request.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_view_thesis_request.xml" value="0.14963226318359374" />
         <entry key="app/src/main/res/layout/fragment_advertised_theses.xml" value="0.45823516845703127" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.2364262898763021" />
         <entry key="app/src/main/res/layout/fragment_main.xml" value="0.2105978260869565" />

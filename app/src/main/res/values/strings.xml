@@ -39,4 +39,12 @@
     <string name="activity_submit_thesis_buttonSend">Absenden</string>
     <string name="activity_submit_thesis_buttonCancel">Abbrechen</string>
     <string name="activity_submit_thesis_pageTitle">Arbeit Hochladen</string>
+    <string name="activity_view_thesis_request_pageTitle">Anfrage</string>
+    <string name="activity_view_thesis_request_thesis_type_title_first">Betreuungsanfrage</string>
+    <string name="activity_view_thesis_request_thesis_type_title_second">Zweitbetreuungsanfrage</string>
+    <string name="activity_view_thesis_request_thesis_headerTitle">Titel:</string>
+    <string name="activity_view_thesis_request_thesis_headerStudent">Student:</string>
+    <string name="activity_view_thesis_request_thesis_headerExpose">Exposé:</string>
+    <string name="activity_view_thesis_request_thesis_buttonAccept">Annehmen</string>
+    <string name="activity_view_thesis_request_thesis_buttonReject">Ablehnen</string>
 </resources>
