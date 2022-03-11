@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.supervisionapp.data.LoginRepository;
+import com.example.supervisionapp.ui.login.LoggedInUserView;
 import com.example.supervisionapp.ui.login.LoginActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -31,11 +32,22 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
-        ViewPager viewPager = binding.viewPager;
+        LoggedInUserView loggedInUser = (LoggedInUserView) getIntent().getExtras().getSerializable("user");
+
+        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager(), loggedInUser);
+        ViewPager viewPager = binding.activityMainViewPager;
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = binding.tabs;
         tabs.setupWithViewPager(viewPager);
+
+        View logout = findViewById(R.id.activity_main_appBar_logout);
+        logout.setClickable(true);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickLogout(view);
+            }
+        });
     }
 
     public void onClickLogout(View view) {

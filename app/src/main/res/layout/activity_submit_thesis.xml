@@ -26,6 +26,7 @@
             android:orientation="vertical">
 
             <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/activity_submit_thesis_appBarLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:theme="@style/Theme.SupervisionApp.AppBarOverlay">
@@ -45,150 +46,184 @@
                         android:text="@string/app_name"
                         android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title" />
 
-                    <Button
-                        android:id="@+id/activity_submit_thesis_app_bar_logout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:minHeight="?actionBarSize"
-                        android:onClick="onClickLogout"
-                        android:text="@string/app_bar_logout_text" />
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical">
+
+                        <ImageView
+                            android:id="@+id/activity_submit_thesis_appBar_logout"
+                            android:layout_width="25dp"
+                            android:layout_height="26dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerInParent="true"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/ic_logout" />
+                    </RelativeLayout>
+
                 </LinearLayout>
 
             </com.google.android.material.appbar.AppBarLayout>
 
-            <TextView
-                android:id="@+id/activity_submit_thesis_textViewTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="5dp"
-                android:labelFor="@id/activity_submit_thesis_plainTextTitle"
-                android:text="@string/activity_submit_thesis_textViewTitle"
-                android:textAlignment="viewStart"
-                android:textColor="@color/black"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/activity_submit_thesis_plainTextTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp"
-                android:ems="10"
-                android:inputType="text"
-                android:text="@string/activity_submit_thesis_plainTextTitle"
-                android:textColor="@color/black"
-                android:textSize="24sp"
-                tools:ignore="DuplicateSpeakableTextCheck" />
-
-            <TextView
-                android:id="@+id/activity_submit_thesis_textViewSubTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="5dp"
-                android:labelFor="@id/activity_submit_thesis_plainTextSubTitle"
-                android:text="@string/activity_submit_thesis_textViewSubTitle"
-                android:textAlignment="viewStart"
-                android:textColor="@color/black"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/activity_submit_thesis_plainTextSubTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp"
-                android:ems="10"
-                android:inputType="text"
-                android:text="@string/activity_submit_thesis_plainTextSubTitle"
-                android:textColor="@color/black"
-                android:textSize="24sp"
-                tools:ignore="DuplicateSpeakableTextCheck" />
-
-            <TextView
-                android:id="@+id/activity_submit_thesis_textViewDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="5dp"
-                android:labelFor="@id/activity_submit_thesis_multiLineTextDescription"
-                android:text="@string/activity_submit_thesis_textViewDescription"
-                android:textAlignment="viewStart"
-                android:textColor="@color/black"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/activity_submit_thesis_multiLineTextDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp"
-                android:ems="10"
-                android:gravity="start|top"
-                android:inputType="textMultiLine"
-                android:minLines="6"
-                android:scrollbars="vertical"
-                android:text="@string/activity_submit_thesis_multiLineTextDescription"
-                android:textColor="@color/black"
-                android:textSize="24sp"
-                tools:ignore="DuplicateSpeakableTextCheck" />
-
-            <TextView
-                android:id="@+id/activity_submit_thesis_headerExpose"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="5dp"
-                android:text="@string/activity_submit_thesis_headerExpose"
-                android:textAlignment="center"
-                android:textAllCaps="false"
-                android:textColor="@color/black"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/activity_submit_thesis_todoExposeIcon"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="TODO Exposé Icon"
-                android:textAlignment="center"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp" />
-
             <LinearLayout
-                android:id="@+id/activity_submit_thesis_linearLayoutButtons"
+                android:id="@+id/activity_submit_thesis_innerLinearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp" >
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:id="@+id/activity_submit_thesis_headLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/activity_submit_thesis_buttonSend"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_weight="1"
-                    android:text="@string/activity_submit_thesis_buttonSend" />
+                    <ImageView
+                        android:id="@+id/activity_submit_thesis_backArrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        app:srcCompat="@drawable/ic_backarrow" />
 
-                <Button
-                    android:id="@+id/activity_submit_thesis_buttonCancel"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/activity_submit_thesis_pageTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/activity_submit_thesis_pageTitle"
+                        android:textAlignment="center"
+                        android:textAllCaps="false"
+                        android:textColor="@color/black"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/activity_submit_thesis_textViewTitle"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_weight="1"
-                    android:text="@string/activity_submit_thesis_buttonCancel" />
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:labelFor="@id/activity_submit_thesis_plainTextTitle"
+                    android:text="@string/activity_submit_thesis_textViewTitle"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/black"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/activity_submit_thesis_plainTextTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:ems="10"
+                    android:inputType="text"
+                    android:text="@string/activity_submit_thesis_plainTextTitle"
+                    android:textColor="@color/black"
+                    android:textSize="24sp"
+                    tools:ignore="DuplicateSpeakableTextCheck" />
+
+                <TextView
+                    android:id="@+id/activity_submit_thesis_textViewSubTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:labelFor="@id/activity_submit_thesis_plainTextSubTitle"
+                    android:text="@string/activity_submit_thesis_textViewSubTitle"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/black"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/activity_submit_thesis_plainTextSubTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:ems="10"
+                    android:inputType="text"
+                    android:text="@string/activity_submit_thesis_plainTextSubTitle"
+                    android:textColor="@color/black"
+                    android:textSize="24sp"
+                    tools:ignore="DuplicateSpeakableTextCheck" />
+
+                <TextView
+                    android:id="@+id/activity_submit_thesis_textViewDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:labelFor="@id/activity_submit_thesis_multiLineTextDescription"
+                    android:text="@string/activity_submit_thesis_textViewDescription"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/black"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/activity_submit_thesis_multiLineTextDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:ems="10"
+                    android:gravity="start|top"
+                    android:inputType="textMultiLine"
+                    android:minLines="6"
+                    android:scrollbars="vertical"
+                    android:text="@string/activity_submit_thesis_multiLineTextDescription"
+                    android:textColor="@color/black"
+                    android:textSize="24sp"
+                    tools:ignore="DuplicateSpeakableTextCheck" />
+
+                <TextView
+                    android:id="@+id/activity_submit_thesis_headerExpose"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/activity_submit_thesis_headerExpose"
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/activity_submit_thesis_todoExposeIcon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="TODO Exposé Icon"
+                    android:textAlignment="center" />
+
+                <LinearLayout
+                    android:id="@+id/activity_submit_thesis_linearLayoutButtons"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/activity_submit_thesis_buttonSend"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="1"
+                        android:text="@string/activity_submit_thesis_buttonSend" />
+
+                </LinearLayout>
+
             </LinearLayout>
-
-
         </LinearLayout>
     </ScrollView>
 

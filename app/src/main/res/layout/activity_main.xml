@@ -7,17 +7,19 @@
     tools:context=".MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/activity_main_appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/Theme.SupervisionApp.AppBarOverlay">
 
         <LinearLayout
+            android:id="@+id/activity_main_appBar_linearLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/title"
+                android:id="@+id/activity_main_appBar_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -26,15 +28,22 @@
                 android:text="@string/app_name"
                 android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title" />
 
-            <Button
-                android:id="@+id/app_bar_logout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:minHeight="?actionBarSize"
-                android:onClick="onClickLogout"
-                android:text="@string/app_bar_logout_text" />
+            <RelativeLayout
+                android:id="@+id/activity_main_appBar_linearLayoutInner"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical">
+
+                <ImageView
+                    android:id="@+id/activity_main_appBar_logout"
+                    android:layout_width="25dp"
+                    android:layout_height="26dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/ic_logout" />
+            </RelativeLayout>
         </LinearLayout>
 
         <com.google.android.material.tabs.TabLayout
@@ -45,7 +54,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager.widget.ViewPager
-        android:id="@+id/view_pager"
+        android:id="@+id/activity_main_view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />

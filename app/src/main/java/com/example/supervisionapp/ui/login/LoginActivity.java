@@ -29,6 +29,8 @@ import com.example.supervisionapp.ui.login.LoginViewModel;
 import com.example.supervisionapp.ui.login.LoginViewModelFactory;
 import com.example.supervisionapp.databinding.ActivityLoginBinding;
 
+import java.io.Serializable;
+
 public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
@@ -128,6 +130,9 @@ public class LoginActivity extends AppCompatActivity {
 
     private void updateUiWithUser(LoggedInUserView model) {
         Intent intent = new Intent(this, MainActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("user", model);
+        intent.putExtras(bundle);
         startActivity(intent);
         // prevent users going back in history after login
         // they should properly log out

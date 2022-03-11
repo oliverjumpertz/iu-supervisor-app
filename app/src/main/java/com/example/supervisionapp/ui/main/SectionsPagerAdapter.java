@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.supervisionapp.R;
+import com.example.supervisionapp.ui.login.LoggedInUserView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,16 +28,17 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     }
 
     private final Context mContext;
+    private final LoggedInUserView loggedInUser;
 
-    public SectionsPagerAdapter(Context context, FragmentManager fm) {
+    public SectionsPagerAdapter(Context context, FragmentManager fm, LoggedInUserView loggedInUser) {
         super(fm);
         mContext = context;
+        // TODO: setup tabs according to STUDENT and SUPERVISOR
+        this.loggedInUser = loggedInUser;
     }
 
     @Override
     public Fragment getItem(int position) {
-        // getItem is called to instantiate the fragment for the given page.
-        // Return a PlaceholderFragment (defined as a static inner class below).
         return FRAGMENTS.get(position);
     }
 
