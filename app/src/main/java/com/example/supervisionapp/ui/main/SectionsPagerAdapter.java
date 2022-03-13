@@ -20,12 +20,13 @@ import java.util.List;
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     private static final List<Fragment> FRAGMENTS = new ArrayList<>();
-    private static final int [] TAB_TITLES = new int[]{R.string.tab_advertised_theses, R.string.tab_my_thesis, R.string.tab_theses_requests};
+    private static final int [] TAB_TITLES = new int[]{R.string.tab_advertised_theses, R.string.tab_my_thesis, R.string.tab_theses_requests, R.string.tab_my_research};
 
     static {
         FRAGMENTS.add(FragmentAdvertisedTheses.newInstance());
         FRAGMENTS.add(FragmentMyThesis.newInstance());
         FRAGMENTS.add(FragmentThesesRequests.newInstance());
+        FRAGMENTS.add(FragmentMyResearch.newInstance());
     }
 
     private final Context mContext;

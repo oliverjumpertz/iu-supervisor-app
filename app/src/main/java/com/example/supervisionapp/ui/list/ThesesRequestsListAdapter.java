@@ -49,7 +49,7 @@ public class ThesesRequestsListAdapter extends BaseAdapter implements View.OnCli
         ThesesRequestsListItem item = items.get(i);
         title.setText(item.getTitle());
         student.setText(item.getStudent());
-        supervisoryType.setText(item.getSupervisoryType().toString());
+        supervisoryType.setText(item.getSupervisoryType().getTextRepresentation());
         View linearLayout = row.findViewById(R.id.theses_requests_list_item_row_horizontalLinearLayout);
         linearLayout.setClickable(true);
         linearLayout.setOnClickListener(this);

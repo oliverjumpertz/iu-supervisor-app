@@ -8,22 +8,23 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.supervisionapp.data.LoginRepository;
+import com.example.supervisionapp.databinding.ActivityAdvertiseThesisBinding;
 import com.example.supervisionapp.databinding.ActivitySubmitThesisBinding;
 import com.example.supervisionapp.ui.login.LoginActivity;
 
 public class ActivityAdvertiseThesis extends AppCompatActivity {
 
-    private ActivitySubmitThesisBinding binding;
+    private ActivityAdvertiseThesisBinding binding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivitySubmitThesisBinding.inflate(getLayoutInflater());
+        binding = ActivityAdvertiseThesisBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         // TODO: retrieve bundle and use to fill ViewModel, etc.
 
-        View arrowBack = findViewById(R.id.activity_submit_thesis_backArrow);
+        View arrowBack = findViewById(R.id.activity_advertise_thesis_backArrow);
         arrowBack.setClickable(true);
         arrowBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -32,7 +33,7 @@ public class ActivityAdvertiseThesis extends AppCompatActivity {
             }
         });
 
-        View buttonSend = findViewById(R.id.activity_submit_thesis_buttonSend);
+        View buttonSend = findViewById(R.id.activity_advertise_thesis_buttonCreate);
         buttonSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -41,7 +42,7 @@ public class ActivityAdvertiseThesis extends AppCompatActivity {
             }
         });
 
-        View logout = findViewById(R.id.activity_submit_thesis_appBar_logout);
+        View logout = findViewById(R.id.activity_advertise_thesis_appBar_logout);
         logout.setClickable(true);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override

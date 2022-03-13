@@ -4,6 +4,7 @@
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_submit_thesis">SubmitThesisActivity</string>
     <string name="title_activity_view_thesis_request">ActivityViewThesisRequest</string>
+    <string name="title_activity_advertise_thesis">ActivityAdvertiseThesis</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Login</string>
@@ -18,6 +19,7 @@
     <string name="tab_advertised_theses">Ausgeschriebene Arbeiten</string>
     <string name="tab_my_thesis">Meine Arbeit</string>
     <string name="tab_theses_requests">Anfragen</string>
+    <string name="tab_my_research">Meine Forschung</string>
     <string name="fragment_advertised_theses_header_textView">Ausgeschriebene Arbeiten</string>
     <string name="fragment_my_thesis_header_title_thesis">Titel:</string>
     <string name="fragment_my_thesis_header_title_no_thesis">Du hast noch keine Abschlussarbeit angefangen</string>
@@ -63,4 +65,8 @@
     <string name="activity_supervise_thesis_headerStatus">Status:</string>
     <string name="activity_supervise_thesis_headerInvoiceStatus">Rechnungsstatus:</string>
     <string name="fragment_theses_requests__headerTitle">Anfragen</string>
+    <string name="advertised_theses_list_item_row_textTitle_desc">Thesis Titel</string>
+    <string name="advertised_theses_list_item_row_textDescription_desc">Thesis Beschreibung</string>
+    <string name="theses_requests_list_item_row_textTitle_desc">Thesis Titel</string>
+    <string name="theses_requests_list_item_row_textStudent_desc">Student</string>
 </resources>

@@ -1,15 +1,22 @@
 package com.example.supervisionapp.data.model;
 
 public enum SupervisoryType {
-    FIRST_SUPERVISOR((byte) 1), SECOND_SUPERVISOR((byte) 2);
+    FIRST_SUPERVISOR("1."), SECOND_SUPERVISOR("2.");
 
-    private final byte type;
+    private final String textRepresentation;
 
-    private SupervisoryType(byte type) {
-        this.type = type;
+    SupervisoryType(String textRepresentation) {
+        this.textRepresentation = textRepresentation;
     }
 
-    public byte getType() {
-        return type;
+    public String getTextRepresentation() {
+        return textRepresentation;
+    }
+
+    @Override
+    public String toString() {
+        return "SupervisoryType{" +
+                "textRepresentation='" + textRepresentation + '\'' +
+                '}';
     }
 }
