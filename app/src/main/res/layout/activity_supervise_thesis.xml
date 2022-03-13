@@ -214,7 +214,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="5dp"
-                    android:text="TODO: Icon"
                     android:textAlignment="viewStart"
                     android:textColor="@color/black"
                     android:textSize="24sp" />
@@ -238,7 +237,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="5dp"
-                    android:text="TODO: Icon"
                     android:textAlignment="viewStart"
                     android:textColor="@color/black"
                     android:textSize="24sp" />

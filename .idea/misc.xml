@@ -24,12 +24,13 @@
         <entry key="app/src/main/res/layout/fragment_my_research.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_my_thesis.xml" value="0.24517212426532325" />
         <entry key="app/src/main/res/layout/fragment_submit_thesis.xml" value="0.25936599423631124" />
-        <entry key="app/src/main/res/layout/fragment_supervised_thesis.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_supervised_thesis.xml" value="0.1899490356445313" />
         <entry key="app/src/main/res/layout/fragment_theses_requests.xml" value="0.21702016194661458" />
         <entry key="app/src/main/res/layout/list_item_row.xml" value="0.21082916259765627" />
         <entry key="app/src/main/res/layout/main_activity.xml" value="0.15208333333333332" />
         <entry key="app/src/main/res/layout/main_fragment.xml" value="0.1" />
         <entry key="app/src/main/res/layout/my_research_list_item_row.xml" value="0.13145896656534956" />
+        <entry key="app/src/main/res/layout/supervised_theses_list_item_row.xml" value="0.1" />
         <entry key="app/src/main/res/layout/theses_requests_list_item_row.xml" value="0.1" />
         <entry key="app/src/main/res/layout/theses_requests_list_item_row_alternative.xml" value="0.2374664306640625" />
         <entry key="app/src/main/res/layout/three_piece_list_item_row.xml" value="0.1068840579710145" />

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/supervised_theses_list_item_row_constraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/supervised_theses_list_item_row_horizontalLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="1dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/supervised_theses_list_item_row_type"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight=".20"
+            android:gravity="center_vertical"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/supervised_theses_list_item_row_verticalLinearLayout"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight=".80"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/supervised_theses_list_item_row_textTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:minWidth="48dp"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:contentDescription="@string/supervised_theses_list_item_row_textTitle_desc" />
+
+            <TextView
+                android:id="@+id/supervised_theses_list_item_row_textStudent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:minWidth="48dp"
+                android:textColor="@color/light_grey"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:contentDescription="@string/supervised_theses_list_item_row_textStudent_desc" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
