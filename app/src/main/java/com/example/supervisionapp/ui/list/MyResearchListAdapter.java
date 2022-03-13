@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.supervisionapp.ActivityAdvertiseThesis;
+import com.example.supervisionapp.ActivitySuperviseThesis;
 import com.example.supervisionapp.R;
 import com.example.supervisionapp.data.list.model.MyResearchListItem;
 
@@ -64,7 +65,7 @@ public class MyResearchListAdapter extends BaseAdapter implements View.OnClickLi
             case R.id.my_research_list_item_row_linearLayout:
             case R.id.my_research_list_item_row_textTitle:
             case R.id.my_research_list_item_row_textDescription:
-                Intent intent = new Intent(context, ActivityAdvertiseThesis.class);
+                Intent intent = new Intent(context, ActivitySuperviseThesis.class);
                 context.startActivity(intent);
                 // TODO: send bundle so activity knows what to load or show
                 break;
