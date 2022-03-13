@@ -9,21 +9,22 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.supervisionapp.data.LoginRepository;
 import com.example.supervisionapp.databinding.ActivitySubmitThesisBinding;
+import com.example.supervisionapp.databinding.ActivityViewThesisRequestBinding;
 import com.example.supervisionapp.ui.login.LoginActivity;
 
 public class ActivityViewThesisRequest extends AppCompatActivity {
 
-    private ActivitySubmitThesisBinding binding;
+    private ActivityViewThesisRequestBinding binding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivitySubmitThesisBinding.inflate(getLayoutInflater());
+        binding = ActivityViewThesisRequestBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         // TODO: retrieve bundle and use to fill ViewModel, etc.
 
-        View arrowBack = findViewById(R.id.activity_submit_thesis_backArrow);
+        View arrowBack = findViewById(R.id.activity_view_thesis_request_backArrow);
         arrowBack.setClickable(true);
         arrowBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -31,8 +32,7 @@ public class ActivityViewThesisRequest extends AppCompatActivity {
                 finish();
             }
         });
-
-        View buttonSend = findViewById(R.id.activity_submit_thesis_buttonSend);
+        View buttonSend = findViewById(R.id.activity_view_thesis_request_thesis_buttonAccept);
         buttonSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -40,8 +40,15 @@ public class ActivityViewThesisRequest extends AppCompatActivity {
                 finish();
             }
         });
-
-        View logout = findViewById(R.id.activity_submit_thesis_appBar_logout);
+        View buttonReject = findViewById(R.id.activity_view_thesis_request_thesis_buttonReject);
+        buttonReject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO reject...
+                finish();
+            }
+        });
+        View logout = findViewById(R.id.activity_view_thesis_request_appBar_logout);
         logout.setClickable(true);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override

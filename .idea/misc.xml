@@ -27,6 +27,8 @@
         <entry key="app/src/main/res/layout/list_item_row.xml" value="0.21082916259765627" />
         <entry key="app/src/main/res/layout/main_activity.xml" value="0.15208333333333332" />
         <entry key="app/src/main/res/layout/main_fragment.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/three_piece_list_item_row.xml" value="0.1068840579710145" />
+        <entry key="app/src/main/res/layout/two_piece_list_item_row.xml" value="0.10960144927536232" />
       </map>
     </option>
   </component>

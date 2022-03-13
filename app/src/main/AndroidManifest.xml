@@ -20,6 +20,11 @@
             android:label="@string/title_activity_submit_thesis"
             android:theme="@style/Theme.SupervisionApp.NoActionBar" />
         <activity
+            android:name=".ActivityViewThesisRequest"
+            android:exported="false"
+            android:label="@string/title_activity_view_thesis_request"
+            android:theme="@style/Theme.SupervisionApp.NoActionBar" />
+        <activity
             android:name=".ui.login.LoginActivity"
             android:exported="true"
             android:label="@string/title_activity_login">

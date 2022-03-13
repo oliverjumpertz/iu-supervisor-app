@@ -5,7 +5,7 @@
     android:id="@+id/activity_view_thesis_request_constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ActivitySubmitThesis">
+    tools:context=".ActivityViewThesisRequest">
 
     <ScrollView
         android:id="@+id/activity_view_thesis_request_scrollView"

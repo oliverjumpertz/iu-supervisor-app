@@ -13,14 +13,17 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.supervisionapp.R;
 import com.example.supervisionapp.data.list.model.AdvertisedThesesListItem;
+import com.example.supervisionapp.data.list.model.ThesesRequestsListItem;
+import com.example.supervisionapp.data.model.SupervisoryType;
 import com.example.supervisionapp.ui.list.AdvertisedThesesListAdapter;
+import com.example.supervisionapp.ui.list.ThesesRequestsListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class FragmentThesesRequests extends Fragment {
 
-    private ViewModelAdvertisedTheses mViewModel;
+    private ViewModelThesesRequests mViewModel;
 
     public static FragmentThesesRequests newInstance() {
         return new FragmentThesesRequests();
@@ -29,11 +32,11 @@ public class FragmentThesesRequests extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        final List<AdvertisedThesesListItem> items = new ArrayList<>();
-        items.add(new AdvertisedThesesListItem("Die Paarung Der Fliege", "Das Paarungsverhalten der gemeinen Fliege ist ein lange erforschtes Problem, das allerdings noch nicht tiefgreifend genug erforscht wurde."));
-        items.add(new AdvertisedThesesListItem("Die Paarung Der Fliege", "Das Paarungsverhalten der gemeinen Fliege ist ein lange erforschtes Problem, das allerdings noch nicht tiefgreifend genug erforscht wurde."));
-        AdvertisedThesesListAdapter advertisedThesesListAdapter = new AdvertisedThesesListAdapter(getActivity(), items);
-        ListView listView = (ListView) getView().findViewById(R.id.fragment_advertised_theses_advertisedTheses);
+        final List<ThesesRequestsListItem> items = new ArrayList<>();
+        items.add(new ThesesRequestsListItem("Die Paarung Der Fliege", "B. Scheuert", SupervisoryType.FIRST_SUPERVISOR));
+        items.add(new ThesesRequestsListItem("Die Paarung Der Fliege", "V. Cool", SupervisoryType.SECOND_SUPERVISOR));
+        ThesesRequestsListAdapter advertisedThesesListAdapter = new ThesesRequestsListAdapter(getActivity(), items);
+        ListView listView = (ListView) getView().findViewById(R.id.fragment_theses_requests_thesesRequests);
         listView.setAdapter(advertisedThesesListAdapter);
     }
 
@@ -41,13 +44,13 @@ public class FragmentThesesRequests extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_advertised_theses, container, false);
+        return inflater.inflate(R.layout.fragment_theses_requests, container, false);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(ViewModelAdvertisedTheses.class);
+        mViewModel = new ViewModelProvider(this).get(ViewModelThesesRequests.class);
         // TODO: Use the ViewModel
     }
 }

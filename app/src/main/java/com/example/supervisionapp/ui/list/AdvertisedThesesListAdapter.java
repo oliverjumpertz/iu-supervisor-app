@@ -42,13 +42,13 @@ public class AdvertisedThesesListAdapter extends BaseAdapter implements View.OnC
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View row = inflater.inflate(R.layout.two_piece_list_item_row, viewGroup, false);
-        TextView title = (TextView) row.findViewById(R.id.list_item_row_textTitle);
-        TextView description = (TextView) row.findViewById(R.id.list_item_row_textDescription);
+        View row = inflater.inflate(R.layout.advertised_theses_list_item_row, viewGroup, false);
+        TextView title = (TextView) row.findViewById(R.id.advertised_theses_list_item_row_textTitle);
+        TextView description = (TextView) row.findViewById(R.id.advertised_theses_list_item_row_textDescription);
         AdvertisedThesesListItem item = items.get(i);
         title.setText(item.getTitle());
         description.setText(item.getDescription());
-        View linearLayout = row.findViewById(R.id.list_item_row_linearLayout);
+        View linearLayout = row.findViewById(R.id.advertised_theses_list_item_row_linearLayout);
         linearLayout.setClickable(true);
         linearLayout.setOnClickListener(this);
         title.setClickable(true);
@@ -61,9 +61,9 @@ public class AdvertisedThesesListAdapter extends BaseAdapter implements View.OnC
     @Override
     public void onClick(View view) {
         switch(view.getId()) {
-            case R.id.list_item_row_linearLayout:
-            case R.id.list_item_row_textTitle:
-            case R.id.list_item_row_textDescription:
+            case R.id.advertised_theses_list_item_row_linearLayout:
+            case R.id.advertised_theses_list_item_row_textTitle:
+            case R.id.advertised_theses_list_item_row_textDescription:
                 Intent intent = new Intent(context, ActivitySubmitThesis.class);
                 context.startActivity(intent);
                 // TODO: send bundle so activity knows what to load or show

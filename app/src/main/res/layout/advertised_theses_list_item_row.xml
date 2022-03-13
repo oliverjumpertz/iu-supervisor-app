@@ -2,11 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/list_item_row_constraintLayout"
+    android:id="@+id/advertised_theses_list_item_row_constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
-        android:id="@+id/list_item_row_linearLayout"
+        android:id="@+id/advertised_theses_list_item_row_linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="1dp"
@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/list_item_row_textTitle"
+            android:id="@+id/advertised_theses_list_item_row_textTitle"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_alignParentTop="true"
@@ -34,7 +34,7 @@
             android:clickable="true" />
 
         <TextView
-            android:id="@+id/list_item_row_textDescription"
+            android:id="@+id/advertised_theses_list_item_row_textDescription"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_alignParentTop="true"

@@ -3,8 +3,8 @@ package com.example.supervisionapp.data.list.model;
 import java.util.Objects;
 
 public class AdvertisedThesesListItem {
-    private String title;
-    private String description;
+    private final String title;
+    private final String description;
 
     public AdvertisedThesesListItem(String title, String description) {
         this.title = title;
@@ -30,5 +30,13 @@ public class AdvertisedThesesListItem {
     @Override
     public int hashCode() {
         return Objects.hash(title, description);
+    }
+
+    @Override
+    public String toString() {
+        return "AdvertisedThesesListItem{" +
+                "title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                '}';
     }
 }
