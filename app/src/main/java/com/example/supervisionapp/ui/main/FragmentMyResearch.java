@@ -1,5 +1,6 @@
 package com.example.supervisionapp.ui.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.supervisionapp.ActivityAdvertiseThesis;
 import com.example.supervisionapp.R;
 import com.example.supervisionapp.data.list.model.AdvertisedThesesListItem;
 import com.example.supervisionapp.data.list.model.MyResearchListItem;
@@ -38,6 +40,16 @@ public class FragmentMyResearch extends Fragment {
         MyResearchListAdapter advertisedThesesListAdapter = new MyResearchListAdapter(getActivity(), items);
         ListView listView = (ListView) getView().findViewById(R.id.fragment_my_research_myResearch);
         listView.setAdapter(advertisedThesesListAdapter);
+
+        View buttonAdd = getView().findViewById(R.id.fragment_my_research_advertiseThesisButton);
+        buttonAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), ActivityAdvertiseThesis.class);
+                // TODO: put bundle etc.
+                startActivity(intent);
+            }
+        });
     }
 
     @Nullable
