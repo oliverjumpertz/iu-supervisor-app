@@ -18,12 +18,12 @@ import com.example.supervisionapp.ui.list.AdvertisedThesesListAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FragmentAdvertisedTheses extends Fragment {
+public class FragmentThesesRequests extends Fragment {
 
     private ViewModelAdvertisedTheses mViewModel;
 
-    public static FragmentAdvertisedTheses newInstance() {
-        return new FragmentAdvertisedTheses();
+    public static FragmentThesesRequests newInstance() {
+        return new FragmentThesesRequests();
     }
 
     @Override

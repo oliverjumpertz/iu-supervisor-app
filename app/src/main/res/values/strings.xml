@@ -16,6 +16,7 @@
     <string name="tab_text_2">Tab 2</string>
     <string name="tab_advertised_theses">Ausgeschriebene Arbeiten</string>
     <string name="tab_my_thesis">Meine Arbeit</string>
+    <string name="tab_theses_requests">Anfragen</string>
     <string name="fragment_advertised_theses_header_textView">Ausgeschriebene Arbeiten</string>
     <string name="fragment_my_thesis_header_title_thesis">Titel:</string>
     <string name="fragment_my_thesis_header_title_no_thesis">Du hast noch keine Abschlussarbeit angefangen</string>
@@ -47,4 +48,18 @@
     <string name="activity_view_thesis_request_thesis_headerExpose">Exposé:</string>
     <string name="activity_view_thesis_request_thesis_buttonAccept">Annehmen</string>
     <string name="activity_view_thesis_request_thesis_buttonReject">Ablehnen</string>
+    <string name="activity_advertise_thesis_pageTitle">Arbeit Ausschreiben</string>
+    <string name="activity_advertise_thesis_request_thesis_type_title">Titel:</string>
+    <string name="activity_advertise_thesis_plainTextTitle">Titel</string>
+    <string name="activity_advertise_thesis_textViewDescription">Beschreibung:</string>
+    <string name="activity_advertise_thesis_multiLineTextDescription">Beschreibung</string>
+    <string name="activity_advertise_thesis_buttonCreate">Erstellen</string>
+    <string name="activity_supervise_thesis_pageTitle">Betreuung</string>
+    <string name="activity_supervise_thesis_headerTitle">Titel:</string>
+    <string name="activity_supervise_thesis_headerSupervisionState">Betreuungsstatus:</string>
+    <string name="activity_supervise_thesis_headerStudent">Student:</string>
+    <string name="activity_supervise_thesis_headerExpose">Exposé:</string>
+    <string name="activity_supervise_thesis_headerStatus">Status:</string>
+    <string name="activity_supervise_thesis_headerInvoiceStatus">Rechnungsstatus:</string>
+    <string name="fragment_theses_requests__headerTitle">Anfragen</string>
 </resources>

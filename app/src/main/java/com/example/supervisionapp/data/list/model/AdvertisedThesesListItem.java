@@ -2,11 +2,11 @@ package com.example.supervisionapp.data.list.model;
 
 import java.util.Objects;
 
-public class ListItem {
+public class AdvertisedThesesListItem {
     private String title;
     private String description;
 
-    public ListItem(String title, String description) {
+    public AdvertisedThesesListItem(String title, String description) {
         this.title = title;
         this.description = description;
     }
@@ -23,8 +23,8 @@ public class ListItem {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ListItem listItem = (ListItem) o;
-        return Objects.equals(title, listItem.title) && Objects.equals(description, listItem.description);
+        AdvertisedThesesListItem advertisedThesesListItem = (AdvertisedThesesListItem) o;
+        return Objects.equals(title, advertisedThesesListItem.title) && Objects.equals(description, advertisedThesesListItem.description);
     }
 
     @Override

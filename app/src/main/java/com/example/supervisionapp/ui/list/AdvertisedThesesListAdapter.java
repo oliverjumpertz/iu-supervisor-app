@@ -9,17 +9,17 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.supervisionapp.R;
-import com.example.supervisionapp.data.list.model.ListItem;
+import com.example.supervisionapp.data.list.model.AdvertisedThesesListItem;
 import com.example.supervisionapp.ActivitySubmitThesis;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListAdapter extends BaseAdapter implements View.OnClickListener {
+public class AdvertisedThesesListAdapter extends BaseAdapter implements View.OnClickListener {
     private Context context;
-    private List<ListItem> items;
+    private List<AdvertisedThesesListItem> items;
 
-    public ListAdapter(Context context, List<ListItem> items) {
+    public AdvertisedThesesListAdapter(Context context, List<AdvertisedThesesListItem> items) {
         this.context = context;
         this.items = new ArrayList<>(items);
     }
@@ -45,7 +45,7 @@ public class ListAdapter extends BaseAdapter implements View.OnClickListener {
         View row = inflater.inflate(R.layout.list_item_row, viewGroup, false);
         TextView title = (TextView) row.findViewById(R.id.list_item_row_textTitle);
         TextView description = (TextView) row.findViewById(R.id.list_item_row_textDescription);
-        ListItem item = items.get(i);
+        AdvertisedThesesListItem item = items.get(i);
         title.setText(item.getTitle());
         description.setText(item.getDescription());
         View linearLayout = row.findViewById(R.id.list_item_row_linearLayout);
