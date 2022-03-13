@@ -68,5 +68,5 @@
     <string name="supervised_theses_list_item_row_textTitle_desc">Thesis Titel</string>
     <string name="supervised_theses_list_item_row_textStudent_desc">Student</string>
     <string name="fragment_supervised_thesis_headerTitle">Betreute Arbeiten</string>
-    <string name="fragment_my_research_advertiseThesisButton">Neue Arbeit ausschreiben</string>
+    <string name="fragment_my_research_advertiseThesisButton">Neue Arbeit Ausschreiben</string>
 </resources>

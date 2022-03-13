@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.supervisionapp.R;
+import com.example.supervisionapp.data.model.UserType;
 import com.example.supervisionapp.ui.login.LoggedInUserView;
 
 import java.util.ArrayList;
@@ -19,15 +20,19 @@ import java.util.List;
  */
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-    private static final List<Fragment> FRAGMENTS = new ArrayList<>();
-    private static final int [] TAB_TITLES = new int[]{R.string.tab_advertised_theses, R.string.tab_my_thesis, R.string.tab_theses_requests, R.string.tab_supervised_thesis, R.string.tab_my_research};
+    private static final List<Fragment> STUDENT_FRAGMENTS = new ArrayList<>();
+    private static final int [] STUDENT_TAB_TITLES = new int[]{R.string.tab_advertised_theses, R.string.tab_my_thesis};
+
+    private static final List<Fragment> SUPERVISOR_FRAGMENTS = new ArrayList<>();
+    private static final int [] SUPERVISOR_TAB_TITLES = new int[]{R.string.tab_theses_requests, R.string.tab_supervised_thesis, R.string.tab_my_research};
+
 
     static {
-        FRAGMENTS.add(FragmentAdvertisedTheses.newInstance());
-        FRAGMENTS.add(FragmentMyThesis.newInstance());
-        FRAGMENTS.add(FragmentThesesRequests.newInstance());
-        FRAGMENTS.add(FragmentSupervisedThesis.newInstance());
-        FRAGMENTS.add(FragmentMyResearch.newInstance());
+        STUDENT_FRAGMENTS.add(FragmentAdvertisedTheses.newInstance());
+        STUDENT_FRAGMENTS.add(FragmentMyThesis.newInstance());
+        SUPERVISOR_FRAGMENTS.add(FragmentThesesRequests.newInstance());
+        SUPERVISOR_FRAGMENTS.add(FragmentSupervisedThesis.newInstance());
+        SUPERVISOR_FRAGMENTS.add(FragmentMyResearch.newInstance());
     }
 
     private final Context mContext;
@@ -42,17 +47,31 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return FRAGMENTS.get(position);
+        if (loggedInUser.getUserType() == UserType.STUDENT) {
+            return STUDENT_FRAGMENTS.get(position);
+        } else {
+            return SUPERVISOR_FRAGMENTS.get(position);
+        }
     }
 
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        return mContext.getResources().getString(TAB_TITLES[position]);
+        int tabTitle;
+        if (loggedInUser.getUserType() == UserType.STUDENT) {
+            tabTitle = STUDENT_TAB_TITLES[position];
+        } else {
+            tabTitle = SUPERVISOR_TAB_TITLES[position];
+        }
+        return mContext.getResources().getString(tabTitle);
     }
 
     @Override
     public int getCount() {
-        return FRAGMENTS.size();
+        if (loggedInUser.getUserType() == UserType.STUDENT) {
+            return STUDENT_FRAGMENTS.size();
+        } else {
+            return SUPERVISOR_FRAGMENTS.size();
+        }
     }
 }
