@@ -42,7 +42,7 @@ public class AdvertisedThesesListAdapter extends BaseAdapter implements View.OnC
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View row = inflater.inflate(R.layout.list_item_row, viewGroup, false);
+        View row = inflater.inflate(R.layout.two_piece_list_item_row, viewGroup, false);
         TextView title = (TextView) row.findViewById(R.id.list_item_row_textTitle);
         TextView description = (TextView) row.findViewById(R.id.list_item_row_textDescription);
         AdvertisedThesesListItem item = items.get(i);
