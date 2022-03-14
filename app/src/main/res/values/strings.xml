@@ -56,6 +56,7 @@
     <string name="activity_advertise_thesis_multiLineTextDescription">Beschreibung</string>
     <string name="activity_advertise_thesis_buttonCreate">Erstellen</string>
     <string name="activity_supervise_thesis_pageTitle">Betreuung</string>
+    <string name="activity_supervise_thesis_buttonSecondSupervisor">Zweitbetreuer Suchen</string>
     <string name="activity_supervise_thesis_headerTitle">Titel:</string>
     <string name="activity_supervise_thesis_headerSubTitle">Untertitel:</string>
     <string name="activity_supervise_thesis_headerSupervisionState">Betreuungsstatus:</string>
