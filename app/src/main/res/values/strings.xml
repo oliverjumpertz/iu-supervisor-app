@@ -43,6 +43,8 @@
     <string name="activity_view_thesis_request_thesis_type_title_first">Betreuungsanfrage</string>
     <string name="activity_view_thesis_request_thesis_type_title_second">Zweitbetreuungsanfrage</string>
     <string name="activity_view_thesis_request_thesis_headerTitle">Titel:</string>
+    <string name="activity_view_thesis_request_thesis_headerSubTitle">Untertitel:</string>
+    <string name="activity_view_thesis_request_thesis_headerFirstSupervisor">Erstbetreuer:</string>
     <string name="activity_view_thesis_request_thesis_headerStudent">Student:</string>
     <string name="activity_view_thesis_request_thesis_headerExpose">Exposé:</string>
     <string name="activity_view_thesis_request_thesis_buttonAccept">Annehmen</string>
@@ -55,6 +57,7 @@
     <string name="activity_advertise_thesis_buttonCreate">Erstellen</string>
     <string name="activity_supervise_thesis_pageTitle">Betreuung</string>
     <string name="activity_supervise_thesis_headerTitle">Titel:</string>
+    <string name="activity_supervise_thesis_headerSubTitle">Untertitel:</string>
     <string name="activity_supervise_thesis_headerSupervisionState">Betreuungsstatus:</string>
     <string name="activity_supervise_thesis_headerStudent">Student:</string>
     <string name="activity_supervise_thesis_headerExpose">Exposé:</string>

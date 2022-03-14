@@ -125,6 +125,29 @@
                     android:textSize="24sp" />
 
                 <TextView
+                    android:id="@+id/activity_supervise_thesis_headerSubTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:labelFor="@id/activity_supervise_thesis_textSubTitle"
+                    android:text="@string/activity_supervise_thesis_headerSubTitle"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/black"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/activity_supervise_thesis_textSubTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/black"
+                    android:textSize="24sp" />
+
+                <TextView
                     android:id="@+id/activity_supervise_thesis_headerSupervisionState"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
