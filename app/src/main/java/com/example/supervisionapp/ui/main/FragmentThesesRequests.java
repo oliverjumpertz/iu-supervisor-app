@@ -12,10 +12,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.supervisionapp.R;
-import com.example.supervisionapp.data.list.model.AdvertisedThesesListItem;
 import com.example.supervisionapp.data.list.model.ThesesRequestsListItem;
 import com.example.supervisionapp.data.model.SupervisoryType;
-import com.example.supervisionapp.ui.list.AdvertisedThesesListAdapter;
 import com.example.supervisionapp.ui.list.ThesesRequestsListAdapter;
 
 import java.util.ArrayList;
