@@ -23,8 +23,8 @@ public class MyResearchListItem {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        MyResearchListItem advertisedThesesListItem = (MyResearchListItem) o;
-        return Objects.equals(title, advertisedThesesListItem.title) && Objects.equals(description, advertisedThesesListItem.description);
+        MyResearchListItem that = (MyResearchListItem) o;
+        return Objects.equals(title, that.title) && Objects.equals(description, that.description);
     }
 
     @Override
@@ -34,7 +34,7 @@ public class MyResearchListItem {
 
     @Override
     public String toString() {
-        return "AdvertisedThesesListItem{" +
+        return "MyResearchListItem{" +
                 "title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 '}';

@@ -35,6 +35,11 @@
             android:label="@string/title_activity_supervise_thesis"
             android:theme="@style/Theme.SupervisionApp.NoActionBar" />
         <activity
+            android:name=".ActivitySecondSupervisorRequest"
+            android:exported="false"
+            android:label="@string/title_activity_second_supervisor_request"
+            android:theme="@style/Theme.SupervisionApp.NoActionBar" />
+        <activity
             android:name=".ui.login.LoginActivity"
             android:exported="true"
             android:label="@string/title_activity_login">

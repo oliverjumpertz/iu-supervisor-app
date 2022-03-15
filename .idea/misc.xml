@@ -13,6 +13,7 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.20171508789062503" />
         <entry key="app/src/main/res/layout/activity_main2.xml" value="0.32211151123046877" />
         <entry key="app/src/main/res/layout/activity_main3.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_second_supervisor_request.xml" value="0.20244565217391305" />
         <entry key="app/src/main/res/layout/activity_submit_thesis.xml" value="0.20133809529378732" />
         <entry key="app/src/main/res/layout/activity_supervise_thesis.xml" value="0.21791229248046878" />
         <entry key="app/src/main/res/layout/activity_view-thesis-request.xml" value="0.1" />
@@ -32,6 +33,7 @@
         <entry key="app/src/main/res/layout/main_activity.xml" value="0.15208333333333332" />
         <entry key="app/src/main/res/layout/main_fragment.xml" value="0.1" />
         <entry key="app/src/main/res/layout/my_research_list_item_row.xml" value="0.13145896656534956" />
+        <entry key="app/src/main/res/layout/second_supervisor_request_list_item_row.xml" value="0.10891590678824721" />
         <entry key="app/src/main/res/layout/supervised_theses_list_item_row.xml" value="0.1" />
         <entry key="app/src/main/res/layout/theses_requests_list_item_row.xml" value="0.1" />
         <entry key="app/src/main/res/layout/theses_requests_list_item_row_alternative.xml" value="0.2374664306640625" />

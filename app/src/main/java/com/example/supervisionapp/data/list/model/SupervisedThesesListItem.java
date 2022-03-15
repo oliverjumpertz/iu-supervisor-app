@@ -42,7 +42,7 @@ public class SupervisedThesesListItem {
 
     @Override
     public String toString() {
-        return "ThesesRequestsListItem{" +
+        return "SupervisedThesesListItem{" +
                 "title='" + title + '\'' +
                 ", student='" + student + '\'' +
                 ", supervisoryType=" + supervisoryType +

@@ -6,6 +6,7 @@
     <string name="title_activity_view_thesis_request">ActivityViewThesisRequest</string>
     <string name="title_activity_advertise_thesis">ActivityAdvertiseThesis</string>
     <string name="title_activity_supervise_thesis">ActivitySuperviseThesis</string>
+    <string name="title_activity_second_supervisor_request">ActivitySecondSupervisorRequest</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Login</string>
@@ -50,6 +51,7 @@
     <string name="activity_view_thesis_request_thesis_buttonAccept">Annehmen</string>
     <string name="activity_view_thesis_request_thesis_buttonReject">Ablehnen</string>
     <string name="activity_advertise_thesis_pageTitle">Arbeit Ausschreiben</string>
+    <string name="activity_second_supervisor_request">Zweitbetreuersuche</string>
     <string name="activity_advertise_thesis_request_thesis_type_title">Titel:</string>
     <string name="activity_advertise_thesis_plainTextTitle">Titel</string>
     <string name="activity_advertise_thesis_textViewDescription">Beschreibung:</string>
@@ -66,6 +68,7 @@
     <string name="activity_supervise_thesis_headerInvoiceStatus">Rechnungsstatus:</string>
     <string name="fragment_theses_requests_headerTitle">Anfragen</string>
     <string name="advertised_theses_list_item_row_textTitle_desc">Thesis Titel</string>
+    <string name="second_supervisor_request_list_item_row_textName_desc">Name</string>
     <string name="advertised_theses_list_item_row_textDescription_desc">Thesis Beschreibung</string>
     <string name="theses_requests_list_item_row_textTitle_desc">Thesis Titel</string>
     <string name="theses_requests_list_item_row_textStudent_desc">Student</string>
@@ -73,4 +76,7 @@
     <string name="supervised_theses_list_item_row_textStudent_desc">Student</string>
     <string name="fragment_supervised_thesis_headerTitle">Betreute Arbeiten</string>
     <string name="fragment_my_research_advertiseThesisButton">Neue Arbeit Ausschreiben</string>
+    <string name="ok">Okay</string>
+    <string name="cancel">Abbruch</string>
+    <string name="activity_second_supervisor_request_dialog_title">Zweitbetreueranfrage</string>
 </resources>

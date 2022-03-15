@@ -33,6 +33,16 @@ public class ActivitySuperviseThesis extends AppCompatActivity {
             }
         });
 
+        View buttonSecondSupervisorRequest = findViewById(R.id.activity_supervise_thesis_buttonSecondSupervisor);
+        buttonSecondSupervisorRequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ActivitySuperviseThesis.this, ActivitySecondSupervisorRequest.class);
+                // TODO put data bundle
+                startActivity(intent);
+            }
+        });
+
         View logout = findViewById(R.id.activity_supervise_thesis_appBar_logout);
         logout.setClickable(true);
         logout.setOnClickListener(new View.OnClickListener() {
