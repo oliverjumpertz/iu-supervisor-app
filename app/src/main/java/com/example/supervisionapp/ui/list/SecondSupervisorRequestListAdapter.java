@@ -51,6 +51,7 @@ public class SecondSupervisorRequestListAdapter extends BaseAdapter implements V
         SecondSupervisorRequestListItem item = items.get(i);
         name.setText(item.getName());
         name.setClickable(true);
+        name.setOnClickListener(this);
         View linearLayout = row.findViewById(R.id.second_supervisor_request_list_item_row_linearLayout);
         linearLayout.setClickable(true);
         linearLayout.setOnClickListener(this);
