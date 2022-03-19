@@ -16,10 +16,10 @@ public interface StudentDao {
     Single<List<Student>> getAll();
 
     @Query("SELECT * FROM STUDENT WHERE user = :user AND thesis = :thesis")
-    Single<Student> getByUserAndThesis(int user, int thesis);
+    Single<Student> getByUserAndThesis(long user, long thesis);
 
     @Query("SELECT * FROM STUDENT WHERE thesis = :thesis")
-    Single<List<Student>> getByThesis(int thesis);
+    Single<List<Student>> getByThesis(long thesis);
 
     @Insert
     Single<Void> insert(Student student);

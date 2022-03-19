@@ -8,6 +8,7 @@ import androidx.room.Update;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Single;
 
 @Dao
@@ -16,17 +17,17 @@ public interface SupervisoryTypeDao {
     Single<List<SupervisoryType>> getAll();
 
     @Query("SELECT * FROM SUPERVISORYTYPE WHERE id = :id")
-    Single<SupervisoryType> getById(int id);
+    Single<SupervisoryType> getById(long id);
 
     @Query("SELECT * FROM SUPERVISORYTYPE WHERE type = :type")
     Single<SupervisoryType> getByType(String type);
 
     @Insert
-    Single<Void> insert(SupervisoryType supervisoryType);
+    Single<Long> insert(SupervisoryType supervisoryType);
 
     @Update
-    Single<Void> update(SupervisoryType supervisoryType);
+    Completable update(SupervisoryType supervisoryType);
 
     @Delete
-    Single<Void> delete(SupervisoryType supervisoryType);
+    Completable delete(SupervisoryType supervisoryType);
 }

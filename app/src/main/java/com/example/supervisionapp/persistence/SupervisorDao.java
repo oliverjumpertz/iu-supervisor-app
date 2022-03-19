@@ -8,6 +8,7 @@ import androidx.room.Update;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Single;
 
 @Dao
@@ -16,17 +17,17 @@ public interface SupervisorDao {
     Single<List<Supervisor>> getAll();
 
     @Query("SELECT * FROM SUPERVISOR WHERE user = :user AND thesis = :thesis")
-    Single<Supervisor> getByUserAndThesis(int user, int thesis);
+    Single<Supervisor> getByUserAndThesis(long user, long thesis);
 
     @Query("SELECT * FROM SUPERVISOR WHERE thesis = :thesis")
-    Single<List<Supervisor>> getByThesis(int thesis);
+    Single<List<Supervisor>> getByThesis(long thesis);
 
     @Insert
-    Single<Void> insert(Supervisor supervisor);
+    Single<Long> insert(Supervisor supervisor);
 
     @Update
-    Single<Void> update(Supervisor supervisor);
+    Completable update(Supervisor supervisor);
 
     @Delete
-    Single<Void> delete(Supervisor supervisor);
+    Completable delete(Supervisor supervisor);
 }

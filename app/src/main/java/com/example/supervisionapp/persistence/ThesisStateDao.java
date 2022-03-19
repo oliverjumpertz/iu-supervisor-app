@@ -16,13 +16,13 @@ public interface ThesisStateDao {
     Single<List<ThesisState>> getAll();
 
     @Query("SELECT * FROM THESISSTATE WHERE id = :id")
-    Single<ThesisState> getById(int id);
+    Single<ThesisState> getById(long id);
 
     @Query("SELECT * FROM THESISSTATE WHERE state = :state")
-    Single<ThesisState> getByType(String state);
+    Single<ThesisState> getByState(String state);
 
     @Insert
-    Single<Void> insert(ThesisState thesisState);
+    Single<Long> insert(ThesisState thesisState);
 
     @Update
     Single<Void> update(ThesisState thesisState);

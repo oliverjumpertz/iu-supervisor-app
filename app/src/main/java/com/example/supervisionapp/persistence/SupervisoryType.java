@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey;
 @Entity
 public class SupervisoryType {
     @PrimaryKey(autoGenerate = true)
-    public int id;
+    public long id;
 
     public String type;
 }

@@ -8,6 +8,7 @@ import androidx.room.Update;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Single;
 
 @Dao
@@ -16,17 +17,17 @@ public interface InvoiceStateDao {
     Single<List<InvoiceState>> getAll();
 
     @Query("SELECT * FROM INVOICESTATE WHERE id = :id")
-    Single<InvoiceState> getById(int id);
+    Single<InvoiceState> getById(long id);
 
     @Query("SELECT * FROM INVOICESTATE WHERE state = :state")
     Single<InvoiceState> getByType(String state);
 
     @Insert
-    Single<Void> insert(InvoiceState invoiceState);
+    Single<Long> insert(InvoiceState invoiceState);
 
     @Update
-    Single<Void> update(InvoiceState invoiceState);
+    Completable update(InvoiceState invoiceState);
 
     @Delete
-    Single<Void> delete(InvoiceState invoiceState);
+    Completable delete(InvoiceState invoiceState);
 }

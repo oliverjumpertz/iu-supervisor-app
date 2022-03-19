@@ -38,13 +38,10 @@ public abstract class AppDatabase extends RoomDatabase {
                         UserTypeDao userTypeDao = INSTANCE.userTypeDao();
                         UserType userTypeStudent = new UserType();
                         userTypeStudent.type = "STUDENT";
-                        userTypeDao.insert(userTypeStudent).blockingAwait();
+                        userTypeStudent.id = userTypeDao.insert(userTypeStudent).blockingGet();
                         UserType userTypeSupervisor = new UserType();
                         userTypeSupervisor.type = "SUPERVISOR";
-                        userTypeDao.insert(userTypeSupervisor).blockingAwait();
-
-                        userTypeStudent = userTypeDao.getByType("STUDENT").blockingGet();
-                        userTypeSupervisor = userTypeDao.getByType("SUPERVISOR").blockingGet();
+                        userTypeSupervisor.id = userTypeDao.insert(userTypeSupervisor).blockingGet();
 
                         UserDao userDao = INSTANCE.userDao();
                         User userOne = new User();
@@ -54,7 +51,7 @@ public abstract class AppDatabase extends RoomDatabase {
                         userOne.title = "Prof. Dr. rer. nat.";
                         userOne.type = userTypeSupervisor.id;
                         userOne.password = PasswordUtils.createSha256("aaaa");
-                        userDao.insert(userOne).blockingAwait();
+                        userDao.insert(userOne).blockingGet();
 
                         User userTwo = new User();
                         userTwo.username = "b";
@@ -62,7 +59,31 @@ public abstract class AppDatabase extends RoomDatabase {
                         userTwo.name = "Lampe";
                         userTwo.type = userTypeStudent.id;
                         userTwo.password = PasswordUtils.createSha256("aaaa");
-                        userDao.insert(userTwo).blockingAwait();
+                        userDao.insert(userTwo).blockingGet();
+
+                        ThesisStateDao thesisStateDao = INSTANCE.thesisStateDao();
+                        ThesisState advertisedThesisState = new ThesisState();
+                        advertisedThesisState.state = "ADVERTISED";
+                        advertisedThesisState.id = thesisStateDao.insert(advertisedThesisState).blockingGet();
+
+                        SupervisoryTypeDao supervisoryTypeDao = INSTANCE.supervisoryTypeDao();
+                        SupervisoryType firstSupervisorType = new SupervisoryType();
+                        firstSupervisorType.type = "FIRST_SUPERVISOR";
+                        supervisoryTypeDao.insert(firstSupervisorType).blockingGet();
+                        SupervisoryType secondSupervisorType = new SupervisoryType();
+                        secondSupervisorType.type = "SECOND_SUPERVISOR";
+                        supervisoryTypeDao.insert(secondSupervisorType).blockingGet();
+
+                        InvoiceStateDao invoiceStateDao = INSTANCE.invoiceStateDao();
+                        InvoiceState invoiceStateUnfinished = new InvoiceState();
+                        invoiceStateUnfinished.state = "UNFINISHED";
+                        invoiceStateUnfinished.id = invoiceStateDao.insert(invoiceStateUnfinished).blockingGet();
+
+                        SupervisoryStateDao supervisoryStateDao = INSTANCE.supervisoryStateDao();
+
+                        SupervisoryState draftSupervisoryState = new SupervisoryState();
+                        draftSupervisoryState.state = "DRAFT";
+                        draftSupervisoryState.id = supervisoryStateDao.insert(draftSupervisoryState).blockingGet();
                     } catch (Exception e) {
                         throw e;
                     }

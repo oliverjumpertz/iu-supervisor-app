@@ -14,7 +14,7 @@ import androidx.room.Index;
         @Index(value = {"user", "thesis"}, unique = true)
 })
 public class Student {
-    public int user;
+    public long user;
 
-    public int thesis;
+    public long thesis;
 }

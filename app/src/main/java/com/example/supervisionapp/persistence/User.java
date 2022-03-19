@@ -13,7 +13,7 @@ import androidx.room.PrimaryKey;
 })
 public class User {
     @PrimaryKey(autoGenerate = true)
-    public int id;
+    public long id;
 
     public String username;
 
@@ -25,5 +25,5 @@ public class User {
 
     public String foreName;
 
-    public int type;
+    public long type;
 }

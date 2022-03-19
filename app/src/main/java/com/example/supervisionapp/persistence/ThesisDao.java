@@ -8,6 +8,7 @@ import androidx.room.Update;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Single;
 
 @Dao
@@ -16,14 +17,14 @@ public interface ThesisDao {
     Single<List<Thesis>> getAll();
 
     @Query("SELECT * FROM THESIS WHERE id = :id")
-    Single<Thesis> getById(int id);
+    Single<Thesis> getById(long id);
 
     @Insert
-    Single<Void> insert(Thesis thesis);
+    Single<Long> insert(Thesis thesis);
 
     @Update
-    Single<Void> update(Thesis thesis);
+    Completable update(Thesis thesis);
 
     @Delete
-    Single<Void> delete(Thesis thesis);
+    Completable delete(Thesis thesis);
 }

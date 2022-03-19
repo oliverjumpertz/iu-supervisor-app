@@ -9,6 +9,7 @@ import androidx.room.Update;
 import java.util.List;
 
 import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.core.Single;
 
 @Dao
@@ -17,13 +18,13 @@ public interface UserTypeDao {
     Single<List<UserType>> getAll();
 
     @Query("SELECT * FROM USERTYPE WHERE id = :id")
-    Single<UserType> getById(int id);
+    Maybe<UserType> getById(long id);
 
     @Query("SELECT * FROM USERTYPE WHERE type = :type")
-    Single<UserType> getByType(String type);
+    Maybe<UserType> getByType(String type);
 
     @Insert
-    Completable insert(UserType userType);
+    Single<Long> insert(UserType userType);
 
     @Update
     Completable update(UserType userType);

@@ -12,7 +12,7 @@ import androidx.room.PrimaryKey;
 })
 public class Thesis {
     @PrimaryKey(autoGenerate = true)
-    public int id;
+    public long id;
 
     public String title;
 
@@ -22,5 +22,5 @@ public class Thesis {
 
     public String expose;
 
-    public int state;
+    public long state;
 }

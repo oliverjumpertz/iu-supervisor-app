@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey;
 @Entity
 public class UserType {
     @PrimaryKey(autoGenerate = true)
-    public int id;
+    public long id;
 
     public String type;
 }
