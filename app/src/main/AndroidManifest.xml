@@ -3,6 +3,7 @@
     package="com.example.supervisionapp">
 
     <application
+        android:name="com.example.supervisionapp.ui.main.SupervisorApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"

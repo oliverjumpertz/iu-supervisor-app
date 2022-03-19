@@ -24,12 +24,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.supervisionapp.MainActivity;
-import com.example.supervisionapp.R;
-import com.example.supervisionapp.ui.login.LoginViewModel;
-import com.example.supervisionapp.ui.login.LoginViewModelFactory;
 import com.example.supervisionapp.databinding.ActivityLoginBinding;
 
-import java.io.Serializable;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -79,12 +75,9 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 if (loginResult.getSuccess() != null) {
                     updateUiWithUser(loginResult.getSuccess());
+                    finish();
                 }
-                setResult(Activity.RESULT_OK);
-
-                //Complete and destroy login activity once successful
-                finish();
-            }
+                setResult(Activity.RESULT_OK); }
         });
 
         TextWatcher afterTextChangedListener = new TextWatcher() {

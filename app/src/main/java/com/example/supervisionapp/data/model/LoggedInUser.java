@@ -7,17 +7,17 @@ import java.io.Serializable;
  */
 public class LoggedInUser {
 
-    private final String userId;
+    private final int userId;
     private final String displayName;
     private final UserType userType;
 
-    public LoggedInUser(String userId, String displayName, UserType userType) {
+    public LoggedInUser(int userId, String displayName, UserType userType) {
         this.userId = userId;
         this.displayName = displayName;
         this.userType = userType;
     }
 
-    public String getUserId() {
+    public int getUserId() {
         return userId;
     }
 

@@ -8,6 +8,7 @@ import androidx.room.Update;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Single;
 
 @Dao
@@ -22,11 +23,14 @@ public interface UserTypeDao {
     Single<UserType> getByType(String type);
 
     @Insert
-    Single<Void> insert(UserType userType);
+    Completable insert(UserType userType);
 
     @Update
-    Single<Void> update(UserType userType);
+    Completable update(UserType userType);
 
     @Delete
-    Single<Void> delete(UserType userType);
+    Completable delete(UserType userType);
+
+    @Query("DELETE FROM USERTYPE")
+    Completable deleteAll();
 }
