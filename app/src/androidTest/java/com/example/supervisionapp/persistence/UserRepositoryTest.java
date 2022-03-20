@@ -15,8 +15,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.io.IOException;
-
 @RunWith(AndroidJUnit4.class)
 public class UserRepositoryTest {
     private AppDatabase appDatabase;
@@ -36,10 +34,6 @@ public class UserRepositoryTest {
     @After
     public void closeDb() {
         appDatabase.close();
-    }
-
-    public void afterEach() {
-        appDatabase.clearAllTables();
     }
 
     @Test

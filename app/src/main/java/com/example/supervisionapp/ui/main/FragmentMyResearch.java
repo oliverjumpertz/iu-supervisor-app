@@ -1,5 +1,6 @@
 package com.example.supervisionapp.ui.main;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,46 +11,86 @@ import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.supervisionapp.ActivityAdvertiseThesis;
 import com.example.supervisionapp.R;
+import com.example.supervisionapp.data.LoginRepository;
 import com.example.supervisionapp.data.list.model.AdvertisedThesesListItem;
 import com.example.supervisionapp.data.list.model.MyResearchListItem;
+import com.example.supervisionapp.data.model.LoggedInUser;
 import com.example.supervisionapp.databinding.FragmentMyResearchBinding;
+import com.example.supervisionapp.persistence.AppDatabase;
+import com.example.supervisionapp.persistence.Thesis;
+import com.example.supervisionapp.persistence.ThesisRepository;
 import com.example.supervisionapp.ui.list.AdvertisedThesesListAdapter;
 import com.example.supervisionapp.ui.list.MyResearchListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.rxjava3.functions.Consumer;
+
 public class FragmentMyResearch extends Fragment {
+    private static final int REQUEST_CODE = 1;
 
     private ViewModelMyResearch mViewModel;
+    private boolean initialized = false;
 
     public static FragmentMyResearch newInstance() {
         return new FragmentMyResearch();
     }
 
+    private void updateData() {
+        AppDatabase appDatabase = AppDatabase.getDatabase(SupervisorApplication.getAppContext());
+        ThesisRepository thesisRepository = new ThesisRepository(appDatabase);
+
+        LoggedInUser loggedInUser = LoginRepository.getInstance(null).getLoggedInUser();
+        thesisRepository.getSupervisorsAdvertisedTheses(loggedInUser)
+                .subscribe(new Consumer<List<Thesis>>() {
+                    @Override
+                    public void accept(List<Thesis> theses) throws Throwable {
+                        final List<AdvertisedThesesListItem> items = new ArrayList<>(theses.size());
+                        for (Thesis thesis : theses) {
+                            items.add(new AdvertisedThesesListItem(thesis.title, thesis.description));
+                        }
+                        mViewModel.setAdvertisedTheses(items);
+                    }
+                });
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        final List<MyResearchListItem> items = new ArrayList<>();
-        items.add(new MyResearchListItem("Die Paarung Der Fliege", "Das Paarungsverhalten der gemeinen Fliege ist ein lange erforschtes Problem, das allerdings noch nicht tiefgreifend genug erforscht wurde."));
-        items.add(new MyResearchListItem("Die Paarung Der Fliege", "Das Paarungsverhalten der gemeinen Fliege ist ein lange erforschtes Problem, das allerdings noch nicht tiefgreifend genug erforscht wurde."));
-        MyResearchListAdapter advertisedThesesListAdapter = new MyResearchListAdapter(getActivity(), items);
-        ListView listView = (ListView) getView().findViewById(R.id.fragment_my_research_myResearch);
-        listView.setAdapter(advertisedThesesListAdapter);
 
-        View buttonAdd = getView().findViewById(R.id.fragment_my_research_advertiseThesisButton);
+        View buttonAdd = view.findViewById(R.id.fragment_my_research_advertiseThesisButton);
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), ActivityAdvertiseThesis.class);
                 // TODO: put bundle etc.
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_CODE);
             }
         });
+        initialized = true;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            updateData();
+        }
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+
+        if (initialized && isVisibleToUser) {
+            updateData();
+        }
     }
 
     @Nullable
@@ -62,7 +103,15 @@ public class FragmentMyResearch extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        ListView listView = getView().findViewById(R.id.fragment_my_research_myResearch);
         mViewModel = new ViewModelProvider(this).get(ViewModelMyResearch.class);
-        // TODO: Use the ViewModel
+        mViewModel.getAdvertisedTheses().observe(getViewLifecycleOwner(), new Observer<List<AdvertisedThesesListItem>>() {
+            @Override
+            public void onChanged(List<AdvertisedThesesListItem> items) {
+                AdvertisedThesesListAdapter advertisedThesesListAdapter = new AdvertisedThesesListAdapter(getActivity(), items);
+                listView.setAdapter(advertisedThesesListAdapter);
+            }
+        });
+        updateData();
     }
 }

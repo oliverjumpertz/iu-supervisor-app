@@ -79,4 +79,5 @@
     <string name="ok">Okay</string>
     <string name="cancel">Abbruch</string>
     <string name="activity_second_supervisor_request_dialog_title">Zweitbetreueranfrage</string>
+    <string name="error_thesis_not_saved">Thesis konnte nicht erstellt werden.</string>
 </resources>

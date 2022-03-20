@@ -8,6 +8,7 @@ import androidx.room.Update;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.core.Single;
 
 @Dao
@@ -19,7 +20,7 @@ public interface ThesisStateDao {
     Single<ThesisState> getById(long id);
 
     @Query("SELECT * FROM THESISSTATE WHERE state = :state")
-    Single<ThesisState> getByState(String state);
+    Maybe<ThesisState> getByState(String state);
 
     @Insert
     Single<Long> insert(ThesisState thesisState);

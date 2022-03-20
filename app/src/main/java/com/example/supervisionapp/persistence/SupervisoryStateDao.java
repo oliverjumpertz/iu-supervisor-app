@@ -9,6 +9,7 @@ import androidx.room.Update;
 import java.util.List;
 
 import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.core.Single;
 
 @Dao
@@ -20,7 +21,7 @@ public interface SupervisoryStateDao {
     Single<SupervisoryState> getById(long id);
 
     @Query("SELECT * FROM SUPERVISORYSTATE WHERE state = :state")
-    Single<SupervisoryState> getByState(String state);
+    Maybe<SupervisoryState> getByState(String state);
 
     @Insert
     Single<Long> insert(SupervisoryState supervisoryState);

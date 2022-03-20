@@ -1,9 +1,12 @@
 package com.example.supervisionapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,11 +26,13 @@ import com.example.supervisionapp.persistence.SupervisoryType;
 import com.example.supervisionapp.persistence.SupervisoryTypeDao;
 import com.example.supervisionapp.persistence.Thesis;
 import com.example.supervisionapp.persistence.ThesisDao;
+import com.example.supervisionapp.persistence.ThesisRepository;
 import com.example.supervisionapp.persistence.ThesisState;
 import com.example.supervisionapp.persistence.ThesisStateDao;
 import com.example.supervisionapp.ui.login.LoginActivity;
 
 public class ActivityAdvertiseThesis extends AppCompatActivity {
+    private static final String ACTIVITY_LOG_TAG = "ActivityAdvertiseThesis";
 
     private ActivityAdvertiseThesisBinding binding;
 
@@ -54,50 +59,22 @@ public class ActivityAdvertiseThesis extends AppCompatActivity {
             public void onClick(View view) {
                 LoginRepository loginRepository = LoginRepository.getInstance(null);
                 LoggedInUser loggedInUser = loginRepository.getLoggedInUser();
-                // TODO show loading progress bar?
                 AppDatabase appDatabase = AppDatabase.getDatabase(getApplicationContext());
                 TextView titleView = findViewById(R.id.activity_advertise_thesis_plainTextTitle);
                 TextView descriptionView = findViewById(R.id.activity_advertise_thesis_textViewDescription);
 
-                ThesisStateDao thesisStateDao = appDatabase.thesisStateDao();
-                ThesisDao thesisDao = appDatabase.thesisDao();
-                SupervisoryTypeDao supervisoryTypeDao = appDatabase.supervisoryTypeDao();
-                SupervisorDao supervisorDao = appDatabase.supervisorDao();
-                InvoiceStateDao invoiceStateDao = appDatabase.invoiceStateDao();
-                SupervisoryStateDao supervisoryStateDao = appDatabase.supervisoryStateDao();
-
-                // TODO: refactor into one DAO...more convenience, needs to run in transaction
-                appDatabase.runInTransaction(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            ThesisState advertisedThesisState = thesisStateDao.getByState("ADVERTISED").blockingGet();
-
-                            Thesis thesis = new Thesis();
-                            thesis.title = titleView.getText().toString();
-                            thesis.description = descriptionView.getText().toString();
-                            thesis.state = advertisedThesisState.id;
-                            thesis.id = thesisDao.insert(thesis).blockingGet();
-
-                            SupervisoryType supervisoryType = supervisoryTypeDao.getByType("FIRST_SUPERVISOR").blockingGet();
-                            InvoiceState invoiceState = invoiceStateDao.getByType("UNFINISHED").blockingGet();
-
-                            SupervisoryState draftSupervisoryState = supervisoryStateDao.getByState("DRAFT").blockingGet();
-
-                            Supervisor supervisor = new Supervisor();
-                            supervisor.user = loggedInUser.getUserId();
-                            supervisor.thesis = thesis.id;
-                            supervisor.state = draftSupervisoryState.id;
-                            supervisor.type = supervisoryType.id;
-                            supervisor.invoiceState = invoiceState.id;
-                            supervisorDao.insert(supervisor).blockingGet();
-
-                            finish();
-                        } catch (Exception e) {
-                            throw e;
-                        }
-                    }
-                });
+                ThesisRepository thesisRepository = new ThesisRepository(appDatabase);
+                try {
+                    thesisRepository.createThesis(titleView.getText().toString(), descriptionView.getText().toString(), loggedInUser).blockingAwait();
+                    Intent resultIntent = new Intent();
+                    resultIntent.putExtra("title", titleView.getText().toString());
+                    resultIntent.putExtra("description", descriptionView.getText().toString());
+                    setResult(Activity.RESULT_OK, resultIntent);
+                    finish();
+                } catch (Exception e) {
+                    Log.e(ACTIVITY_LOG_TAG, "Could not save thesis. See attached stack trace.", e);
+                    Toast.makeText(ActivityAdvertiseThesis.this, R.string.error_thesis_not_saved, Toast.LENGTH_LONG).show();
+                }
             }
         });
 
