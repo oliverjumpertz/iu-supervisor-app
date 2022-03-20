@@ -17,14 +17,11 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.supervisionapp.ActivityAdvertiseThesis;
 import com.example.supervisionapp.R;
 import com.example.supervisionapp.data.LoginRepository;
-import com.example.supervisionapp.data.list.model.AdvertisedThesesListItem;
 import com.example.supervisionapp.data.list.model.MyResearchListItem;
 import com.example.supervisionapp.data.model.LoggedInUser;
-import com.example.supervisionapp.databinding.FragmentMyResearchBinding;
 import com.example.supervisionapp.persistence.AppDatabase;
 import com.example.supervisionapp.persistence.Thesis;
 import com.example.supervisionapp.persistence.ThesisRepository;
-import com.example.supervisionapp.ui.list.AdvertisedThesesListAdapter;
 import com.example.supervisionapp.ui.list.MyResearchListAdapter;
 
 import java.util.ArrayList;
@@ -51,11 +48,11 @@ public class FragmentMyResearch extends Fragment {
                 .subscribe(new Consumer<List<Thesis>>() {
                     @Override
                     public void accept(List<Thesis> theses) throws Throwable {
-                        final List<AdvertisedThesesListItem> items = new ArrayList<>(theses.size());
+                        final List<MyResearchListItem> items = new ArrayList<>(theses.size());
                         for (Thesis thesis : theses) {
-                            items.add(new AdvertisedThesesListItem(thesis.title, thesis.description));
+                            items.add(new MyResearchListItem(thesis.title, thesis.description));
                         }
-                        mViewModel.setAdvertisedTheses(items);
+                        mViewModel.setMyResearch(items);
                     }
                 });
     }
@@ -105,11 +102,11 @@ public class FragmentMyResearch extends Fragment {
         super.onActivityCreated(savedInstanceState);
         ListView listView = getView().findViewById(R.id.fragment_my_research_myResearch);
         mViewModel = new ViewModelProvider(this).get(ViewModelMyResearch.class);
-        mViewModel.getAdvertisedTheses().observe(getViewLifecycleOwner(), new Observer<List<AdvertisedThesesListItem>>() {
+        mViewModel.getMyResearch().observe(getViewLifecycleOwner(), new Observer<List<MyResearchListItem>>() {
             @Override
-            public void onChanged(List<AdvertisedThesesListItem> items) {
-                AdvertisedThesesListAdapter advertisedThesesListAdapter = new AdvertisedThesesListAdapter(getActivity(), items);
-                listView.setAdapter(advertisedThesesListAdapter);
+            public void onChanged(List<MyResearchListItem> items) {
+                MyResearchListAdapter myResearchListAdapter = new MyResearchListAdapter(getActivity(), items);
+                listView.setAdapter(myResearchListAdapter);
             }
         });
         updateData();

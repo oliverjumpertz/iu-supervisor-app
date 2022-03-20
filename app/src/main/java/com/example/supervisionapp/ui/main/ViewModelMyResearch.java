@@ -4,18 +4,18 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.supervisionapp.data.list.model.AdvertisedThesesListItem;
+import com.example.supervisionapp.data.list.model.MyResearchListItem;
 
 import java.util.List;
 
 public class ViewModelMyResearch extends ViewModel {
-    private MutableLiveData<List<AdvertisedThesesListItem>> advertisedTheses = new MutableLiveData<>();
+    private MutableLiveData<List<MyResearchListItem>> advertisedTheses = new MutableLiveData<>();
 
-    public LiveData<List<AdvertisedThesesListItem>> getAdvertisedTheses() {
+    public LiveData<List<MyResearchListItem>> getMyResearch() {
         return advertisedTheses;
     }
 
-    public void setAdvertisedTheses(List<AdvertisedThesesListItem> theses) {
+    public void setMyResearch(List<MyResearchListItem> theses) {
         advertisedTheses.postValue(theses);
     }
 }
