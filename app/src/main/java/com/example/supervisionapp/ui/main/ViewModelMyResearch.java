@@ -9,13 +9,13 @@ import com.example.supervisionapp.data.list.model.MyResearchListItem;
 import java.util.List;
 
 public class ViewModelMyResearch extends ViewModel {
-    private MutableLiveData<List<MyResearchListItem>> advertisedTheses = new MutableLiveData<>();
+    private MutableLiveData<List<MyResearchListItem>> myResearchTheses = new MutableLiveData<>();
 
-    public LiveData<List<MyResearchListItem>> getMyResearch() {
-        return advertisedTheses;
+    public LiveData<List<MyResearchListItem>> getMyResearchTheses() {
+        return myResearchTheses;
     }
 
-    public void setMyResearch(List<MyResearchListItem> theses) {
-        advertisedTheses.postValue(theses);
+    public void setMyResearchTheses(List<MyResearchListItem> theses) {
+        myResearchTheses.postValue(theses);
     }
 }

@@ -52,7 +52,7 @@ public class FragmentMyResearch extends Fragment {
                         for (Thesis thesis : theses) {
                             items.add(new MyResearchListItem(thesis.title, thesis.description));
                         }
-                        mViewModel.setMyResearch(items);
+                        mViewModel.setMyResearchTheses(items);
                     }
                 });
     }
@@ -66,7 +66,6 @@ public class FragmentMyResearch extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), ActivityAdvertiseThesis.class);
-                // TODO: put bundle etc.
                 startActivityForResult(intent, REQUEST_CODE);
             }
         });
@@ -102,7 +101,7 @@ public class FragmentMyResearch extends Fragment {
         super.onActivityCreated(savedInstanceState);
         ListView listView = getView().findViewById(R.id.fragment_my_research_myResearch);
         mViewModel = new ViewModelProvider(this).get(ViewModelMyResearch.class);
-        mViewModel.getMyResearch().observe(getViewLifecycleOwner(), new Observer<List<MyResearchListItem>>() {
+        mViewModel.getMyResearchTheses().observe(getViewLifecycleOwner(), new Observer<List<MyResearchListItem>>() {
             @Override
             public void onChanged(List<MyResearchListItem> items) {
                 MyResearchListAdapter myResearchListAdapter = new MyResearchListAdapter(getActivity(), items);
