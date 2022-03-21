@@ -18,7 +18,7 @@ public interface ThesisDao {
     Single<List<Thesis>> getAll();
 
     @Query("SELECT * FROM THESIS WHERE id = :id")
-    Single<Thesis> getById(long id);
+    Maybe<Thesis> getById(long id);
 
     @Query("SELECT * FROM THESIS WHERE id IN (:ids) AND state = :state")
     Maybe<List<Thesis>> getByIdsAndState(List<Long> ids, long state);

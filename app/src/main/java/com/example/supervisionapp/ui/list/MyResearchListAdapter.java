@@ -42,18 +42,22 @@ public class MyResearchListAdapter extends BaseAdapter implements View.OnClickLi
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
+        String index = String.valueOf(i);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View row = inflater.inflate(R.layout.my_research_list_item_row, viewGroup, false);
-        TextView title = (TextView) row.findViewById(R.id.my_research_list_item_row_textTitle);
-        TextView description = (TextView) row.findViewById(R.id.my_research_list_item_row_textDescription);
+        TextView title = row.findViewById(R.id.my_research_list_item_row_textTitle);
+        TextView description = row.findViewById(R.id.my_research_list_item_row_textDescription);
         MyResearchListItem item = items.get(i);
         title.setText(item.getTitle());
         description.setText(item.getDescription());
         View linearLayout = row.findViewById(R.id.my_research_list_item_row_linearLayout);
+        linearLayout.setTag(index);
         linearLayout.setClickable(true);
         linearLayout.setOnClickListener(this);
+        title.setTag(index);
         title.setClickable(true);
         title.setOnClickListener(this);
+        description.setTag(index);
         description.setClickable(true);
         description.setOnClickListener(this);
         return row;
@@ -66,8 +70,10 @@ public class MyResearchListAdapter extends BaseAdapter implements View.OnClickLi
             case R.id.my_research_list_item_row_textTitle:
             case R.id.my_research_list_item_row_textDescription:
                 Intent intent = new Intent(context, ActivitySuperviseThesis.class);
+                String tag = (String) view.getTag();
+                MyResearchListItem item = items.get(Integer.valueOf(tag));
+                intent.putExtra("thesisId", item.getThesisId());
                 context.startActivity(intent);
-                // TODO: send bundle so activity knows what to load or show
                 break;
             default:
                 throw new IllegalStateException("Unrecognized id passed to onClick handler");

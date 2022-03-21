@@ -8,6 +8,8 @@ import androidx.room.Update;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.core.Single;
 
 @Dao
@@ -16,17 +18,17 @@ public interface StudentDao {
     Single<List<Student>> getAll();
 
     @Query("SELECT * FROM STUDENT WHERE user = :user AND thesis = :thesis")
-    Single<Student> getByUserAndThesis(long user, long thesis);
+    Maybe<Student> getByUserAndThesis(long user, long thesis);
 
     @Query("SELECT * FROM STUDENT WHERE thesis = :thesis")
-    Single<List<Student>> getByThesis(long thesis);
+    Maybe<Student> getByThesis(long thesis);
 
     @Insert
-    Single<Void> insert(Student student);
+    Completable insert(Student student);
 
     @Update
-    Single<Void> update(Student student);
+    Completable update(Student student);
 
     @Delete
-    Single<Void> delete(Student student);
+    Completable delete(Student student);
 }

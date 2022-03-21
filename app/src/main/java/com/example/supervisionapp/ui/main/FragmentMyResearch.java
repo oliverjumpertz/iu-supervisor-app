@@ -50,7 +50,7 @@ public class FragmentMyResearch extends Fragment {
                     public void accept(List<Thesis> theses) throws Throwable {
                         final List<MyResearchListItem> items = new ArrayList<>(theses.size());
                         for (Thesis thesis : theses) {
-                            items.add(new MyResearchListItem(thesis.title, thesis.description));
+                            items.add(new MyResearchListItem(thesis.id, thesis.title, thesis.description));
                         }
                         mViewModel.setMyResearchTheses(items);
                     }
