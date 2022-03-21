@@ -125,7 +125,7 @@ public class ActivitySuperviseThesis extends AppCompatActivity {
         LoggedInUser loggedInUser = loginRepository.getLoggedInUser();
         ThesisRepository thesisRepository = new ThesisRepository(appDatabase);
         thesisRepository
-                .getThesisByIdAndUserId(thesisId, loggedInUser.getUserId())
+                .getThesisByIdAndUser(thesisId, loggedInUser)
                 .observeOn(Schedulers.io())
                 .subscribe(new Consumer<ThesisModel>() {
                     @Override

@@ -23,6 +23,9 @@ public interface SupervisorDao {
     @Query("SELECT * FROM SUPERVISOR WHERE thesis = :thesis")
     Maybe<List<Supervisor>> getByThesis(long thesis);
 
+    @Query("SELECT * FROM SUPERVISOR WHERE user = :user")
+    Maybe<List<Supervisor>> getByUser(long user);
+
     @Query("SELECT * FROM SUPERVISOR WHERE user = :user AND state = :state")
     Maybe<List<Supervisor>> getByUserAndState(long user, long state);
 

@@ -105,7 +105,7 @@ public class ThesisRepository {
                 });
     }
 
-    public Maybe<ThesisModel> getThesisByIdAndUserId(long thesisId, long userId) {
+    public Maybe<ThesisModel> getThesisByIdAndUser(long thesisId, LoggedInUser user) {
         ThesisDao thesisDao = appDatabase.thesisDao();
         SupervisorDao supervisorDao = appDatabase.supervisorDao();
         ThesisStateDao thesisStateDao = appDatabase.thesisStateDao();
@@ -121,7 +121,7 @@ public class ThesisRepository {
                     public MaybeSource<Pair<Thesis, Supervisor>> apply(Thesis thesis) throws Throwable {
 
                         return Maybe.zip(Maybe.just(thesis),
-                                supervisorDao.getByUserAndThesis(userId, thesis.id),
+                                supervisorDao.getByUserAndThesis(user.getUserId(), thesis.id),
                                 new BiFunction<Thesis, Supervisor, Pair<Thesis, Supervisor>>() {
                                     @Override
                                     public Pair<Thesis, Supervisor> apply(Thesis thesis, Supervisor supervisor) throws Throwable {
@@ -147,7 +147,7 @@ public class ThesisRepository {
                         defaultSupervisor.thesis = -1;
                         defaultSupervisor.user = -1;
                         Single<Supervisor> secondSupervisor = supervisorDao
-                                .getByThesisWhereUserIsNot(thesisId, userId)
+                                .getByThesisWhereUserIsNot(thesisId, user.getUserId())
                                 .defaultIfEmpty(defaultSupervisor);
                         return Maybe.zip(Maybe.just(pair.getFirst()),
                                 Maybe.just(pair.getSecond()),
