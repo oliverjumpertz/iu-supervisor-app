@@ -1,6 +1,7 @@
 package com.example.supervisionapp.data.model;
 
 public class ThesisModel {
+    private final long thesisId;
     private final String title;
     private final String subTitle;
     private final SupervisoryStateModel supervisoryState;
@@ -11,7 +12,8 @@ public class ThesisModel {
     private final boolean hasSecondSupervisor;
     private final InvoiceStateModel invoiceState;
 
-    public ThesisModel(String title, String subTitle, SupervisoryStateModel supervisoryState, SupervisoryTypeModel supervisoryType, String studentName, String expose, ThesisStateModel thesisState, boolean hasSecondSupervisor, InvoiceStateModel invoiceState) {
+    public ThesisModel(long thesisId, String title, String subTitle, SupervisoryStateModel supervisoryState, SupervisoryTypeModel supervisoryType, String studentName, String expose, ThesisStateModel thesisState, boolean hasSecondSupervisor, InvoiceStateModel invoiceState) {
+        this.thesisId = thesisId;
         this.title = title;
         this.subTitle = subTitle;
         this.supervisoryState = supervisoryState;
@@ -21,6 +23,10 @@ public class ThesisModel {
         this.thesisState = thesisState;
         this.hasSecondSupervisor = hasSecondSupervisor;
         this.invoiceState = invoiceState;
+    }
+
+    public long getThesisId() {
+        return thesisId;
     }
 
     public String getTitle() {

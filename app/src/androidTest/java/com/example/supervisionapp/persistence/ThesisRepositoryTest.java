@@ -3,6 +3,7 @@ package com.example.supervisionapp.persistence;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import android.content.Context;
 
@@ -63,6 +64,7 @@ public class ThesisRepositoryTest {
         SupervisoryType firstSupervisorType = new SupervisoryType();
         firstSupervisorType.type = "FIRST_SUPERVISOR";
         supervisoryTypeDao.insert(firstSupervisorType).blockingGet();
+
         SupervisoryType secondSupervisorType = new SupervisoryType();
         secondSupervisorType.type = "SECOND_SUPERVISOR";
         supervisoryTypeDao.insert(secondSupervisorType).blockingGet();
@@ -90,7 +92,6 @@ public class ThesisRepositoryTest {
     @Test
     public void testThatThesisCanBeCreated() {
         LoggedInUser user = insertBaseData();
-
         thesisRepository.createThesis("Test", "TestDescription", user).blockingAwait();
 
         List<Thesis> theses = thesisDao.getAll().blockingGet();
@@ -162,16 +163,19 @@ public class ThesisRepositoryTest {
         LoggedInUser user = insertBaseData();
         thesisRepository.createThesis("Test1", "TestDescription", user).blockingAwait();
         List<Thesis> theses = thesisDao.getAll().blockingGet();
+
         Thesis initialThesis = theses.get(0);
         UserType userType = new UserType();
         userType.type = "STUDENT";
         userType.id = userTypeDao.insert(userType).blockingGet();
+
         com.example.supervisionapp.persistence.User dbUser = new com.example.supervisionapp.persistence.User();
         dbUser.username = "b";
         dbUser.name = "Lampe";
         dbUser.foreName = "Kai";
         dbUser.type = userType.id;
         dbUser.id = userDao.insert(dbUser).blockingGet();
+
         Student student = new Student();
         student.thesis = initialThesis.id;
         student.user = dbUser.id;
@@ -184,5 +188,173 @@ public class ThesisRepositoryTest {
         assertNotNull(thesis);
         assertEquals("Test1", thesis.getTitle());
         assertEquals("Kai Lampe", thesis.getStudentName());
+    }
+
+    @Test
+    public void testThatGetSupervisorsSupervisedThesesWorksWithSupervisedThesis() {
+        LoggedInUser user = insertBaseData();
+        thesisRepository.createThesis("Test1", "TestDescription", user).blockingAwait();
+        List<Thesis> theses = thesisDao.getAll().blockingGet();
+
+        Thesis initialThesis = theses.get(0);
+        UserType userType = new UserType();
+        userType.type = "STUDENT";
+        userType.id = userTypeDao.insert(userType).blockingGet();
+
+        com.example.supervisionapp.persistence.User dbUser = new com.example.supervisionapp.persistence.User();
+        dbUser.username = "b";
+        dbUser.name = "Lampe";
+        dbUser.foreName = "Kai";
+        dbUser.type = userType.id;
+        dbUser.id = userDao.insert(dbUser).blockingGet();
+
+        Student student = new Student();
+        student.thesis = initialThesis.id;
+        student.user = dbUser.id;
+        studentDao.insert(student).blockingAwait();
+
+        SupervisoryState supervisedSupervisoryState = new SupervisoryState();
+        supervisedSupervisoryState.state = "SUPERVISED";
+        supervisedSupervisoryState.id = supervisoryStateDao.insert(supervisedSupervisoryState).blockingGet();
+
+        List<Supervisor> supervisors = supervisorDao.getByUser(user.getUserId()).blockingGet();
+        Supervisor supervisor = supervisors.get(0);
+        supervisor.state = supervisedSupervisoryState.id;
+        supervisorDao.update(supervisor).blockingAwait();
+
+        List<ThesisModel> resultingTheses = thesisRepository.getSupervisorsSupervisedTheses(user).blockingGet();
+        assertNotNull(resultingTheses);
+        assertFalse(resultingTheses.isEmpty());
+        assertEquals(1, resultingTheses.size());
+        ThesisModel resultingThesis = resultingTheses.get(0);
+        assertEquals("Test1", resultingThesis.getTitle());
+    }
+
+    @Test
+    public void testThatGetSupervisorsSupervisedThesesWorksWithMultipleSupervisedTheses() {
+        LoggedInUser user = insertBaseData();
+        thesisRepository.createThesis("Test1", "TestDescription", user).blockingAwait();
+        thesisRepository.createThesis("Test2", "TestDescription", user).blockingAwait();
+        List<Thesis> theses = thesisDao.getAll().blockingGet();
+
+        Thesis initialThesis = theses.get(0);
+        UserType userType = new UserType();
+        userType.type = "STUDENT";
+        userType.id = userTypeDao.insert(userType).blockingGet();
+
+        com.example.supervisionapp.persistence.User dbUser = new com.example.supervisionapp.persistence.User();
+        dbUser.username = "b";
+        dbUser.name = "Lampe";
+        dbUser.foreName = "Kai";
+        dbUser.type = userType.id;
+        dbUser.id = userDao.insert(dbUser).blockingGet();
+
+        Student student = new Student();
+        student.thesis = initialThesis.id;
+        student.user = dbUser.id;
+        studentDao.insert(student).blockingAwait();
+
+        SupervisoryState supervisedSupervisoryState = new SupervisoryState();
+        supervisedSupervisoryState.state = "SUPERVISED";
+        supervisedSupervisoryState.id = supervisoryStateDao.insert(supervisedSupervisoryState).blockingGet();
+
+        List<Supervisor> supervisors = supervisorDao.getByUser(user.getUserId()).blockingGet();
+        Supervisor supervisor = supervisors.get(0);
+        supervisor.state = supervisedSupervisoryState.id;
+        supervisorDao.update(supervisor).blockingAwait();
+
+        Supervisor otherSupervisor = supervisors.get(1);
+        otherSupervisor.state = supervisedSupervisoryState.id;
+        supervisorDao.update(otherSupervisor).blockingAwait();
+
+        List<ThesisModel> resultingTheses = thesisRepository.getSupervisorsSupervisedTheses(user).blockingGet();
+        assertNotNull(resultingTheses);
+        assertFalse(resultingTheses.isEmpty());
+        assertEquals(2, resultingTheses.size());
+        assertEquals("Test1", resultingTheses.get(0).getTitle());
+        assertEquals("Test2", resultingTheses.get(1).getTitle());
+    }
+
+    @Test
+    public void testThatGetSupervisorsSupervisedThesesWorksWithDraftThesis() {
+        LoggedInUser user = insertBaseData();
+        thesisRepository.createThesis("Test1", "TestDescription", user).blockingAwait();
+        List<Thesis> theses = thesisDao.getAll().blockingGet();
+
+        Thesis initialThesis = theses.get(0);
+        UserType userType = new UserType();
+        userType.type = "STUDENT";
+        userType.id = userTypeDao.insert(userType).blockingGet();
+
+        com.example.supervisionapp.persistence.User dbUser = new com.example.supervisionapp.persistence.User();
+        dbUser.username = "b";
+        dbUser.name = "Lampe";
+        dbUser.foreName = "Kai";
+        dbUser.type = userType.id;
+        dbUser.id = userDao.insert(dbUser).blockingGet();
+
+        Student student = new Student();
+        student.thesis = initialThesis.id;
+        student.user = dbUser.id;
+        studentDao.insert(student).blockingAwait();
+
+        SupervisoryState draftSupervisoryState = supervisoryStateDao.getByState("DRAFT").blockingGet();
+
+        List<Supervisor> supervisors = supervisorDao.getByUser(user.getUserId()).blockingGet();
+        Supervisor supervisor = supervisors.get(0);
+        supervisor.state = draftSupervisoryState.id;
+        supervisorDao.update(supervisor).blockingAwait();
+
+        List<ThesisModel> resultingTheses = thesisRepository.getSupervisorsSupervisedTheses(user).blockingGet();
+        assertNotNull(resultingTheses);
+        assertTrue(resultingTheses.isEmpty());
+    }
+
+    @Test
+    public void testThatGetSupervisorsSupervisedThesesWorksWithMixedTheses() {
+        LoggedInUser user = insertBaseData();
+        thesisRepository.createThesis("Test1", "TestDescription", user).blockingAwait();
+        thesisRepository.createThesis("Test2", "TestDescription", user).blockingAwait();
+
+        List<Thesis> theses = thesisDao.getAll().blockingGet();
+
+        Thesis initialThesis = theses.get(0);
+        UserType userType = new UserType();
+        userType.type = "STUDENT";
+        userType.id = userTypeDao.insert(userType).blockingGet();
+
+        com.example.supervisionapp.persistence.User dbUser = new com.example.supervisionapp.persistence.User();
+        dbUser.username = "b";
+        dbUser.name = "Lampe";
+        dbUser.foreName = "Kai";
+        dbUser.type = userType.id;
+        dbUser.id = userDao.insert(dbUser).blockingGet();
+
+        Student student = new Student();
+        student.thesis = initialThesis.id;
+        student.user = dbUser.id;
+        studentDao.insert(student).blockingAwait();
+
+        SupervisoryState supervisedSupervisoryState = new SupervisoryState();
+        supervisedSupervisoryState.state = "SUPERVISED";
+        supervisedSupervisoryState.id = supervisoryStateDao.insert(supervisedSupervisoryState).blockingGet();
+
+        List<Supervisor> supervisors = supervisorDao.getByUser(user.getUserId()).blockingGet();
+        Supervisor supervisor = supervisors.get(0);
+        supervisor.state = supervisedSupervisoryState.id;
+        supervisorDao.update(supervisor).blockingAwait();
+
+        SupervisoryState draftSupervisoryState = supervisoryStateDao.getByState("DRAFT").blockingGet();
+        Thesis otherThesis = theses.get(1);
+        Supervisor otherSupervisor = supervisors.get(1);
+        otherSupervisor.state = draftSupervisoryState.id;
+        otherSupervisor.thesis = otherThesis.id;
+
+        List<ThesisModel> resultingTheses = thesisRepository.getSupervisorsSupervisedTheses(user).blockingGet();
+        assertNotNull(resultingTheses);
+        assertFalse(resultingTheses.isEmpty());
+        assertEquals(1, resultingTheses.size());
+        ThesisModel resultingThesis = resultingTheses.get(0);
+        assertEquals("Test1", resultingThesis.getTitle());
     }
 }

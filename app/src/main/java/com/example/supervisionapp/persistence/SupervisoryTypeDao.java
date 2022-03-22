@@ -9,6 +9,7 @@ import androidx.room.Update;
 import java.util.List;
 
 import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.core.Single;
 
 @Dao
@@ -17,7 +18,7 @@ public interface SupervisoryTypeDao {
     Single<List<SupervisoryType>> getAll();
 
     @Query("SELECT * FROM SUPERVISORYTYPE WHERE id = :id")
-    Single<SupervisoryType> getById(long id);
+    Maybe<SupervisoryType> getById(long id);
 
     @Query("SELECT * FROM SUPERVISORYTYPE WHERE type = :type")
     Single<SupervisoryType> getByType(String type);

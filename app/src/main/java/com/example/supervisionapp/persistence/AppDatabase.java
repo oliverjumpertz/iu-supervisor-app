@@ -84,6 +84,10 @@ public abstract class AppDatabase extends RoomDatabase {
                         SupervisoryState draftSupervisoryState = new SupervisoryState();
                         draftSupervisoryState.state = "DRAFT";
                         draftSupervisoryState.id = supervisoryStateDao.insert(draftSupervisoryState).blockingGet();
+
+                        SupervisoryState supervisedSupervisoryState = new SupervisoryState();
+                        supervisedSupervisoryState.state = "SUPERVISED";
+                        supervisedSupervisoryState.id = supervisoryStateDao.insert(supervisedSupervisoryState).blockingGet();
                     } catch (Exception e) {
                         throw e;
                     }

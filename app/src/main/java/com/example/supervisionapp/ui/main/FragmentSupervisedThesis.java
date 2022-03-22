@@ -9,17 +9,23 @@ import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.supervisionapp.R;
+import com.example.supervisionapp.data.LoginRepository;
 import com.example.supervisionapp.data.list.model.SupervisedThesesListItem;
-import com.example.supervisionapp.data.list.model.ThesesRequestsListItem;
-import com.example.supervisionapp.data.model.SupervisoryType;
+import com.example.supervisionapp.data.model.LoggedInUser;
+import com.example.supervisionapp.data.model.SupervisoryTypeModel;
+import com.example.supervisionapp.data.model.ThesisModel;
+import com.example.supervisionapp.persistence.AppDatabase;
+import com.example.supervisionapp.persistence.ThesisRepository;
 import com.example.supervisionapp.ui.list.SupervisedThesesListAdapter;
-import com.example.supervisionapp.ui.list.ThesesRequestsListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.rxjava3.functions.Consumer;
 
 public class FragmentSupervisedThesis extends Fragment {
 
@@ -33,8 +39,8 @@ public class FragmentSupervisedThesis extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         final List<SupervisedThesesListItem> items = new ArrayList<>();
-        items.add(new SupervisedThesesListItem("Die Paarung Der Fliege", "B. Scheuert", SupervisoryType.FIRST_SUPERVISOR));
-        items.add(new SupervisedThesesListItem("Die Paarung Der Fliege", "V. Cool", SupervisoryType.SECOND_SUPERVISOR));
+        items.add(new SupervisedThesesListItem("Die Paarung Der Fliege", "B. Scheuert", SupervisoryTypeModel.FIRST_SUPERVISOR));
+        items.add(new SupervisedThesesListItem("Die Paarung Der Fliege", "V. Cool", SupervisoryTypeModel.SECOND_SUPERVISOR));
         SupervisedThesesListAdapter advertisedThesesListAdapter = new SupervisedThesesListAdapter(getActivity(), items);
         ListView listView = (ListView) getView().findViewById(R.id.fragment_supervised_thesis_supervisedTheses);
         listView.setAdapter(advertisedThesesListAdapter);
@@ -50,7 +56,33 @@ public class FragmentSupervisedThesis extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        ListView listView = getView().findViewById(R.id.fragment_supervised_thesis_supervisedTheses);
         mViewModel = new ViewModelProvider(this).get(ViewModelSupervisedThesis.class);
-        // TODO: Use the ViewModel
+        mViewModel.getSupervisedTheses().observe(getViewLifecycleOwner(), new Observer<List<SupervisedThesesListItem>>() {
+            @Override
+            public void onChanged(List<SupervisedThesesListItem> items) {
+                SupervisedThesesListAdapter myResearchListAdapter = new SupervisedThesesListAdapter(getActivity(), items);
+                listView.setAdapter(myResearchListAdapter);
+            }
+        });
+        updateData();
+    }
+
+    private void updateData() {
+        AppDatabase appDatabase = AppDatabase.getDatabase(SupervisorApplication.getAppContext());
+        ThesisRepository thesisRepository = new ThesisRepository(appDatabase);
+
+        LoggedInUser loggedInUser = LoginRepository.getInstance(null).getLoggedInUser();
+        thesisRepository.getSupervisorsSupervisedTheses(loggedInUser)
+                .subscribe(new Consumer<List<ThesisModel>>() {
+                    @Override
+                    public void accept(List<ThesisModel> theses) throws Throwable {
+                        final List<SupervisedThesesListItem> items = new ArrayList<>(theses.size());
+                        for (ThesisModel thesis : theses) {
+                            items.add(new SupervisedThesesListItem(thesis.getTitle(), thesis.getStudentName(), thesis.getSupervisoryType()));
+                        }
+                        mViewModel.setSupervisedTheses(items);
+                    }
+                });
     }
 }

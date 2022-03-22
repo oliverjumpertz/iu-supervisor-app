@@ -12,8 +12,10 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.supervisionapp.data.LoginRepository;
 import com.example.supervisionapp.data.model.LoggedInUser;
+import com.example.supervisionapp.data.model.SupervisoryStateModel;
 import com.example.supervisionapp.data.model.SupervisoryTypeModel;
 import com.example.supervisionapp.data.model.ThesisModel;
+import com.example.supervisionapp.data.model.ThesisStateModel;
 import com.example.supervisionapp.databinding.ActivitySuperviseThesisBinding;
 import com.example.supervisionapp.persistence.AppDatabase;
 import com.example.supervisionapp.persistence.ThesisRepository;
@@ -69,7 +71,8 @@ public class ActivitySuperviseThesis extends AppCompatActivity {
                 View secondSupervisorButton = findViewById(R.id.activity_supervise_thesis_buttonSecondSupervisor);
                 secondSupervisorButton.setVisibility(View.GONE);
                 if (thesisModel.getSupervisoryType() == SupervisoryTypeModel.FIRST_SUPERVISOR
-                        && !thesisModel.hasSecondSupervisor()){
+                        && !thesisModel.hasSecondSupervisor()
+                        && thesisModel.getSupervisoryState() != SupervisoryStateModel.DRAFT){
                     secondSupervisorButton.setVisibility(View.VISIBLE);
                 }
 

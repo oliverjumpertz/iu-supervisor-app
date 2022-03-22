@@ -50,7 +50,7 @@ public class SupervisedThesesListAdapter extends BaseAdapter implements View.OnC
         SupervisedThesesListItem item = items.get(i);
         title.setText(item.getTitle());
         student.setText(item.getStudent());
-        supervisoryType.setText(item.getSupervisoryType().getTextRepresentation());
+        supervisoryType.setText(item.getSupervisoryType().toString());
         View linearLayout = row.findViewById(R.id.supervised_theses_list_item_row_horizontalLinearLayout);
         linearLayout.setClickable(true);
         linearLayout.setOnClickListener(this);

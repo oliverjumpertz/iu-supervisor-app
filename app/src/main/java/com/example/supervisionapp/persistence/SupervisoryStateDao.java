@@ -18,7 +18,7 @@ public interface SupervisoryStateDao {
     Single<List<SupervisoryState>> getAll();
 
     @Query("SELECT * FROM SUPERVISORYSTATE WHERE id = :id")
-    Single<SupervisoryState> getById(long id);
+    Maybe<SupervisoryState> getById(long id);
 
     @Query("SELECT * FROM SUPERVISORYSTATE WHERE state = :state")
     Maybe<SupervisoryState> getByState(String state);
