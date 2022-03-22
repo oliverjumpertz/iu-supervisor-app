@@ -16,7 +16,6 @@ import com.example.supervisionapp.R;
 import com.example.supervisionapp.data.LoginRepository;
 import com.example.supervisionapp.data.list.model.SupervisedThesesListItem;
 import com.example.supervisionapp.data.model.LoggedInUser;
-import com.example.supervisionapp.data.model.SupervisoryTypeModel;
 import com.example.supervisionapp.data.model.ThesisModel;
 import com.example.supervisionapp.persistence.AppDatabase;
 import com.example.supervisionapp.persistence.ThesisRepository;
@@ -30,20 +29,10 @@ import io.reactivex.rxjava3.functions.Consumer;
 public class FragmentSupervisedThesis extends Fragment {
 
     private ViewModelSupervisedThesis mViewModel;
+    private boolean initialized = false;
 
     public static FragmentSupervisedThesis newInstance() {
         return new FragmentSupervisedThesis();
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        final List<SupervisedThesesListItem> items = new ArrayList<>();
-        items.add(new SupervisedThesesListItem("Die Paarung Der Fliege", "B. Scheuert", SupervisoryTypeModel.FIRST_SUPERVISOR));
-        items.add(new SupervisedThesesListItem("Die Paarung Der Fliege", "V. Cool", SupervisoryTypeModel.SECOND_SUPERVISOR));
-        SupervisedThesesListAdapter advertisedThesesListAdapter = new SupervisedThesesListAdapter(getActivity(), items);
-        ListView listView = (ListView) getView().findViewById(R.id.fragment_supervised_thesis_supervisedTheses);
-        listView.setAdapter(advertisedThesesListAdapter);
     }
 
     @Nullable
@@ -51,6 +40,12 @@ public class FragmentSupervisedThesis extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_supervised_thesis, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initialized = true;
     }
 
     @Override
@@ -66,6 +61,15 @@ public class FragmentSupervisedThesis extends Fragment {
             }
         });
         updateData();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+
+        if (initialized && isVisibleToUser) {
+            updateData();
+        }
     }
 
     private void updateData() {
