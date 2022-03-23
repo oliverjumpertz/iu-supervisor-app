@@ -16,6 +16,7 @@ import com.example.supervisionapp.R;
 import com.example.supervisionapp.data.LoginRepository;
 import com.example.supervisionapp.data.list.model.SupervisedThesesListItem;
 import com.example.supervisionapp.data.model.LoggedInUser;
+import com.example.supervisionapp.data.model.SupervisoryTypeModel;
 import com.example.supervisionapp.data.model.ThesisModel;
 import com.example.supervisionapp.persistence.AppDatabase;
 import com.example.supervisionapp.persistence.ThesisRepository;
@@ -83,7 +84,7 @@ public class FragmentSupervisedThesis extends Fragment {
                     public void accept(List<ThesisModel> theses) throws Throwable {
                         final List<SupervisedThesesListItem> items = new ArrayList<>(theses.size());
                         for (ThesisModel thesis : theses) {
-                            items.add(new SupervisedThesesListItem(thesis.getTitle(), thesis.getStudentName(), thesis.getSupervisoryType()));
+                            items.add(new SupervisedThesesListItem(thesis.getThesisId(), thesis.getTitle(), thesis.getStudentName(), thesis.getSupervisoryType()));
                         }
                         mViewModel.setSupervisedTheses(items);
                     }

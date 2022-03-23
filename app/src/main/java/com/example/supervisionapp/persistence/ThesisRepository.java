@@ -197,6 +197,7 @@ public class ThesisRepository {
                         for (Supervisor supervisor : supervisors) {
                             SupervisoryState supervisoryState = supervisoryStateDao.getById(supervisor.state).blockingGet();
                             SupervisoryStateModel supervisoryStateModel = SupervisoryStateModel.valueOf(supervisoryState.state);
+                            // TODO: need to take care of more states
                             if (supervisoryStateModel != SupervisoryStateModel.DRAFT) {
                                 SupervisoryType supervisoryType = supervisoryTypeDao.getById(supervisor.type).blockingGet();
                                 InvoiceState invoiceState = invoiceStateDao.getById(supervisor.invoiceState).blockingGet();

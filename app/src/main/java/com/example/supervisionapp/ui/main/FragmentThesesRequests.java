@@ -9,11 +9,14 @@ import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.supervisionapp.R;
+import com.example.supervisionapp.data.list.model.MyResearchListItem;
 import com.example.supervisionapp.data.list.model.ThesesRequestsListItem;
 import com.example.supervisionapp.data.model.SupervisoryType;
+import com.example.supervisionapp.ui.list.MyResearchListAdapter;
 import com.example.supervisionapp.ui.list.ThesesRequestsListAdapter;
 
 import java.util.ArrayList;
@@ -31,10 +34,8 @@ public class FragmentThesesRequests extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         final List<ThesesRequestsListItem> items = new ArrayList<>();
-        items.add(new ThesesRequestsListItem("Die Paarung Der Fliege", "B. Scheuert", SupervisoryType.FIRST_SUPERVISOR));
-        items.add(new ThesesRequestsListItem("Die Paarung Der Fliege", "V. Cool", SupervisoryType.SECOND_SUPERVISOR));
         ThesesRequestsListAdapter advertisedThesesListAdapter = new ThesesRequestsListAdapter(getActivity(), items);
-        ListView listView = (ListView) getView().findViewById(R.id.fragment_theses_requests_thesesRequests);
+        ListView listView = getView().findViewById(R.id.fragment_theses_requests_thesesRequests);
         listView.setAdapter(advertisedThesesListAdapter);
     }
 
@@ -48,7 +49,19 @@ public class FragmentThesesRequests extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        ListView listView = getView().findViewById(R.id.fragment_theses_requests_thesesRequests);
         mViewModel = new ViewModelProvider(this).get(ViewModelThesesRequests.class);
-        // TODO: Use the ViewModel
+        //mViewModel.getMyResearchTheses().observe(getViewLifecycleOwner(), new Observer<List<MyResearchListItem>>() {
+        //    @Override
+        //    public void onChanged(List<MyResearchListItem> items) {
+        //        MyResearchListAdapter myResearchListAdapter = new MyResearchListAdapter(getActivity(), items);
+        //        listView.setAdapter(myResearchListAdapter);
+        //    }
+        //});
+        //updateData();
+    }
+
+    private void updateData() {
+
     }
 }

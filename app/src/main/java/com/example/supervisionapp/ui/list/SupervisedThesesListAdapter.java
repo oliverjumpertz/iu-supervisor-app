@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.example.supervisionapp.ActivitySuperviseThesis;
 import com.example.supervisionapp.ActivityViewThesisRequest;
 import com.example.supervisionapp.R;
+import com.example.supervisionapp.data.list.model.MyResearchListItem;
 import com.example.supervisionapp.data.list.model.SupervisedThesesListItem;
 
 import java.util.ArrayList;
@@ -42,42 +43,56 @@ public class SupervisedThesesListAdapter extends BaseAdapter implements View.OnC
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
+        String index = String.valueOf(i);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
         View row = inflater.inflate(R.layout.supervised_theses_list_item_row, viewGroup, false);
-        TextView title = (TextView) row.findViewById(R.id.supervised_theses_list_item_row_textTitle);
-        TextView student = (TextView) row.findViewById(R.id.supervised_theses_list_item_row_textStudent);
-        TextView supervisoryType = (TextView) row.findViewById(R.id.supervised_theses_list_item_row_type);
+        TextView title = row.findViewById(R.id.supervised_theses_list_item_row_textTitle);
+        TextView student = row.findViewById(R.id.supervised_theses_list_item_row_textStudent);
+        TextView supervisoryType = row.findViewById(R.id.supervised_theses_list_item_row_type);
         SupervisedThesesListItem item = items.get(i);
+
         title.setText(item.getTitle());
+        title.setTag(index);
+        title.setClickable(true);
+        title.setOnClickListener(this);
+
         student.setText(item.getStudent());
+        student.setTag(index);
+        student.setClickable(true);
+        student.setOnClickListener(this);
+
         supervisoryType.setText(item.getSupervisoryType().toString());
+        supervisoryType.setClickable(true);
+        supervisoryType.setOnClickListener(this);
+        supervisoryType.setTag(index);
+
         View linearLayout = row.findViewById(R.id.supervised_theses_list_item_row_horizontalLinearLayout);
         linearLayout.setClickable(true);
         linearLayout.setOnClickListener(this);
+        linearLayout.setTag(index);
+
         View innerLinearLayout = row.findViewById(R.id.supervised_theses_list_item_row_verticalLinearLayout);
         innerLinearLayout.setClickable(true);
         innerLinearLayout.setOnClickListener(this);
-        title.setClickable(true);
-        title.setOnClickListener(this);
-        student.setClickable(true);
-        student.setOnClickListener(this);
-        supervisoryType.setClickable(true);
-        supervisoryType.setOnClickListener(this);
+        innerLinearLayout.setTag(index);
+
         return row;
     }
 
     @Override
     public void onClick(View view) {
         switch(view.getId()) {
-            // TODO
             case R.id.supervised_theses_list_item_row_horizontalLinearLayout:
             case R.id.supervised_theses_list_item_row_verticalLinearLayout:
             case R.id.supervised_theses_list_item_row_textTitle:
             case R.id.supervised_theses_list_item_row_textStudent:
             case R.id.supervised_theses_list_item_row_type:
                 Intent intent = new Intent(context, ActivitySuperviseThesis.class);
+                String tag = (String) view.getTag();
+                SupervisedThesesListItem item = items.get(Integer.valueOf(tag));
+                intent.putExtra("thesisId", item.getThesisId());
                 context.startActivity(intent);
-                // TODO: send bundle so activity knows what to load or show
                 break;
             default:
                 throw new IllegalStateException("Unrecognized id passed to onClick handler");

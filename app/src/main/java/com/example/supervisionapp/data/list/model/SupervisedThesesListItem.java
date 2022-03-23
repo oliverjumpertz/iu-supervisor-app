@@ -6,14 +6,20 @@ import com.example.supervisionapp.data.model.SupervisoryTypeModel;
 import java.util.Objects;
 
 public class SupervisedThesesListItem {
+    private final long thesisId;
     private final String title;
     private final String student;
     private final SupervisoryTypeModel supervisoryType;
 
-    public SupervisedThesesListItem(String title, String student, SupervisoryTypeModel supervisoryType) {
+    public SupervisedThesesListItem(long thesisId, String title, String student, SupervisoryTypeModel supervisoryType) {
+        this.thesisId = thesisId;
         this.title = title;
         this.student = student;
         this.supervisoryType = supervisoryType;
+    }
+
+    public long getThesisId() {
+        return thesisId;
     }
 
     public String getTitle() {
