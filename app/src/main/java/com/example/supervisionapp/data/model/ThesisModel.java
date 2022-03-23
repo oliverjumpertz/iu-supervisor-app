@@ -7,18 +7,22 @@ public class ThesisModel {
     private final SupervisoryStateModel supervisoryState;
     private final SupervisoryTypeModel supervisoryType;
     private final String studentName;
+    private final String firstSupervisorName;
+    private final String secondSupervisorName;
     private final String expose;
     private final ThesisStateModel thesisState;
     private final boolean hasSecondSupervisor;
     private final InvoiceStateModel invoiceState;
 
-    public ThesisModel(long thesisId, String title, String subTitle, SupervisoryStateModel supervisoryState, SupervisoryTypeModel supervisoryType, String studentName, String expose, ThesisStateModel thesisState, boolean hasSecondSupervisor, InvoiceStateModel invoiceState) {
+    public ThesisModel(long thesisId, String title, String subTitle, SupervisoryStateModel supervisoryState, SupervisoryTypeModel supervisoryType, String studentName, String firstSupervisorName, String secondSupervisorName, String expose, ThesisStateModel thesisState, boolean hasSecondSupervisor, InvoiceStateModel invoiceState) {
         this.thesisId = thesisId;
         this.title = title;
         this.subTitle = subTitle;
         this.supervisoryState = supervisoryState;
         this.supervisoryType = supervisoryType;
         this.studentName = studentName;
+        this.firstSupervisorName = firstSupervisorName;
+        this.secondSupervisorName = secondSupervisorName;
         this.expose = expose;
         this.thesisState = thesisState;
         this.hasSecondSupervisor = hasSecondSupervisor;
@@ -63,5 +67,13 @@ public class ThesisModel {
 
     public InvoiceStateModel getInvoiceState() {
         return invoiceState;
+    }
+
+    public String getFirstSupervisorName() {
+        return firstSupervisorName;
+    }
+
+    public String getSecondSupervisorName() {
+        return secondSupervisorName;
     }
 }

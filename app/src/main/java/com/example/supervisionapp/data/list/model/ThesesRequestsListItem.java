@@ -1,18 +1,22 @@
 package com.example.supervisionapp.data.list.model;
 
-import com.example.supervisionapp.data.model.SupervisoryType;
-
-import java.util.Objects;
+import com.example.supervisionapp.data.model.SupervisoryTypeModel;
 
 public class ThesesRequestsListItem {
+    private final long thesisId;
     private final String title;
     private final String student;
-    private final SupervisoryType supervisoryType;
+    private final SupervisoryTypeModel supervisoryType;
 
-    public ThesesRequestsListItem(String title, String student, SupervisoryType supervisoryType) {
+    public ThesesRequestsListItem(long thesisId, String title, String student, SupervisoryTypeModel supervisoryType) {
+        this.thesisId = thesisId;
         this.title = title;
         this.student = student;
         this.supervisoryType = supervisoryType;
+    }
+
+    public long getThesisId() {
+        return thesisId;
     }
 
     public String getTitle() {
@@ -23,29 +27,7 @@ public class ThesesRequestsListItem {
         return student;
     }
 
-    public SupervisoryType getSupervisoryType() {
+    public SupervisoryTypeModel getSupervisoryType() {
         return supervisoryType;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ThesesRequestsListItem that = (ThesesRequestsListItem) o;
-        return Objects.equals(title, that.title) && Objects.equals(student, that.student) && supervisoryType == that.supervisoryType;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(title, student, supervisoryType);
-    }
-
-    @Override
-    public String toString() {
-        return "ThesesRequestsListItem{" +
-                "title='" + title + '\'' +
-                ", student='" + student + '\'' +
-                ", supervisoryType=" + supervisoryType +
-                '}';
     }
 }

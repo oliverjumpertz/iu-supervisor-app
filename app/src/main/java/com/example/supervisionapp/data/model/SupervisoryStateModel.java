@@ -1,5 +1,5 @@
 package com.example.supervisionapp.data.model;
 
 public enum SupervisoryStateModel {
-    DRAFT, SUPERVISED
+    DRAFT, SUPERVISED, REQUESTED
 }

@@ -32,30 +32,12 @@ import io.reactivex.rxjava3.functions.Consumer;
 public class FragmentMyResearch extends Fragment {
     private static final int REQUEST_CODE = 1;
 
-    private ViewModelMyResearch mViewModel;
-    private boolean initialized = false;
-
     public static FragmentMyResearch newInstance() {
         return new FragmentMyResearch();
     }
 
-    private void updateData() {
-        AppDatabase appDatabase = AppDatabase.getDatabase(SupervisorApplication.getAppContext());
-        ThesisRepository thesisRepository = new ThesisRepository(appDatabase);
-
-        LoggedInUser loggedInUser = LoginRepository.getInstance(null).getLoggedInUser();
-        thesisRepository.getSupervisorsAdvertisedTheses(loggedInUser)
-                .subscribe(new Consumer<List<Thesis>>() {
-                    @Override
-                    public void accept(List<Thesis> theses) throws Throwable {
-                        final List<MyResearchListItem> items = new ArrayList<>(theses.size());
-                        for (Thesis thesis : theses) {
-                            items.add(new MyResearchListItem(thesis.id, thesis.title, thesis.description));
-                        }
-                        mViewModel.setMyResearchTheses(items);
-                    }
-                });
-    }
+    private ViewModelMyResearch mViewModel;
+    private boolean initialized = false;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -109,5 +91,23 @@ public class FragmentMyResearch extends Fragment {
             }
         });
         updateData();
+    }
+
+    private void updateData() {
+        AppDatabase appDatabase = AppDatabase.getDatabase(SupervisorApplication.getAppContext());
+        ThesisRepository thesisRepository = new ThesisRepository(appDatabase);
+
+        LoggedInUser loggedInUser = LoginRepository.getInstance(null).getLoggedInUser();
+        thesisRepository.getSupervisorsAdvertisedTheses(loggedInUser)
+                .subscribe(new Consumer<List<Thesis>>() {
+                    @Override
+                    public void accept(List<Thesis> theses) throws Throwable {
+                        final List<MyResearchListItem> items = new ArrayList<>(theses.size());
+                        for (Thesis thesis : theses) {
+                            items.add(new MyResearchListItem(thesis.id, thesis.title, thesis.description));
+                        }
+                        mViewModel.setMyResearchTheses(items);
+                    }
+                });
     }
 }

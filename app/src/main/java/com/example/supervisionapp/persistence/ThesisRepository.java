@@ -161,6 +161,27 @@ public class ThesisRepository {
                                         if (user.id >= 0) {
                                             studentName = user.foreName + " " + user.name;
                                         }
+
+                                        User defaultFirstSupervisorUser = new User();
+                                        defaultFirstSupervisorUser.foreName = "";
+                                        defaultFirstSupervisorUser.name = "";
+                                        User firstSupervisorUser = userDao.getById(supervisor.user).defaultIfEmpty(defaultFirstSupervisorUser).blockingGet();
+
+                                        User defaultSecondSupervisorUser = new User();
+                                        defaultSecondSupervisorUser.foreName = "";
+                                        defaultSecondSupervisorUser.name = "";
+                                        User secondSupervisorUser = userDao.getById(secondSupervisor.user).defaultIfEmpty(defaultSecondSupervisorUser).blockingGet();
+
+                                        String firstSupervisorName;
+                                        String secondSupervisorName;
+                                        if (SupervisoryTypeModel.valueOf(supervisoryType.type) == SupervisoryTypeModel.FIRST_SUPERVISOR) {
+                                            firstSupervisorName = firstSupervisorUser.foreName + " " + firstSupervisorUser.name;
+                                            secondSupervisorName = secondSupervisorUser.foreName + " " + secondSupervisorUser.name;
+                                        } else {
+                                            firstSupervisorName = secondSupervisorUser.foreName + " " + secondSupervisorUser.name;
+                                            secondSupervisorName = firstSupervisorUser.foreName + " " + firstSupervisorUser.name;
+                                        }
+
                                         boolean hasSecondSupervisor = secondSupervisor.user >= 0 && secondSupervisor.thesis >= 0;
                                         return new ThesisModel(
                                                 thesis.id,
@@ -169,6 +190,8 @@ public class ThesisRepository {
                                                 SupervisoryStateModel.valueOf(supervisoryState.state),
                                                 SupervisoryTypeModel.valueOf(supervisoryType.type),
                                                 studentName,
+                                                firstSupervisorName,
+                                                secondSupervisorName,
                                                 thesis.expose,
                                                 ThesisStateModel.valueOf(thesisState.state),
                                                 hasSecondSupervisor,
@@ -179,7 +202,7 @@ public class ThesisRepository {
                 });
     }
 
-    public Maybe<List<ThesisModel>> getSupervisorsSupervisedTheses(LoggedInUser loggedInUser) {
+    public Maybe<List<ThesisModel>> getSupervisorsTheses(LoggedInUser loggedInUser, SupervisoryStatePredicate predicate) {
         SupervisorDao supervisorDao = appDatabase.supervisorDao();
         ThesisDao thesisDao = appDatabase.thesisDao();
         ThesisStateDao thesisStateDao = appDatabase.thesisStateDao();
@@ -197,8 +220,7 @@ public class ThesisRepository {
                         for (Supervisor supervisor : supervisors) {
                             SupervisoryState supervisoryState = supervisoryStateDao.getById(supervisor.state).blockingGet();
                             SupervisoryStateModel supervisoryStateModel = SupervisoryStateModel.valueOf(supervisoryState.state);
-                            // TODO: need to take care of more states
-                            if (supervisoryStateModel != SupervisoryStateModel.DRAFT) {
+                            if (predicate.test(supervisoryStateModel)) {
                                 SupervisoryType supervisoryType = supervisoryTypeDao.getById(supervisor.type).blockingGet();
                                 InvoiceState invoiceState = invoiceStateDao.getById(supervisor.invoiceState).blockingGet();
                                 tuples.add(new Tuple4<>(supervisor, supervisoryState, supervisoryType, invoiceState));
@@ -219,6 +241,7 @@ public class ThesisRepository {
 
                             Thesis thesis = thesisDao.getById(supervisor.thesis).blockingGet();
                             ThesisState thesisState = thesisStateDao.getById(thesis.state).blockingGet();
+
                             User defaultUser = new User();
                             defaultUser.id = -1;
                             User student = studentDao
@@ -231,6 +254,7 @@ public class ThesisRepository {
                                     })
                                     .defaultIfEmpty(defaultUser)
                                     .blockingGet();
+
                             Supervisor defaultSupervisor = new Supervisor();
                             defaultSupervisor.user = -1;
                             defaultSupervisor.thesis = -1;
@@ -238,13 +262,37 @@ public class ThesisRepository {
                                     .getByThesisWhereUserIsNot(thesis.id, loggedInUser.getUserId())
                                     .defaultIfEmpty(defaultSupervisor)
                                     .blockingGet();
+
+                            User defaultFirstSupervisorUser = new User();
+                            defaultFirstSupervisorUser.foreName = "";
+                            defaultFirstSupervisorUser.name = "";
+                            User firstSupervisorUser = userDao.getById(supervisor.user).defaultIfEmpty(defaultFirstSupervisorUser).blockingGet();
+
+                            User defaultSecondSupervisorUser = new User();
+                            defaultSecondSupervisorUser.foreName = "";
+                            defaultSecondSupervisorUser.name = "";
+                            User secondSupervisorUser = userDao.getById(secondSupervisor.user).defaultIfEmpty(defaultSecondSupervisorUser).blockingGet();
+
                             boolean hasSecondSupervisor = secondSupervisor.user >= 0 && secondSupervisor.thesis >= 0;
+
+                            String firstSupervisorName;
+                            String secondSupervisorName;
+                            if (SupervisoryTypeModel.valueOf(supervisoryType.type) == SupervisoryTypeModel.FIRST_SUPERVISOR) {
+                                firstSupervisorName = firstSupervisorUser.foreName + " " + firstSupervisorUser.name;
+                                secondSupervisorName = secondSupervisorUser.foreName + " " + secondSupervisorUser.name;
+                            } else {
+                                firstSupervisorName = secondSupervisorUser.foreName + " " + secondSupervisorUser.name;
+                                secondSupervisorName = firstSupervisorUser.foreName + " " + firstSupervisorUser.name;
+                            }
+
                             theses.add(new ThesisModel(thesis.id,
                                     thesis.title,
                                     thesis.subtitle,
                                     SupervisoryStateModel.valueOf(supervisoryState.state),
                                     SupervisoryTypeModel.valueOf(supervisoryType.type),
                                     student.foreName + " " + student.name,
+                                    firstSupervisorName,
+                                    secondSupervisorName,
                                     thesis.expose,
                                     ThesisStateModel.valueOf(thesisState.state),
                                     hasSecondSupervisor,
@@ -253,5 +301,23 @@ public class ThesisRepository {
                         return theses;
                     }
                 });
+    }
+
+    public Maybe<List<ThesisModel>> getSupervisorsSupervisedTheses(LoggedInUser loggedInUser) {
+        return getSupervisorsTheses(loggedInUser, new SupervisoryStatePredicate() {
+            @Override
+            public boolean test(SupervisoryStateModel supervisoryStateModel) {
+                return supervisoryStateModel != SupervisoryStateModel.DRAFT;
+            }
+        });
+    }
+
+    public Maybe<List<ThesisModel>> getSupervisorsThesesRequests(LoggedInUser loggedInUser) {
+        return getSupervisorsTheses(loggedInUser, new SupervisoryStatePredicate() {
+            @Override
+            public boolean test(SupervisoryStateModel supervisoryStateModel) {
+                return supervisoryStateModel == SupervisoryStateModel.REQUESTED;
+            }
+        });
     }
 }
