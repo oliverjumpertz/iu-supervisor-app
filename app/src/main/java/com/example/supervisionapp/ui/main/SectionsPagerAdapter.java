@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.supervisionapp.R;
-import com.example.supervisionapp.data.model.UserType;
+import com.example.supervisionapp.data.model.UserTypeModel;
 import com.example.supervisionapp.ui.login.LoggedInUserView;
 
 import java.util.ArrayList;
@@ -47,7 +47,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        if (loggedInUser.getUserType() == UserType.STUDENT) {
+        if (loggedInUser.getUserType() == UserTypeModel.STUDENT) {
             return STUDENT_FRAGMENTS.get(position);
         } else {
             return SUPERVISOR_FRAGMENTS.get(position);
@@ -58,7 +58,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         int tabTitle;
-        if (loggedInUser.getUserType() == UserType.STUDENT) {
+        if (loggedInUser.getUserType() == UserTypeModel.STUDENT) {
             tabTitle = STUDENT_TAB_TITLES[position];
         } else {
             tabTitle = SUPERVISOR_TAB_TITLES[position];
@@ -68,7 +68,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        if (loggedInUser.getUserType() == UserType.STUDENT) {
+        if (loggedInUser.getUserType() == UserTypeModel.STUDENT) {
             return STUDENT_FRAGMENTS.size();
         } else {
             return SUPERVISOR_FRAGMENTS.size();

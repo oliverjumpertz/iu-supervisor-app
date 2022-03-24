@@ -23,6 +23,9 @@ public interface UserDao {
     @Query("SELECT * FROM USER WHERE username = :username")
     Maybe<User> getByUsername(String username);
 
+    @Query("SELECT * FROM USER WHERE id IN (:ids)")
+    Maybe<List<User>> getByIds(List<Long> ids);
+
     @Insert
     Single<Long> insert(User user);
 

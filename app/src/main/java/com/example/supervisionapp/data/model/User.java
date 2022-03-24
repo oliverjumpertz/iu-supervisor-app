@@ -7,16 +7,16 @@ public class User {
     private final String title;
     private final String name;
     private final String forename;
-    private final UserType userType;
+    private final UserTypeModel userTypeModel;
 
-    public User(long id, String username, String password, String title, String name, String forename, UserType userType) {
+    public User(long id, String username, String password, String title, String name, String forename, UserTypeModel userTypeModel) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.title = title;
         this.name = name;
         this.forename = forename;
-        this.userType = userType;
+        this.userTypeModel = userTypeModel;
     }
 
     public long getId() {
@@ -43,7 +43,7 @@ public class User {
         return forename;
     }
 
-    public UserType getUserType() {
-        return userType;
+    public UserTypeModel getUserType() {
+        return userTypeModel;
     }
 }

@@ -21,7 +21,7 @@ public interface InvoiceStateDao {
     Maybe<InvoiceState> getById(long id);
 
     @Query("SELECT * FROM INVOICESTATE WHERE state = :state")
-    Single<InvoiceState> getByType(String state);
+    Single<InvoiceState> getByState(String state);
 
     @Insert
     Single<Long> insert(InvoiceState invoiceState);

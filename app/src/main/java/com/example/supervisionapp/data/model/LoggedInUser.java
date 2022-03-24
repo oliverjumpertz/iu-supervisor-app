@@ -1,7 +1,5 @@
 package com.example.supervisionapp.data.model;
 
-import java.io.Serializable;
-
 /**
  * Data class that captures user information for logged in users retrieved from LoginRepository
  */
@@ -9,12 +7,12 @@ public class LoggedInUser {
 
     private final long userId;
     private final String displayName;
-    private final UserType userType;
+    private final UserTypeModel userTypeModel;
 
-    public LoggedInUser(long userId, String displayName, UserType userType) {
+    public LoggedInUser(long userId, String displayName, UserTypeModel userTypeModel) {
         this.userId = userId;
         this.displayName = displayName;
-        this.userType = userType;
+        this.userTypeModel = userTypeModel;
     }
 
     public long getUserId() {
@@ -25,7 +23,7 @@ public class LoggedInUser {
         return displayName;
     }
 
-    public UserType getUserType() {
-        return userType;
+    public UserTypeModel getUserType() {
+        return userTypeModel;
     }
 }

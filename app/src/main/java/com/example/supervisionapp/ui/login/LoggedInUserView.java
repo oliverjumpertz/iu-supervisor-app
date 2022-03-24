@@ -1,6 +1,6 @@
 package com.example.supervisionapp.ui.login;
 
-import com.example.supervisionapp.data.model.UserType;
+import com.example.supervisionapp.data.model.UserTypeModel;
 
 import java.io.Serializable;
 
@@ -9,19 +9,19 @@ import java.io.Serializable;
  */
 public class LoggedInUserView implements Serializable {
     private final String displayName;
-    private final UserType userType;
+    private final UserTypeModel userTypeModel;
     //... other data fields that may be accessible to the UI
 
-    LoggedInUserView(String displayName, UserType userType) {
+    LoggedInUserView(String displayName, UserTypeModel userTypeModel) {
         this.displayName = displayName;
-        this.userType = userType;
+        this.userTypeModel = userTypeModel;
     }
 
     String getDisplayName() {
         return displayName;
     }
 
-    public UserType getUserType() {
-        return userType;
+    public UserTypeModel getUserType() {
+        return userTypeModel;
     }
 }

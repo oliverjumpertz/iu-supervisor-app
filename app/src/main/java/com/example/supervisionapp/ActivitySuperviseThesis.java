@@ -50,7 +50,8 @@ public class ActivitySuperviseThesis extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ActivitySuperviseThesis.this, ActivitySecondSupervisorRequest.class);
-                // TODO put data bundle
+                ThesisModel thesis = mViewModel.getThesis().getValue();
+                intent.putExtra("thesisId", thesis.getThesisId());
                 startActivity(intent);
             }
         });

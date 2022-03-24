@@ -12,7 +12,9 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.supervisionapp.data.model.LoggedInUser;
+import com.example.supervisionapp.data.model.SupervisoryStateModel;
 import com.example.supervisionapp.data.model.ThesisModel;
+import com.example.supervisionapp.data.model.UserTypeModel;
 
 import org.junit.After;
 import org.junit.Before;
@@ -86,7 +88,7 @@ public class ThesisRepositoryTest {
         dbUser.type = userType.id;
         dbUser.id = userDao.insert(dbUser).blockingGet();
 
-        return new LoggedInUser(dbUser.id, dbUser.username, com.example.supervisionapp.data.model.UserType.valueOf(userType.type));
+        return new LoggedInUser(dbUser.id, dbUser.username, UserTypeModel.valueOf(userType.type));
     }
 
     @Test
@@ -525,5 +527,33 @@ public class ThesisRepositoryTest {
         assertEquals(1, resultingTheses.size());
         ThesisModel resultingThesis = resultingTheses.get(0);
         assertEquals("Test1", resultingThesis.getTitle());
+    }
+
+    @Test
+    public void testThatAddSecondSupervisorToThesisWorks() {
+        LoggedInUser user = insertBaseData();
+        thesisRepository.createThesis("Test1", "TestDescription", user).blockingAwait();
+        UserType userType = userTypeDao.getByType(UserTypeModel.SUPERVISOR.name()).blockingGet();
+
+        com.example.supervisionapp.persistence.User dbUser = new com.example.supervisionapp.persistence.User();
+        dbUser.username = "b";
+        dbUser.name = "Lampe";
+        dbUser.foreName = "Kai";
+        dbUser.type = userType.id;
+        dbUser.id = userDao.insert(dbUser).blockingGet();
+
+        List<Thesis> theses = thesisDao.getAll().blockingGet();
+        Thesis thesis = theses.get(0);
+
+        SupervisoryState supervisoryStateRequested = new SupervisoryState();
+        supervisoryStateRequested.state = SupervisoryStateModel.REQUESTED.name();
+        supervisoryStateRequested.id = supervisoryStateDao.insert(supervisoryStateRequested).blockingGet();
+
+        thesisRepository.addSecondSupervisorToThesis(thesis.id, dbUser.id).blockingAwait();
+
+        List<Supervisor> supervisors = supervisorDao.getByUser(dbUser.id).blockingGet();
+        assertNotNull(supervisors);
+        assertFalse(supervisors.isEmpty());
+        assertEquals(1, supervisors.size());
     }
 }

@@ -40,16 +40,16 @@ public class ThesisRepository {
                 appDatabase.runInTransaction(new Runnable() {
                     @Override
                     public void run() {
-                        ThesisState thesisState = thesisStateDao.getByState("ADVERTISED").blockingGet();
+                        ThesisState thesisState = thesisStateDao.getByState(ThesisStateModel.ADVERTISED.name()).blockingGet();
                         Thesis thesis = new Thesis();
                         thesis.title = title;
                         thesis.description = description;
                         thesis.state = thesisState.id;
                         thesis.id = thesisDao.insert(thesis).blockingGet();
 
-                        SupervisoryType supervisoryType = supervisoryTypeDao.getByType("FIRST_SUPERVISOR").blockingGet();
-                        InvoiceState invoiceState = invoiceStateDao.getByType("UNFINISHED").blockingGet();
-                        SupervisoryState supervisoryState = supervisoryStateDao.getByState("DRAFT").blockingGet();
+                        SupervisoryType supervisoryType = supervisoryTypeDao.getByType(SupervisoryTypeModel.FIRST_SUPERVISOR.name()).blockingGet();
+                        InvoiceState invoiceState = invoiceStateDao.getByState(InvoiceStateModel.UNFINISHED.name()).blockingGet();
+                        SupervisoryState supervisoryState = supervisoryStateDao.getByState(SupervisoryStateModel.DRAFT.name()).blockingGet();
 
                         Supervisor supervisor = new Supervisor();
                         supervisor.user = loggedInUser.getUserId();
@@ -70,7 +70,7 @@ public class ThesisRepository {
         ThesisStateDao thesisStateDao = appDatabase.thesisStateDao();
         SupervisoryStateDao supervisoryStateDao = appDatabase.supervisoryStateDao();
         return supervisoryStateDao
-                .getByState("DRAFT")
+                .getByState(SupervisoryStateModel.DRAFT.name())
                 .flatMap(new Function<SupervisoryState, MaybeSource<List<Supervisor>>>() {
                     @Override
                     public MaybeSource<List<Supervisor>> apply(SupervisoryState supervisoryState) throws Throwable {
@@ -81,7 +81,7 @@ public class ThesisRepository {
                     @Override
                     public MaybeSource<Pair<List<Supervisor>, ThesisState>> apply(List<Supervisor> supervisors) throws Throwable {
                         return Maybe.zip(Maybe.just(supervisors),
-                                thesisStateDao.getByState("ADVERTISED"),
+                                thesisStateDao.getByState(ThesisStateModel.ADVERTISED.name()),
                                 new BiFunction<List<Supervisor>, ThesisState, Pair<List<Supervisor>, ThesisState>>() {
                                     @Override
                                     public Pair<List<Supervisor>, ThesisState> apply(List<Supervisor> supervisors, ThesisState thesisState) throws Throwable {
@@ -317,6 +317,34 @@ public class ThesisRepository {
             @Override
             public boolean test(SupervisoryStateModel supervisoryStateModel) {
                 return supervisoryStateModel == SupervisoryStateModel.REQUESTED;
+            }
+        });
+    }
+
+    public Completable addSecondSupervisorToThesis(long thesisId, long userId) {
+        SupervisorDao supervisorDao = appDatabase.supervisorDao();
+        SupervisoryTypeDao supervisoryTypeDao = appDatabase.supervisoryTypeDao();
+        SupervisoryStateDao supervisoryStateDao = appDatabase.supervisoryStateDao();
+        InvoiceStateDao invoiceStateDao = appDatabase.invoiceStateDao();
+        return Completable.fromRunnable(new Runnable() {
+            @Override
+            public void run() {
+                SupervisoryType supervisoryType = supervisoryTypeDao
+                        .getByType(SupervisoryTypeModel.SECOND_SUPERVISOR.name())
+                        .blockingGet();
+                SupervisoryState supervisoryState = supervisoryStateDao
+                        .getByState(SupervisoryStateModel.REQUESTED.name())
+                        .blockingGet();
+                InvoiceState invoiceState = invoiceStateDao
+                        .getByState(InvoiceStateModel.UNFINISHED.name())
+                        .blockingGet();
+                Supervisor supervisor = new Supervisor();
+                supervisor.user = userId;
+                supervisor.thesis = thesisId;
+                supervisor.type = supervisoryType.id;
+                supervisor.state = supervisoryState.id;
+                supervisor.invoiceState = invoiceState.id;
+                supervisorDao.insert(supervisor).blockingAwait();
             }
         });
     }

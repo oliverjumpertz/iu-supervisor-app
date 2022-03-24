@@ -3,9 +3,13 @@ package com.example.supervisionapp.data.list.model;
 import java.util.Objects;
 
 public class SecondSupervisorRequestListItem {
+    private final long userId;
+    private final long thesisId;
     private final String name;
 
-    public SecondSupervisorRequestListItem(String name) {
+    public SecondSupervisorRequestListItem(long userId, long thesisId, String name) {
+        this.userId = userId;
+        this.thesisId = thesisId;
         this.name = name;
     }
 
@@ -13,23 +17,11 @@ public class SecondSupervisorRequestListItem {
         return name;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        SecondSupervisorRequestListItem that = (SecondSupervisorRequestListItem) o;
-        return Objects.equals(name, that.name);
+    public long getUserId() {
+        return userId;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(name);
-    }
-
-    @Override
-    public String toString() {
-        return "SecondSupervisorRequestListItem{" +
-                "name='" + name + '\'' +
-                '}';
+    public long getThesisId() {
+        return thesisId;
     }
 }

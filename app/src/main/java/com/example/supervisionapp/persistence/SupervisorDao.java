@@ -32,6 +32,9 @@ public interface SupervisorDao {
     @Query("SELECT * FROM SUPERVISOR WHERE user <> :user AND thesis = :thesis")
     Maybe<Supervisor> getByThesisWhereUserIsNot(long thesis, long user);
 
+    @Query("SELECT * FROM SUPERVISOR WHERE user <> :user")
+    Maybe<List<Supervisor>> getWhereUserIsNot(long user);
+
     @Insert
     Completable insert(Supervisor supervisor);
 
