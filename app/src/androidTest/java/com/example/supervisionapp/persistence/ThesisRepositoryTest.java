@@ -555,5 +555,10 @@ public class ThesisRepositoryTest {
         assertNotNull(supervisors);
         assertFalse(supervisors.isEmpty());
         assertEquals(1, supervisors.size());
+
+        List<Supervisor> thesisSupervisors = supervisorDao.getByThesis(thesis.id).blockingGet();
+        assertNotNull(thesisSupervisors);
+        assertFalse(thesisSupervisors.isEmpty());
+        assertEquals(2, thesisSupervisors.size());
     }
 }
