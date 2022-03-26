@@ -64,6 +64,23 @@ public class ThesisRepository {
         });
     }
 
+    public Completable deleteThesisSupervisorDraft(long thesis) {
+        ThesisDao thesisDao = appDatabase.thesisDao();
+        SupervisorDao supervisorDao = appDatabase.supervisorDao();
+        return Completable.fromRunnable(new Runnable() {
+            @Override
+            public void run() {
+                appDatabase.runInTransaction(new Runnable() {
+                    @Override
+                    public void run() {
+                        supervisorDao.deleteByThesisId(thesis).blockingAwait();
+                        thesisDao.deleteById(thesis).blockingAwait();
+                    }
+                });
+            }
+        });
+    }
+
     public Maybe<List<Thesis>> getSupervisorsAdvertisedTheses(LoggedInUser loggedInUser) {
         SupervisorDao supervisorDao = appDatabase.supervisorDao();
         ThesisDao thesisDao = appDatabase.thesisDao();

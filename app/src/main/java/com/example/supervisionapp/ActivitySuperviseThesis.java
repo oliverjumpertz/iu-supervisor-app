@@ -1,8 +1,11 @@
 package com.example.supervisionapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -18,6 +21,7 @@ import com.example.supervisionapp.data.model.ThesisModel;
 import com.example.supervisionapp.data.model.ThesisStateModel;
 import com.example.supervisionapp.databinding.ActivitySuperviseThesisBinding;
 import com.example.supervisionapp.persistence.AppDatabase;
+import com.example.supervisionapp.persistence.Thesis;
 import com.example.supervisionapp.persistence.ThesisRepository;
 import com.example.supervisionapp.ui.login.LoginActivity;
 import com.example.supervisionapp.ui.main.ViewModelSuperviseThesis;
@@ -65,6 +69,34 @@ public class ActivitySuperviseThesis extends AppCompatActivity {
             }
         });
 
+        Button deleteDraftButton = findViewById(R.id.activity_supervise_thesis_buttonDeleteDraft);
+        deleteDraftButton.setClickable(true);
+        deleteDraftButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ThesisModel thesisModel = mViewModel.getThesis().getValue();
+                AppDatabase appDatabase = AppDatabase.getDatabase(getApplicationContext());
+                ThesisRepository thesisRepository = new ThesisRepository(appDatabase);
+                AlertDialog.Builder builder = new AlertDialog.Builder(ActivitySuperviseThesis.this);
+                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        thesisRepository.deleteThesisSupervisorDraft(thesisModel.getThesisId()).blockingAwait();
+                        finish();
+                    }
+                });
+                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // noop
+                    }
+                });
+                builder.setMessage(getResources().getString(R.string.activity_supervise_thesis_dialog_delete_draft_text))
+                        .setTitle(R.string.activity_supervise_thesis_dialog_delete_draft);
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+
         mViewModel = new ViewModelProvider(this).get(ViewModelSuperviseThesis.class);
         mViewModel.getThesis().observe(this, new Observer<ThesisModel>() {
             @Override
@@ -73,8 +105,14 @@ public class ActivitySuperviseThesis extends AppCompatActivity {
                 secondSupervisorButton.setVisibility(View.GONE);
                 if (thesisModel.getSupervisoryType() == SupervisoryTypeModel.FIRST_SUPERVISOR
                         && !thesisModel.hasSecondSupervisor()
-                        && thesisModel.getSupervisoryState() != SupervisoryStateModel.DRAFT){
+                        && thesisModel.getSupervisoryState() != SupervisoryStateModel.DRAFT) {
                     secondSupervisorButton.setVisibility(View.VISIBLE);
+                }
+
+                Button deleteDraftButton = findViewById(R.id.activity_supervise_thesis_buttonDeleteDraft);
+                deleteDraftButton.setVisibility(View.GONE);
+                if (thesisModel.getSupervisoryState() == SupervisoryStateModel.DRAFT) {
+                    deleteDraftButton.setVisibility(View.VISIBLE);
                 }
 
                 // TODO: enums to string resources

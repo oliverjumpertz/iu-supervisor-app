@@ -107,6 +107,12 @@
                     android:layout_height="wrap_content"
                     android:text="@string/activity_supervise_thesis_buttonSecondSupervisor" />
 
+                <Button
+                    android:id="@+id/activity_supervise_thesis_buttonDeleteDraft"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/activity_supervise_thesis_buttonDeleteDraft" />
+
                 <TextView
                     android:id="@+id/activity_supervise_thesis_headerTitle"
                     android:layout_width="match_parent"

@@ -43,4 +43,7 @@ public interface SupervisorDao {
 
     @Delete
     Completable delete(Supervisor supervisor);
+
+    @Query("DELETE FROM SUPERVISOR WHERE thesis = :thesis")
+    Completable deleteByThesisId(long thesis);
 }

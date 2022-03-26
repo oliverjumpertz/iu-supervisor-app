@@ -31,4 +31,7 @@ public interface ThesisDao {
 
     @Delete
     Completable delete(Thesis thesis);
+
+    @Query("DELETE FROM THESIS WHERE id = :id")
+    Completable deleteById(long id);
 }

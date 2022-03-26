@@ -561,4 +561,20 @@ public class ThesisRepositoryTest {
         assertFalse(thesisSupervisors.isEmpty());
         assertEquals(2, thesisSupervisors.size());
     }
+
+    @Test
+    public void testThatDeleteThesisSupervisorDraftWorks() {
+        LoggedInUser user = insertBaseData();
+        thesisRepository.createThesis("Test1", "TestDescription", user).blockingAwait();
+
+        List<Thesis> theses = thesisDao.getAll().blockingGet();
+        Thesis thesis = theses.get(0);
+        thesisRepository.deleteThesisSupervisorDraft(thesis.id).blockingAwait();
+
+        theses = thesisDao.getAll().blockingGet();
+        assertTrue(theses.isEmpty());
+
+        List<Supervisor> supervisors = supervisorDao.getAll().blockingGet();
+        assertTrue(supervisors.isEmpty());
+    }
 }
