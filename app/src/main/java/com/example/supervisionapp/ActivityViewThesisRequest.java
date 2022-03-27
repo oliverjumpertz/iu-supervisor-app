@@ -2,6 +2,7 @@ package com.example.supervisionapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -20,10 +21,15 @@ import com.example.supervisionapp.persistence.ThesisRepository;
 import com.example.supervisionapp.ui.login.LoginActivity;
 import com.example.supervisionapp.ui.main.ViewModelViewThesisRequest;
 
+import io.reactivex.rxjava3.annotations.NonNull;
+import io.reactivex.rxjava3.core.MaybeObserver;
+import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class ActivityViewThesisRequest extends AppCompatActivity {
+    private static final String LOG_TAG = "ViewThesisRequest";
+
 
     private ActivityViewThesisRequestBinding binding;
     private ViewModelViewThesisRequest mViewModel;
@@ -42,11 +48,13 @@ public class ActivityViewThesisRequest extends AppCompatActivity {
                 finish();
             }
         });
-        View buttonSend = findViewById(R.id.activity_view_thesis_request_thesis_buttonAccept);
-        buttonSend.setOnClickListener(new View.OnClickListener() {
+        View buttonAccept = findViewById(R.id.activity_view_thesis_request_thesis_buttonAccept);
+        buttonAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // TODO submit...
+                // accept request
+                // delete all other requests from that student
                 finish();
             }
         });
@@ -55,6 +63,7 @@ public class ActivityViewThesisRequest extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // TODO reject...
+                // delete request
                 finish();
             }
         });
@@ -71,6 +80,10 @@ public class ActivityViewThesisRequest extends AppCompatActivity {
         mViewModel.getThesis().observe(this, new Observer<ThesisModel>() {
             @Override
             public void onChanged(ThesisModel thesisModel) {
+                if (thesisModel == null) {
+                    return;
+                }
+
                 TextView titleView = findViewById(R.id.activity_view_thesis_request_thesis_textTitle);
                 titleView.setText(thesisModel.getTitle());
 
@@ -142,13 +155,25 @@ public class ActivityViewThesisRequest extends AppCompatActivity {
         thesisRepository
                 .getThesisByIdAndUser(thesisId, loggedInUser)
                 .observeOn(Schedulers.io())
-                .subscribe(new Consumer<ThesisModel>() {
+                .subscribe(new MaybeObserver<ThesisModel>() {
                     @Override
-                    public void accept(ThesisModel thesisModel) throws Throwable {
-                        if (thesisModel == null) {
-                            return;
-                        }
+                    public void onSubscribe(@NonNull Disposable d) {
+                        // noop
+                    }
+
+                    @Override
+                    public void onSuccess(@NonNull ThesisModel thesisModel) {
                         mViewModel.setThesis(thesisModel);
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        Log.e(LOG_TAG, "An error occurred", e);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        mViewModel.setThesis(null);
                     }
                 });
     }

@@ -23,6 +23,9 @@ public interface StudentDao {
     @Query("SELECT * FROM STUDENT WHERE thesis = :thesis")
     Maybe<Student> getByThesis(long thesis);
 
+    @Query("SELECT * FROM STUDENT WHERE user = :user")
+    Maybe<List<Student>> getByUser(long user);
+
     @Insert
     Completable insert(Student student);
 

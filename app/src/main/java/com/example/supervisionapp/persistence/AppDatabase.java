@@ -8,6 +8,11 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.example.supervisionapp.data.model.InvoiceStateModel;
+import com.example.supervisionapp.data.model.SupervisoryStateModel;
+import com.example.supervisionapp.data.model.SupervisoryTypeModel;
+import com.example.supervisionapp.data.model.ThesisStateModel;
+import com.example.supervisionapp.data.model.UserTypeModel;
 import com.example.supervisionapp.utils.PasswordUtils;
 
 import java.util.concurrent.ExecutorService;
@@ -37,10 +42,10 @@ public abstract class AppDatabase extends RoomDatabase {
                     try {
                         UserTypeDao userTypeDao = INSTANCE.userTypeDao();
                         UserType userTypeStudent = new UserType();
-                        userTypeStudent.type = "STUDENT";
+                        userTypeStudent.type = UserTypeModel.STUDENT.name();
                         userTypeStudent.id = userTypeDao.insert(userTypeStudent).blockingGet();
                         UserType userTypeSupervisor = new UserType();
-                        userTypeSupervisor.type = "SUPERVISOR";
+                        userTypeSupervisor.type = UserTypeModel.SUPERVISOR.name();
                         userTypeSupervisor.id = userTypeDao.insert(userTypeSupervisor).blockingGet();
 
                         UserDao userDao = INSTANCE.userDao();
@@ -63,30 +68,34 @@ public abstract class AppDatabase extends RoomDatabase {
 
                         ThesisStateDao thesisStateDao = INSTANCE.thesisStateDao();
                         ThesisState advertisedThesisState = new ThesisState();
-                        advertisedThesisState.state = "ADVERTISED";
+                        advertisedThesisState.state = ThesisStateModel.ADVERTISED.name();
                         advertisedThesisState.id = thesisStateDao.insert(advertisedThesisState).blockingGet();
+
+                        ThesisState inProgressThesisState = new ThesisState();
+                        inProgressThesisState.state = ThesisStateModel.IN_PROGRESS.name();
+                        inProgressThesisState.id = thesisStateDao.insert(inProgressThesisState).blockingGet();
 
                         SupervisoryTypeDao supervisoryTypeDao = INSTANCE.supervisoryTypeDao();
                         SupervisoryType firstSupervisorType = new SupervisoryType();
-                        firstSupervisorType.type = "FIRST_SUPERVISOR";
+                        firstSupervisorType.type = SupervisoryTypeModel.FIRST_SUPERVISOR.name();
                         supervisoryTypeDao.insert(firstSupervisorType).blockingGet();
                         SupervisoryType secondSupervisorType = new SupervisoryType();
-                        secondSupervisorType.type = "SECOND_SUPERVISOR";
+                        secondSupervisorType.type = SupervisoryTypeModel.SECOND_SUPERVISOR.name();
                         supervisoryTypeDao.insert(secondSupervisorType).blockingGet();
 
                         InvoiceStateDao invoiceStateDao = INSTANCE.invoiceStateDao();
                         InvoiceState invoiceStateUnfinished = new InvoiceState();
-                        invoiceStateUnfinished.state = "UNFINISHED";
+                        invoiceStateUnfinished.state = InvoiceStateModel.UNFINISHED.name();
                         invoiceStateUnfinished.id = invoiceStateDao.insert(invoiceStateUnfinished).blockingGet();
 
                         SupervisoryStateDao supervisoryStateDao = INSTANCE.supervisoryStateDao();
 
                         SupervisoryState draftSupervisoryState = new SupervisoryState();
-                        draftSupervisoryState.state = "DRAFT";
+                        draftSupervisoryState.state = SupervisoryStateModel.DRAFT.name();
                         draftSupervisoryState.id = supervisoryStateDao.insert(draftSupervisoryState).blockingGet();
 
                         SupervisoryState supervisedSupervisoryState = new SupervisoryState();
-                        supervisedSupervisoryState.state = "SUPERVISED";
+                        supervisedSupervisoryState.state = SupervisoryStateModel.SUPERVISED.name();
                         supervisedSupervisoryState.id = supervisoryStateDao.insert(supervisedSupervisoryState).blockingGet();
                     } catch (Exception e) {
                         throw e;

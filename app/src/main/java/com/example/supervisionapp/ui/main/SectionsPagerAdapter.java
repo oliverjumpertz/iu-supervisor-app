@@ -41,7 +41,6 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     public SectionsPagerAdapter(Context context, FragmentManager fm, LoggedInUserView loggedInUser) {
         super(fm);
         mContext = context;
-        // TODO: setup tabs according to STUDENT and SUPERVISOR
         this.loggedInUser = loggedInUser;
     }
 

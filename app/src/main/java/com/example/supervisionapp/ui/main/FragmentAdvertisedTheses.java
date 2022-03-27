@@ -33,7 +33,7 @@ public class FragmentAdvertisedTheses extends Fragment {
         items.add(new AdvertisedThesesListItem("Die Paarung Der Fliege", "Das Paarungsverhalten der gemeinen Fliege ist ein lange erforschtes Problem, das allerdings noch nicht tiefgreifend genug erforscht wurde."));
         items.add(new AdvertisedThesesListItem("Die Paarung Der Fliege", "Das Paarungsverhalten der gemeinen Fliege ist ein lange erforschtes Problem, das allerdings noch nicht tiefgreifend genug erforscht wurde."));
         AdvertisedThesesListAdapter advertisedThesesListAdapter = new AdvertisedThesesListAdapter(getActivity(), items);
-        ListView listView = (ListView) getView().findViewById(R.id.fragment_advertised_theses_advertisedTheses);
+        ListView listView = getView().findViewById(R.id.fragment_advertised_theses_advertisedTheses);
         listView.setAdapter(advertisedThesesListAdapter);
     }
 

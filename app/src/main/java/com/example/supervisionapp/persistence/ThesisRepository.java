@@ -47,16 +47,16 @@ public class ThesisRepository {
                         thesis.state = thesisState.id;
                         thesis.id = thesisDao.insert(thesis).blockingGet();
 
-                        SupervisoryType supervisoryType = supervisoryTypeDao.getByType(SupervisoryTypeModel.FIRST_SUPERVISOR.name()).blockingGet();
-                        InvoiceState invoiceState = invoiceStateDao.getByState(InvoiceStateModel.UNFINISHED.name()).blockingGet();
-                        SupervisoryState supervisoryState = supervisoryStateDao.getByState(SupervisoryStateModel.DRAFT.name()).blockingGet();
+                        SupervisoryType firstSupervisorType = supervisoryTypeDao.getByType(SupervisoryTypeModel.FIRST_SUPERVISOR.name()).blockingGet();
+                        InvoiceState unfinishedInvoiceState = invoiceStateDao.getByState(InvoiceStateModel.UNFINISHED.name()).blockingGet();
+                        SupervisoryState draftSupervisoryState = supervisoryStateDao.getByState(SupervisoryStateModel.DRAFT.name()).blockingGet();
 
                         Supervisor supervisor = new Supervisor();
                         supervisor.user = loggedInUser.getUserId();
                         supervisor.thesis = thesis.id;
-                        supervisor.state = supervisoryState.id;
-                        supervisor.type = supervisoryType.id;
-                        supervisor.invoiceState = invoiceState.id;
+                        supervisor.state = draftSupervisoryState.id;
+                        supervisor.type = firstSupervisorType.id;
+                        supervisor.invoiceState = unfinishedInvoiceState.id;
                         supervisorDao.insert(supervisor).blockingAwait();
                     }
                 });
@@ -171,6 +171,137 @@ public class ThesisRepository {
                                 invoiceStateDao.getById(pair.getSecond().invoiceState),
                                 student.toMaybe(),
                                 secondSupervisor.toMaybe(),
+                                new Function8<Thesis, Supervisor, ThesisState, SupervisoryState, SupervisoryType, InvoiceState, User, Supervisor, ThesisModel>() {
+                                    @Override
+                                    public ThesisModel apply(Thesis thesis, Supervisor supervisor, ThesisState thesisState, SupervisoryState supervisoryState, SupervisoryType supervisoryType, InvoiceState invoiceState, User user, Supervisor secondSupervisor) throws Throwable {
+                                        String studentName = "";
+                                        if (user.id >= 0) {
+                                            studentName = user.foreName + " " + user.name;
+                                        }
+
+                                        User defaultFirstSupervisorUser = new User();
+                                        defaultFirstSupervisorUser.foreName = "";
+                                        defaultFirstSupervisorUser.name = "";
+                                        User firstSupervisorUser = userDao.getById(supervisor.user).defaultIfEmpty(defaultFirstSupervisorUser).blockingGet();
+
+                                        User defaultSecondSupervisorUser = new User();
+                                        defaultSecondSupervisorUser.foreName = "";
+                                        defaultSecondSupervisorUser.name = "";
+                                        User secondSupervisorUser = userDao.getById(secondSupervisor.user).defaultIfEmpty(defaultSecondSupervisorUser).blockingGet();
+
+                                        String firstSupervisorName;
+                                        String secondSupervisorName;
+                                        if (SupervisoryTypeModel.valueOf(supervisoryType.type) == SupervisoryTypeModel.FIRST_SUPERVISOR) {
+                                            firstSupervisorName = firstSupervisorUser.foreName + " " + firstSupervisorUser.name;
+                                            secondSupervisorName = secondSupervisorUser.foreName + " " + secondSupervisorUser.name;
+                                        } else {
+                                            firstSupervisorName = secondSupervisorUser.foreName + " " + secondSupervisorUser.name;
+                                            secondSupervisorName = firstSupervisorUser.foreName + " " + firstSupervisorUser.name;
+                                        }
+
+                                        boolean hasSecondSupervisor = secondSupervisor.user >= 0 && secondSupervisor.thesis >= 0;
+                                        return new ThesisModel(
+                                                thesis.id,
+                                                thesis.title,
+                                                thesis.subtitle,
+                                                SupervisoryStateModel.valueOf(supervisoryState.state),
+                                                SupervisoryTypeModel.valueOf(supervisoryType.type),
+                                                studentName,
+                                                firstSupervisorName,
+                                                secondSupervisorName,
+                                                thesis.expose,
+                                                ThesisStateModel.valueOf(thesisState.state),
+                                                hasSecondSupervisor,
+                                                InvoiceStateModel.valueOf(invoiceState.state));
+                                    }
+                                });
+                    }
+                });
+    }
+
+    public Maybe<ThesisModel> getStudentThesis(LoggedInUser user) {
+        StudentDao studentDao = appDatabase.studentDao();
+        ThesisDao thesisDao = appDatabase.thesisDao();
+        ThesisStateDao thesisStateDao = appDatabase.thesisStateDao();
+        SupervisorDao supervisorDao = appDatabase.supervisorDao();
+        UserDao userDao = appDatabase.userDao();
+        SupervisoryStateDao supervisoryStateDao = appDatabase.supervisoryStateDao();
+        SupervisoryTypeDao supervisoryTypeDao = appDatabase.supervisoryTypeDao();
+        InvoiceStateDao invoiceStateDao = appDatabase.invoiceStateDao();
+        return studentDao
+                .getByUser(user.getUserId())
+                .flatMap(new Function<List<Student>, MaybeSource<Thesis>>() {
+                    @Override
+                    public MaybeSource<Thesis> apply(List<Student> students) throws Throwable {
+                        List<Long> ids = new ArrayList<>();
+                        for (Student student : students) {
+                            ids.add(student.thesis);
+                        }
+                        ThesisState inProgressState = thesisStateDao.getByState(ThesisStateModel.IN_PROGRESS.name()).blockingGet();
+                        List<Thesis> theses = thesisDao
+                                .getByIdsAndState(ids, inProgressState.id).blockingGet();
+                        if (theses.isEmpty()) {
+                            return Maybe.empty();
+                        }
+                        if (theses.size() > 1) {
+                            throw new IllegalStateException("More than one thesis in progress for user");
+                        }
+                        return Maybe.just(theses.get(0));
+                    }
+                }).flatMap(new Function<Thesis, MaybeSource<Pair<Thesis, List<Supervisor>>>>() {
+                    @Override
+                    public MaybeSource<Pair<Thesis, List<Supervisor>>> apply(Thesis thesis) throws Throwable {
+                        return Maybe.zip(Maybe.just(thesis),
+                                supervisorDao.getByThesis(thesis.id),
+                                new BiFunction<Thesis, List<Supervisor>, Pair<Thesis, List<Supervisor>>>() {
+                                    @Override
+                                    public Pair<Thesis, List<Supervisor>> apply(Thesis thesis, List<Supervisor> supervisors) throws Throwable {
+                                        return new Pair<>(thesis, supervisors);
+                                    }
+                                });
+                    }
+                })
+                .flatMap(new Function<Pair<Thesis, List<Supervisor>>, MaybeSource<ThesisModel>>() {
+                    @Override
+                    public MaybeSource<ThesisModel> apply(Pair<Thesis, List<Supervisor>> pair) throws Throwable {
+                        User defaultUser = new User();
+                        defaultUser.id = -1;
+                        Single<User> student = studentDao
+                                .getByThesis(pair.getFirst().id)
+                                .flatMap(new Function<Student, MaybeSource<User>>() {
+                                    @Override
+                                    public MaybeSource<User> apply(Student student) throws Throwable {
+                                        return userDao.getById(student.user);
+                                    }
+                                }).defaultIfEmpty(defaultUser);
+                        SupervisoryType firstSupervisorType = supervisoryTypeDao.getByType(SupervisoryTypeModel.FIRST_SUPERVISOR.name()).blockingGet();
+                        List<Supervisor> supervisors = pair.getSecond();
+                        Supervisor firstSupervisor;
+                        Supervisor secondSupervisor;
+                        if (supervisors.size() == 1) {
+                            firstSupervisor = supervisors.get(0);
+                            secondSupervisor = new Supervisor();
+                            secondSupervisor.thesis = -1;
+                            secondSupervisor.user = -1;
+                        } else if (supervisors.size() == 2) {
+                            if (supervisors.get(0).type == firstSupervisorType.id) {
+                                firstSupervisor = supervisors.get(0);
+                                secondSupervisor = supervisors.get(1);
+                            } else {
+                                firstSupervisor = supervisors.get(1);
+                                secondSupervisor = supervisors.get(0);
+                            }
+                        } else {
+                            throw new IllegalStateException("More than two supervisors for thesis");
+                        }
+                        return Maybe.zip(Maybe.just(pair.getFirst()),
+                                Maybe.just(firstSupervisor),
+                                thesisStateDao.getById(pair.getFirst().state).toMaybe(),
+                                supervisoryStateDao.getById(firstSupervisor.state),
+                                supervisoryTypeDao.getById(firstSupervisor.type),
+                                invoiceStateDao.getById(firstSupervisor.invoiceState),
+                                student.toMaybe(),
+                                Maybe.just(secondSupervisor),
                                 new Function8<Thesis, Supervisor, ThesisState, SupervisoryState, SupervisoryType, InvoiceState, User, Supervisor, ThesisModel>() {
                                     @Override
                                     public ThesisModel apply(Thesis thesis, Supervisor supervisor, ThesisState thesisState, SupervisoryState supervisoryState, SupervisoryType supervisoryType, InvoiceState invoiceState, User user, Supervisor secondSupervisor) throws Throwable {

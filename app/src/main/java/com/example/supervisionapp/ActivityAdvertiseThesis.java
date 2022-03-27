@@ -42,8 +42,6 @@ public class ActivityAdvertiseThesis extends AppCompatActivity {
         binding = ActivityAdvertiseThesisBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // TODO: retrieve bundle and use to fill ViewModel, etc.
-
         View arrowBack = findViewById(R.id.activity_advertise_thesis_backArrow);
         arrowBack.setClickable(true);
         arrowBack.setOnClickListener(new View.OnClickListener() {
