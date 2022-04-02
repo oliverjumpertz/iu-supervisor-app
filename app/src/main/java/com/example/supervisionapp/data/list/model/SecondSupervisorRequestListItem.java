@@ -1,7 +1,5 @@
 package com.example.supervisionapp.data.list.model;
 
-import java.util.Objects;
-
 public class SecondSupervisorRequestListItem {
     private final long userId;
     private final long thesisId;

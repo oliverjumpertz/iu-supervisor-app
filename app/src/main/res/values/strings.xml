@@ -31,7 +31,6 @@
     <string name="fragment_my_thesis_header_expose">Exposé:</string>
     <string name="fragment_my_thesis_header_status">Status:</string>
     <string name="activity_submit_thesis_textViewTitle">Titel:</string>
-    <string name="activity_submit_thesis_plainTextTitle">Titel</string>
     <string name="activity_submit_thesis_textViewSubTitle">Untertitel:</string>
     <string name="activity_submit_thesis_plainTextSubTitle">Untertitel</string>
     <string name="activity_submit_thesis_textViewDescription">Beschreibung:</string>
@@ -50,6 +49,7 @@
     <string name="activity_view_thesis_request_thesis_headerExpose">Exposé:</string>
     <string name="activity_view_thesis_request_thesis_buttonAccept">Annehmen</string>
     <string name="activity_view_thesis_request_thesis_buttonReject">Ablehnen</string>
+    <string name="activity_view_thesis_request_thesis_accept_error">Es ist ein Fehler aufgetreten</string>
     <string name="activity_advertise_thesis_pageTitle">Arbeit Ausschreiben</string>
     <string name="activity_second_supervisor_request">Zweitbetreuersuche</string>
     <string name="activity_advertise_thesis_request_thesis_type_title">Titel:</string>
@@ -72,7 +72,7 @@
     <string name="second_supervisor_request_list_item_row_textName_desc">Name</string>
     <string name="advertised_theses_list_item_row_textDescription_desc">Thesis Beschreibung</string>
     <string name="theses_requests_list_item_row_textTitle_desc">Thesis Titel</string>
-    <string name="theses_requests_list_item_row_textStudent_desc">Student</string>
+    <string name="theses_requests_list_item_row_textName_desc">Name</string>
     <string name="supervised_theses_list_item_row_textTitle_desc">Thesis Titel</string>
     <string name="supervised_theses_list_item_row_textStudent_desc">Student</string>
     <string name="fragment_supervised_thesis_headerTitle">Betreute Arbeiten</string>
@@ -84,4 +84,5 @@
     <string name="activity_supervise_thesis_dialog_delete_draft_text">Soll dieser Thesis Draft tatsächlich gelöscht werden?</string>
     <string name="error_thesis_not_saved">Thesis konnte nicht erstellt werden.</string>
     <string name="error_loading_data">Daten konnten nicht geladen werden</string>
+    <string name="error_request_not_sent">Betreuung konnte nicht beantragt werden</string>
 </resources>

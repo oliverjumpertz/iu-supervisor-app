@@ -2,9 +2,11 @@ package com.example.supervisionapp.persistence;
 
 import com.example.supervisionapp.data.model.InvoiceStateModel;
 import com.example.supervisionapp.data.model.LoggedInUser;
+import com.example.supervisionapp.data.model.SupervisionRequestTypeModel;
 import com.example.supervisionapp.data.model.SupervisoryStateModel;
 import com.example.supervisionapp.data.model.SupervisoryTypeModel;
 import com.example.supervisionapp.data.model.ThesisModel;
+import com.example.supervisionapp.data.model.SupervisionRequestModel;
 import com.example.supervisionapp.data.model.ThesisStateModel;
 import com.example.supervisionapp.data.model.Tuple4;
 
@@ -455,44 +457,353 @@ public class ThesisRepository {
         return getSupervisorsTheses(loggedInUser, new SupervisoryStatePredicate() {
             @Override
             public boolean test(SupervisoryStateModel supervisoryStateModel) {
-                return supervisoryStateModel != SupervisoryStateModel.DRAFT;
+                return supervisoryStateModel == SupervisoryStateModel.SUPERVISED;
             }
         });
     }
 
-    public Maybe<List<ThesisModel>> getSupervisorsThesesRequests(LoggedInUser loggedInUser) {
-        return getSupervisorsTheses(loggedInUser, new SupervisoryStatePredicate() {
-            @Override
-            public boolean test(SupervisoryStateModel supervisoryStateModel) {
-                return supervisoryStateModel == SupervisoryStateModel.REQUESTED;
-            }
-        });
-    }
-
-    public Completable addSecondSupervisorToThesis(long thesisId, long userId) {
+    public Maybe<List<SupervisionRequestModel>> getSupervisionRequestsForUser(LoggedInUser loggedInUser) {
+        SupervisionRequestDao supervisionRequestDao = appDatabase.supervisionRequestDao();
+        SupervisionRequestTypeDao supervisionRequestTypeDao = appDatabase.supervisionRequestTypeDao();
         SupervisorDao supervisorDao = appDatabase.supervisorDao();
+        ThesisDao thesisDao = appDatabase.thesisDao();
+        UserDao userDao = appDatabase.userDao();
         SupervisoryTypeDao supervisoryTypeDao = appDatabase.supervisoryTypeDao();
-        SupervisoryStateDao supervisoryStateDao = appDatabase.supervisoryStateDao();
-        InvoiceStateDao invoiceStateDao = appDatabase.invoiceStateDao();
+        return supervisorDao
+                .getByUser(loggedInUser.getUserId())
+                .flatMap(new Function<List<Supervisor>, MaybeSource<List<Pair<Supervisor, SupervisionRequest>>>>() {
+                    @Override
+                    public MaybeSource<List<Pair<Supervisor, SupervisionRequest>>> apply(List<Supervisor> supervisors) throws Throwable {
+                        List<Long> thesisIds = new ArrayList<>(supervisors.size());
+                        for (Supervisor supervisor : supervisors) {
+                            thesisIds.add(supervisor.thesis);
+                        }
+                        return Maybe.zip(
+                                Maybe.just(supervisors),
+                                supervisionRequestDao.getByTheses(thesisIds),
+                                new BiFunction<List<Supervisor>, List<SupervisionRequest>, List<Pair<Supervisor, SupervisionRequest>>>() {
+                                    @Override
+                                    public List<Pair<Supervisor, SupervisionRequest>> apply(List<Supervisor> supervisors, List<SupervisionRequest> supervisionRequests) throws Throwable {
+                                        List<Pair<Supervisor, SupervisionRequest>> result = new ArrayList<>();
+                                        // supervisors should be filtered here
+                                        // resulting list should only contain
+                                        // entities where a request was supplied for
+                                        for (Supervisor supervisor : supervisors) {
+                                            for (SupervisionRequest supervisionRequest : supervisionRequests) {
+                                                if (supervisionRequest.thesis == supervisor.thesis) {
+                                                    result.add(new Pair<>(supervisor, supervisionRequest));
+                                                }
+                                            }
+                                        }
+                                        return result;
+                                    }
+                                }
+                        );
+                    }
+                })
+                .map(new Function<List<Pair<Supervisor, SupervisionRequest>>, List<SupervisionRequestModel>>() {
+                    @Override
+                    public List<SupervisionRequestModel> apply(List<Pair<Supervisor, SupervisionRequest>> pairs) throws Throwable {
+                        List<SupervisionRequestModel> results = new ArrayList<>(pairs.size());
+                        for (Pair<Supervisor, SupervisionRequest> request : pairs) {
+                            Supervisor supervisor = request.getFirst();
+                            SupervisionRequest supervisionRequest = request.getSecond();
+                            Thesis thesis = thesisDao.getById(supervisor.thesis).blockingGet();
+                            SupervisionRequestType supervisionRequestType = supervisionRequestTypeDao.getById(supervisionRequest.type).blockingGet();
+                            SupervisionRequestTypeModel requestType = SupervisionRequestTypeModel.valueOf(supervisionRequestType.type);
+                            User requestingUser = userDao.getById(supervisionRequest.user).blockingGet();
+                            String studentName = requestingUser.foreName + " " + requestingUser.name;
+                            String supervisorName;
+                            String subTitle;
+                            String description;
+                            String expose;
+                            if (requestType == SupervisionRequestTypeModel.SUPERVISION) {
+                                supervisorName = null;
+                                subTitle = supervisionRequest.subtitle;
+                                description = supervisionRequest.description;
+                                expose = supervisionRequest.expose;
+                            } else {
+                                SupervisoryType firstSupervisorType = supervisoryTypeDao
+                                        .getByType(SupervisoryTypeModel.FIRST_SUPERVISOR.name())
+                                        .blockingGet();
+                                Supervisor thesisSupervisor = supervisorDao
+                                        .getByThesisAndType(thesis.id, firstSupervisorType.id)
+                                        .blockingGet();
+                                User supervisorUser = userDao
+                                        .getById(thesisSupervisor.user)
+                                        .blockingGet();
+                                supervisorName = supervisorUser.foreName + " " + supervisorUser.name;
+                                subTitle = thesis.subtitle;
+                                description = thesis.description;
+                                expose = thesis.expose;
+                            }
+
+                            results.add(new SupervisionRequestModel(
+                                    thesis.id,
+                                    supervisionRequest.user,
+                                    thesis.title,
+                                    subTitle,
+                                    studentName,
+                                    supervisorName,
+                                    requestType,
+                                    description,
+                                    expose));
+                        }
+                        return results;
+                    }
+                });
+    }
+
+    public Completable requestSecondSupervisor(long thesisId, long userId) {
+        SupervisionRequestDao supervisionRequestDao = appDatabase.supervisionRequestDao();
+        SupervisionRequestTypeDao supervisionRequestTypeDao = appDatabase.supervisionRequestTypeDao();
         return Completable.fromRunnable(new Runnable() {
             @Override
             public void run() {
-                SupervisoryType supervisoryType = supervisoryTypeDao
-                        .getByType(SupervisoryTypeModel.SECOND_SUPERVISOR.name())
+                SupervisionRequestType secondSupervisionRequestType = supervisionRequestTypeDao
+                        .getByType(SupervisionRequestTypeModel.SECOND_SUPERVISOR.name())
                         .blockingGet();
-                SupervisoryState supervisoryState = supervisoryStateDao
-                        .getByState(SupervisoryStateModel.REQUESTED.name())
-                        .blockingGet();
-                InvoiceState invoiceState = invoiceStateDao
-                        .getByState(InvoiceStateModel.UNFINISHED.name())
-                        .blockingGet();
-                Supervisor supervisor = new Supervisor();
-                supervisor.user = userId;
-                supervisor.thesis = thesisId;
-                supervisor.type = supervisoryType.id;
-                supervisor.state = supervisoryState.id;
-                supervisor.invoiceState = invoiceState.id;
-                supervisorDao.insert(supervisor).blockingAwait();
+
+                SupervisionRequest supervisionRequest = new SupervisionRequest();
+                supervisionRequest.thesis = thesisId;
+                supervisionRequest.user = userId;
+                supervisionRequest.type = secondSupervisionRequestType.id;
+                supervisionRequestDao.insert(supervisionRequest).blockingAwait();
+            }
+        });
+    }
+
+    public Maybe<List<Thesis>> getAdvertisedTheses() {
+        ThesisStateDao thesisStateDao = appDatabase.thesisStateDao();
+        ThesisDao thesisDao = appDatabase.thesisDao();
+        return thesisStateDao
+                .getByState(ThesisStateModel.ADVERTISED.name())
+                .flatMap(new Function<ThesisState, MaybeSource<List<Thesis>>>() {
+                    @Override
+                    public MaybeSource<List<Thesis>> apply(ThesisState thesisState) throws Throwable {
+                        return thesisDao
+                                .getByState(thesisState.id);
+                    }
+                });
+    }
+
+    public Maybe<Thesis> getThesisById(long id) {
+        ThesisDao thesisDao = appDatabase.thesisDao();
+        return thesisDao
+                .getById(id);
+    }
+
+    public Maybe<SupervisionRequestModel> getSupervisionRequestByThesisAndUser(long thesisId, long userId) {
+        SupervisionRequestDao supervisionRequestDao = appDatabase.supervisionRequestDao();
+        SupervisorDao supervisorDao = appDatabase.supervisorDao();
+        SupervisoryTypeDao supervisoryTypeDao = appDatabase.supervisoryTypeDao();
+        ThesisDao thesisDao = appDatabase.thesisDao();
+        UserDao userDao = appDatabase.userDao();
+        SupervisionRequestTypeDao supervisionRequestTypeDao = appDatabase.supervisionRequestTypeDao();
+        return supervisionRequestDao
+                .getByThesisIdAndUserId(thesisId, userId)
+                .flatMap(new Function<SupervisionRequest, MaybeSource<Pair<Supervisor, SupervisionRequest>>>() {
+                    @Override
+                    public MaybeSource<Pair<Supervisor, SupervisionRequest>> apply(SupervisionRequest supervisionRequest) throws Throwable {
+                        SupervisoryType supervisoryType = supervisoryTypeDao
+                                .getByType(SupervisoryTypeModel.FIRST_SUPERVISOR.name())
+                                .blockingGet();
+                        return Maybe.zip(
+                                supervisorDao.getByThesisAndType(thesisId, supervisoryType.id),
+                                Maybe.just(supervisionRequest),
+                                new BiFunction<Supervisor, SupervisionRequest, Pair<Supervisor, SupervisionRequest>>() {
+                                    @Override
+                                    public Pair<Supervisor, SupervisionRequest> apply(Supervisor supervisor, SupervisionRequest supervisionRequest) throws Throwable {
+                                        return new Pair<>(supervisor, supervisionRequest);
+                                    }
+                                }
+                        );
+                    }
+                })
+                .map(new Function<Pair<Supervisor, SupervisionRequest>, SupervisionRequestModel>() {
+                    @Override
+                    public SupervisionRequestModel apply(Pair<Supervisor, SupervisionRequest> pair) throws Throwable {
+                        Supervisor supervisor = pair.getFirst();
+                        SupervisionRequest supervisionRequest = pair.getSecond();
+                        Thesis thesis = thesisDao.getById(supervisor.thesis).blockingGet();
+                        SupervisionRequestType supervisionRequestType = supervisionRequestTypeDao.getById(supervisionRequest.type).blockingGet();
+                        SupervisionRequestTypeModel requestType = SupervisionRequestTypeModel.valueOf(supervisionRequestType.type);
+                        User requestingUser = userDao.getById(supervisionRequest.user).blockingGet();
+                        String studentName = requestingUser.foreName + " " + requestingUser.name;
+                        String supervisorName;
+                        String subTitle;
+                        String description;
+                        String expose;
+                        if (requestType == SupervisionRequestTypeModel.SUPERVISION) {
+                            supervisorName = null;
+                            subTitle = supervisionRequest.subtitle;
+                            description = supervisionRequest.description;
+                            expose = supervisionRequest.expose;
+                        } else {
+                            SupervisoryType firstSupervisorType = supervisoryTypeDao
+                                    .getByType(SupervisoryTypeModel.FIRST_SUPERVISOR.name())
+                                    .blockingGet();
+                            Supervisor thesisSupervisor = supervisorDao
+                                    .getByThesisAndType(thesis.id, firstSupervisorType.id)
+                                    .blockingGet();
+                            User supervisorUser = userDao
+                                    .getById(thesisSupervisor.user)
+                                    .blockingGet();
+                            supervisorName = supervisorUser.foreName + " " + supervisorUser.name;
+                            subTitle = thesis.subtitle;
+                            description = thesis.description;
+                            expose = thesis.expose;
+                        }
+
+                        return new SupervisionRequestModel(
+                                thesis.id,
+                                requestingUser.id,
+                                thesis.title,
+                                subTitle,
+                                studentName,
+                                supervisorName,
+                                SupervisionRequestTypeModel.valueOf(supervisionRequestType.type),
+                                description,
+                                expose
+                        );
+                    }
+                });
+    }
+
+    public Completable acceptSupervisionRequest(SupervisionRequestModel supervisionRequest) {
+        SupervisionRequestDao supervisionRequestDao = appDatabase.supervisionRequestDao();
+        SupervisorDao supervisorDao = appDatabase.supervisorDao();
+        SupervisoryTypeDao supervisoryTypeDao = appDatabase.supervisoryTypeDao();
+        SupervisoryStateDao supervisoryStateDao = appDatabase.supervisoryStateDao();
+        SupervisionRequestTypeDao supervisionRequestTypeDao = appDatabase.supervisionRequestTypeDao();
+        StudentDao studentDao = appDatabase.studentDao();
+        InvoiceStateDao invoiceStateDao = appDatabase.invoiceStateDao();
+        ThesisDao thesisDao = appDatabase.thesisDao();
+        return Completable.fromRunnable(new Runnable() {
+            @Override
+            public void run() {
+                appDatabase.runInTransaction(new Runnable() {
+                    @Override
+                    public void run() {
+                        SupervisoryState supervisedSupervisoryState = supervisoryStateDao
+                                .getByState(SupervisoryStateModel.SUPERVISED.name())
+                                .blockingGet();
+                        if (supervisionRequest.getRequestType() == SupervisionRequestTypeModel.SUPERVISION) {
+                            SupervisoryType firstSupervisorType = supervisoryTypeDao
+                                    .getByType(SupervisoryTypeModel.FIRST_SUPERVISOR.name())
+                                    .blockingGet();
+                            SupervisoryState draftState = supervisoryStateDao
+                                    .getByState(SupervisoryStateModel.DRAFT.name())
+                                    .blockingGet();
+                            Supervisor firstSupervisor = supervisorDao
+                                    .getByThesisAndType(
+                                            supervisionRequest.getThesisId(),
+                                            firstSupervisorType.id)
+                                    .blockingGet();
+                            if (firstSupervisor.state != draftState.id) {
+                                throw new IllegalStateException("Thesis is not in draft state anymore and seems to be supervised by now");
+                            }
+                            firstSupervisor.state = supervisedSupervisoryState.id;
+                            supervisorDao
+                                    .update(firstSupervisor)
+                                    .blockingAwait();
+
+                            Thesis thesis = thesisDao
+                                    .getById(supervisionRequest.getThesisId())
+                                    .blockingGet();
+                            thesis.subtitle = supervisionRequest.getSubTitle();
+                            thesis.description = supervisionRequest.getDescription();
+                            thesis.expose = supervisionRequest.getExpose();
+                            thesisDao.update(thesis).blockingAwait();
+
+                            Student student = new Student();
+                            student.thesis = supervisionRequest.getThesisId();
+                            student.user = supervisionRequest.getRequestingUserId();
+                            studentDao.insert(student).blockingAwait();
+                        } else if (supervisionRequest.getRequestType() == SupervisionRequestTypeModel.SECOND_SUPERVISOR) {
+                            SupervisoryType secondSupervisorSupervisoryType = supervisoryTypeDao
+                                    .getByType(SupervisoryTypeModel.SECOND_SUPERVISOR.name())
+                                    .blockingGet();
+                            InvoiceState unfinishedInvoiceState = invoiceStateDao
+                                    .getByState(InvoiceStateModel.UNFINISHED.name())
+                                    .blockingGet();
+                            Supervisor supervisor = new Supervisor();
+                            supervisor.thesis = supervisionRequest.getThesisId();
+                            supervisor.user = supervisionRequest.getRequestingUserId();
+                            supervisor.state = supervisedSupervisoryState.id;
+                            supervisor.type = secondSupervisorSupervisoryType.id;
+                            supervisor.invoiceState = unfinishedInvoiceState.id;
+                            supervisorDao.insert(supervisor).blockingAwait();
+                        }
+                        SupervisionRequestType supervisionRequestType = supervisionRequestTypeDao
+                                .getByType(supervisionRequest.getRequestType().name())
+                                .blockingGet();
+                        supervisionRequestDao
+                                .deleteByThesisIdAndType(
+                                        supervisionRequest.getThesisId(),
+                                        supervisionRequestType.id
+                                )
+                                .blockingAwait();
+                    }
+                });
+            }
+        });
+    }
+
+    public Completable rejectSupervisionRequest(SupervisionRequestModel supervisionRequest) {
+        SupervisionRequestDao supervisionRequestDao = appDatabase.supervisionRequestDao();
+        return Completable
+                .fromRunnable(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (supervisionRequest == null) {
+                            return;
+                        }
+                        appDatabase
+                                .runInTransaction(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        SupervisionRequest request = supervisionRequestDao
+                                                .getByThesisIdAndUserId(
+                                                        supervisionRequest.getThesisId(),
+                                                        supervisionRequest.getRequestingUserId())
+                                                .blockingGet();
+                                        supervisionRequestDao
+                                                .delete(request)
+                                                .blockingAwait();
+                                    }
+                                });
+                    }
+                });
+    }
+
+    public Completable requestSupervision(long thesisId,
+                                          LoggedInUser student,
+                                          String subTitle,
+                                          String description,
+                                          String expose) {
+        SupervisionRequestTypeDao supervisionRequestTypeDao = appDatabase.supervisionRequestTypeDao();
+        SupervisionRequestDao supervisionRequestDao = appDatabase.supervisionRequestDao();
+        return Completable.fromRunnable(new Runnable() {
+            @Override
+            public void run() {
+                appDatabase
+                        .runInTransaction(new Runnable() {
+                            @Override
+                            public void run() {
+                                SupervisionRequestType supervisionRequestType = supervisionRequestTypeDao
+                                        .getByType(SupervisionRequestTypeModel.SUPERVISION.name())
+                                        .blockingGet();
+                                SupervisionRequest supervisionRequest = new SupervisionRequest();
+                                supervisionRequest.thesis = thesisId;
+                                supervisionRequest.user = student.getUserId();
+                                supervisionRequest.subtitle = subTitle;
+                                supervisionRequest.description = description;
+                                supervisionRequest.expose = expose;
+                                supervisionRequest.type = supervisionRequestType.id;
+                                supervisionRequestDao.insert(supervisionRequest).blockingAwait();
+                            }
+                        });
             }
         });
     }

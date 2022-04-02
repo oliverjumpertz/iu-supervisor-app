@@ -4,16 +4,17 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.supervisionapp.data.model.SupervisionRequestModel;
 import com.example.supervisionapp.data.model.ThesisModel;
 
 public class ViewModelViewThesisRequest extends ViewModel {
-    private MutableLiveData<ThesisModel> thesis = new MutableLiveData<>();
+    private MutableLiveData<SupervisionRequestModel> supervisionRequest = new MutableLiveData<>();
 
-    public LiveData<ThesisModel> getThesis() {
-        return thesis;
+    public LiveData<SupervisionRequestModel> getSupervisionRequest() {
+        return supervisionRequest;
     }
 
-    public void setThesis(ThesisModel thesis) {
-        this.thesis.postValue(thesis);
+    public void setSupervisionRequest(SupervisionRequestModel supervisionRequest) {
+        this.supervisionRequest.postValue(supervisionRequest);
     }
 }

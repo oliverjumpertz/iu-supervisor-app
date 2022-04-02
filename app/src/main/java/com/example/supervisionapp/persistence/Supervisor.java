@@ -14,6 +14,7 @@ import androidx.room.Index;
 }, indices = {
         @Index("user"),
         @Index("thesis"),
+        @Index(value = {"thesis", "type"}, unique = true),
         @Index(value = {"user", "thesis"}, unique = true),
         @Index("type"),
         @Index("invoice_state"),

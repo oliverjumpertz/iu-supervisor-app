@@ -103,6 +103,10 @@ public class ActivitySuperviseThesis extends AppCompatActivity {
             public void onChanged(ThesisModel thesisModel) {
                 View secondSupervisorButton = findViewById(R.id.activity_supervise_thesis_buttonSecondSupervisor);
                 secondSupervisorButton.setVisibility(View.GONE);
+                // only allow to send requests for a second supervisor
+                // if and only if user is the first supervisor
+                // and the thesis is no draft anymore,
+                // which means that a student is already supervised
                 if (thesisModel.getSupervisoryType() == SupervisoryTypeModel.FIRST_SUPERVISOR
                         && !thesisModel.hasSecondSupervisor()
                         && thesisModel.getSupervisoryState() != SupervisoryStateModel.DRAFT) {

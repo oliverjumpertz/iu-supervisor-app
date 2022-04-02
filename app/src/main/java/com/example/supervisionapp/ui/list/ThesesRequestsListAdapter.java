@@ -45,8 +45,8 @@ public class ThesesRequestsListAdapter extends BaseAdapter implements View.OnCli
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View row = inflater.inflate(R.layout.theses_requests_list_item_row, viewGroup, false);
         TextView title = row.findViewById(R.id.theses_requests_list_item_row_textTitle);
-        TextView student = row.findViewById(R.id.theses_requests_list_item_row_textStudent);
-        TextView supervisoryType = row.findViewById(R.id.theses_requests_list_item_row_type);
+        TextView name = row.findViewById(R.id.theses_requests_list_item_row_textName);
+        TextView type = row.findViewById(R.id.theses_requests_list_item_row_type);
         ThesesRequestsListItem item = items.get(i);
 
         title.setText(item.getTitle());
@@ -54,15 +54,15 @@ public class ThesesRequestsListAdapter extends BaseAdapter implements View.OnCli
         title.setOnClickListener(this);
         title.setTag(index);
 
-        student.setText(item.getStudent());
-        student.setClickable(true);
-        student.setOnClickListener(this);
-        student.setTag(index);
+        name.setText(item.getName());
+        name.setClickable(true);
+        name.setOnClickListener(this);
+        name.setTag(index);
 
-        supervisoryType.setText(item.getSupervisoryType().toString());
-        supervisoryType.setClickable(true);
-        supervisoryType.setOnClickListener(this);
-        supervisoryType.setTag(index);
+        type.setText(item.getRequestType().name());
+        type.setClickable(true);
+        type.setOnClickListener(this);
+        type.setTag(index);
 
         View linearLayout = row.findViewById(R.id.theses_requests_list_item_row_horizontalLinearLayout);
         linearLayout.setClickable(true);
@@ -83,12 +83,14 @@ public class ThesesRequestsListAdapter extends BaseAdapter implements View.OnCli
             case R.id.theses_requests_list_item_row_horizontalLinearLayout:
             case R.id.theses_requests_list_item_row_verticalLinearLayout:
             case R.id.theses_requests_list_item_row_textTitle:
-            case R.id.theses_requests_list_item_row_textStudent:
+            case R.id.theses_requests_list_item_row_textName:
             case R.id.theses_requests_list_item_row_type:
                 Intent intent = new Intent(context, ActivityViewThesisRequest.class);
                 String tag = (String) view.getTag();
                 ThesesRequestsListItem item = items.get(Integer.valueOf(tag));
                 intent.putExtra("thesisId", item.getThesisId());
+                intent.putExtra("userId", item.getUserId());
+                intent.putExtra("requestType", item.getRequestType());
                 context.startActivity(intent);
                 break;
             default:

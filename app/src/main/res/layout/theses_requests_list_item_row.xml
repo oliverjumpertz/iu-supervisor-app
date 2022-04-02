@@ -51,7 +51,7 @@
                 android:contentDescription="@string/theses_requests_list_item_row_textTitle_desc" />
 
             <TextView
-                android:id="@+id/theses_requests_list_item_row_textStudent"
+                android:id="@+id/theses_requests_list_item_row_textName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -61,7 +61,7 @@
                 android:textColor="@color/light_grey"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                android:contentDescription="@string/theses_requests_list_item_row_textStudent_desc" />
+                android:contentDescription="@string/theses_requests_list_item_row_textName_desc" />
 
         </LinearLayout>
     </LinearLayout>

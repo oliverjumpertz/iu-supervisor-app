@@ -72,7 +72,7 @@ public class SecondSupervisorRequestListAdapter extends BaseAdapter implements V
                 builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         thesisRepository
-                                .addSecondSupervisorToThesis(item.getThesisId(), item.getUserId())
+                                .requestSecondSupervisor(item.getThesisId(), item.getUserId())
                                 .blockingAwait();
                     }
                 });

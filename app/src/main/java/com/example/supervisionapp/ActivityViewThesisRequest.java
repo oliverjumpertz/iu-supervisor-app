@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +14,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.supervisionapp.data.LoginRepository;
 import com.example.supervisionapp.data.model.LoggedInUser;
+import com.example.supervisionapp.data.model.SupervisionRequestModel;
+import com.example.supervisionapp.data.model.SupervisionRequestTypeModel;
 import com.example.supervisionapp.data.model.SupervisoryTypeModel;
 import com.example.supervisionapp.data.model.ThesisModel;
 import com.example.supervisionapp.databinding.ActivityViewThesisRequestBinding;
@@ -22,14 +25,13 @@ import com.example.supervisionapp.ui.login.LoginActivity;
 import com.example.supervisionapp.ui.main.ViewModelViewThesisRequest;
 
 import io.reactivex.rxjava3.annotations.NonNull;
+import io.reactivex.rxjava3.core.CompletableObserver;
 import io.reactivex.rxjava3.core.MaybeObserver;
 import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class ActivityViewThesisRequest extends AppCompatActivity {
     private static final String LOG_TAG = "ViewThesisRequest";
-
 
     private ActivityViewThesisRequestBinding binding;
     private ViewModelViewThesisRequest mViewModel;
@@ -52,18 +54,50 @@ public class ActivityViewThesisRequest extends AppCompatActivity {
         buttonAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO submit...
-                // accept request
-                // delete all other requests from that student
-                finish();
+                AppDatabase appDatabase = AppDatabase.getDatabase(getApplicationContext());
+                ThesisRepository thesisRepository = new ThesisRepository(appDatabase);
+                SupervisionRequestModel supervisionRequest = mViewModel
+                        .getSupervisionRequest()
+                        .getValue();
+                thesisRepository
+                        .acceptSupervisionRequest(supervisionRequest)
+                        .subscribe(new CompletableObserver() {
+                            @Override
+                            public void onSubscribe(@NonNull Disposable d) {
+                                // noop
+                            }
+
+                            @Override
+                            public void onComplete() {
+                                finish();
+                            }
+
+                            @Override
+                            public void onError(@NonNull Throwable e) {
+                                Log.e(LOG_TAG, "An error occurred", e);
+                                Toast
+                                        .makeText(
+                                                ActivityViewThesisRequest.this,
+                                                R.string.activity_view_thesis_request_thesis_accept_error,
+                                                Toast.LENGTH_LONG
+                                        )
+                                        .show();
+                            }
+                        });
             }
         });
         View buttonReject = findViewById(R.id.activity_view_thesis_request_thesis_buttonReject);
         buttonReject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO reject...
-                // delete request
+                AppDatabase appDatabase = AppDatabase.getDatabase(getApplicationContext());
+                ThesisRepository thesisRepository = new ThesisRepository(appDatabase);
+                SupervisionRequestModel supervisionRequest = mViewModel
+                        .getSupervisionRequest()
+                        .getValue();
+                thesisRepository
+                        .rejectSupervisionRequest(supervisionRequest)
+                        .blockingAwait();
                 finish();
             }
         });
@@ -77,20 +111,20 @@ public class ActivityViewThesisRequest extends AppCompatActivity {
         });
 
         mViewModel = new ViewModelProvider(this).get(ViewModelViewThesisRequest.class);
-        mViewModel.getThesis().observe(this, new Observer<ThesisModel>() {
+        mViewModel.getSupervisionRequest().observe(this, new Observer<SupervisionRequestModel>() {
             @Override
-            public void onChanged(ThesisModel thesisModel) {
-                if (thesisModel == null) {
+            public void onChanged(SupervisionRequestModel supervisionRequest) {
+                if (supervisionRequest == null) {
                     return;
                 }
 
                 TextView titleView = findViewById(R.id.activity_view_thesis_request_thesis_textTitle);
-                titleView.setText(thesisModel.getTitle());
+                titleView.setText(supervisionRequest.getTitle());
 
                 TextView subTitleView = findViewById(R.id.activity_view_thesis_request_thesis_textSubTitle);
-                subTitleView.setText(thesisModel.getSubTitle());
+                subTitleView.setText(supervisionRequest.getSubTitle());
 
-                if (thesisModel.getSupervisoryType() == SupervisoryTypeModel.FIRST_SUPERVISOR) {
+                if (supervisionRequest.getRequestType() == SupervisionRequestTypeModel.SUPERVISION) {
                     TextView title = findViewById(R.id.activity_view_thesis_request_thesis_type_title);
                     title.setText(R.string.activity_view_thesis_request_thesis_type_title_first);
 
@@ -99,7 +133,7 @@ public class ActivityViewThesisRequest extends AppCompatActivity {
 
                     TextView firstSupervisorView = findViewById(R.id.activity_view_thesis_request_thesis_textFirstSupervisor);
                     firstSupervisorView.setVisibility(View.GONE);
-                } else if (thesisModel.getSupervisoryType() == SupervisoryTypeModel.SECOND_SUPERVISOR) {
+                } else if (supervisionRequest.getRequestType() == SupervisionRequestTypeModel.SECOND_SUPERVISOR) {
                     TextView title = findViewById(R.id.activity_view_thesis_request_thesis_type_title);
                     title.setText(R.string.activity_view_thesis_request_thesis_type_title_second);
 
@@ -109,11 +143,11 @@ public class ActivityViewThesisRequest extends AppCompatActivity {
                     TextView firstSupervisorView = findViewById(R.id.activity_view_thesis_request_thesis_textFirstSupervisor);
                     firstSupervisorView.setVisibility(View.VISIBLE);
 
-                    firstSupervisorView.setText(thesisModel.getFirstSupervisorName());
+                    firstSupervisorView.setText(supervisionRequest.getFirstSupervisorName());
                 }
 
                 TextView studentView = findViewById(R.id.activity_view_thesis_request_thesis_textStudent);
-                studentView.setText(thesisModel.getStudentName());
+                studentView.setText(supervisionRequest.getStudentName());
 
                 // TODO: exposé
             }
@@ -135,7 +169,12 @@ public class ActivityViewThesisRequest extends AppCompatActivity {
         if (thesisId == null) {
             return;
         }
-        loadData(thesisId);
+        Long userId = bundle.getLong("userId");
+        if (userId == null) {
+            return;
+        }
+        SupervisionRequestTypeModel requestType = (SupervisionRequestTypeModel) bundle.get("requestType");
+        loadData(thesisId, userId, requestType);
     }
 
     public void onClickLogout(View view) {
@@ -147,23 +186,21 @@ public class ActivityViewThesisRequest extends AppCompatActivity {
         finish();
     }
 
-    private void loadData(long thesisId) {
+    private void loadData(long thesisId, long userId, SupervisionRequestTypeModel requestType) {
         AppDatabase appDatabase = AppDatabase.getDatabase(getApplicationContext());
-        LoginRepository loginRepository = LoginRepository.getInstance(null);
-        LoggedInUser loggedInUser = loginRepository.getLoggedInUser();
         ThesisRepository thesisRepository = new ThesisRepository(appDatabase);
         thesisRepository
-                .getThesisByIdAndUser(thesisId, loggedInUser)
+                .getSupervisionRequestByThesisAndUser(thesisId, userId)
                 .observeOn(Schedulers.io())
-                .subscribe(new MaybeObserver<ThesisModel>() {
+                .subscribe(new MaybeObserver<SupervisionRequestModel>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
                         // noop
                     }
 
                     @Override
-                    public void onSuccess(@NonNull ThesisModel thesisModel) {
-                        mViewModel.setThesis(thesisModel);
+                    public void onSuccess(@NonNull SupervisionRequestModel supervisionRequest) {
+                        mViewModel.setSupervisionRequest(supervisionRequest);
                     }
 
                     @Override
@@ -173,7 +210,7 @@ public class ActivityViewThesisRequest extends AppCompatActivity {
 
                     @Override
                     public void onComplete() {
-                        mViewModel.setThesis(null);
+                        mViewModel.setSupervisionRequest(null);
                     }
                 });
     }

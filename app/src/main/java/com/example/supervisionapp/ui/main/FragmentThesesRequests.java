@@ -14,16 +14,12 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.supervisionapp.R;
 import com.example.supervisionapp.data.LoginRepository;
-import com.example.supervisionapp.data.list.model.MyResearchListItem;
 import com.example.supervisionapp.data.list.model.ThesesRequestsListItem;
 import com.example.supervisionapp.data.model.LoggedInUser;
-import com.example.supervisionapp.data.model.SupervisoryType;
-import com.example.supervisionapp.data.model.SupervisoryTypeModel;
-import com.example.supervisionapp.data.model.ThesisModel;
+import com.example.supervisionapp.data.model.SupervisionRequestTypeModel;
+import com.example.supervisionapp.data.model.SupervisionRequestModel;
 import com.example.supervisionapp.persistence.AppDatabase;
-import com.example.supervisionapp.persistence.Thesis;
 import com.example.supervisionapp.persistence.ThesisRepository;
-import com.example.supervisionapp.ui.list.MyResearchListAdapter;
 import com.example.supervisionapp.ui.list.ThesesRequestsListAdapter;
 
 import java.util.ArrayList;
@@ -81,16 +77,20 @@ public class FragmentThesesRequests extends Fragment {
         ThesisRepository thesisRepository = new ThesisRepository(appDatabase);
 
         LoggedInUser loggedInUser = LoginRepository.getInstance(null).getLoggedInUser();
-        thesisRepository.getSupervisorsThesesRequests(loggedInUser)
-                .subscribe(new Consumer<List<ThesisModel>>() {
+        thesisRepository
+                .getSupervisionRequestsForUser(loggedInUser)
+                .subscribe(new Consumer<List<SupervisionRequestModel>>() {
                     @Override
-                    public void accept(List<ThesisModel> theses) throws Throwable {
-                        final List<ThesesRequestsListItem> items = new ArrayList<>(theses.size());
-                        for (ThesisModel thesis : theses) {
-                            items.add(new ThesesRequestsListItem(thesis.getThesisId(), thesis.getTitle(), thesis.getStudentName(), thesis.getSupervisoryType()));
-                        }
-                        if (items.isEmpty()) {
-                            items.add(new ThesesRequestsListItem(1L, "Test Titel", "Test Student", SupervisoryTypeModel.FIRST_SUPERVISOR));
+                    public void accept(List<SupervisionRequestModel> supervisionRequestModels) throws Throwable {
+                        final List<ThesesRequestsListItem> items = new ArrayList<>(supervisionRequestModels.size());
+                        for (SupervisionRequestModel thesisRequest : supervisionRequestModels) {
+                            String name;
+                            if (thesisRequest.getRequestType() == SupervisionRequestTypeModel.SECOND_SUPERVISOR) {
+                                name = thesisRequest.getFirstSupervisorName();
+                            } else {
+                                name = thesisRequest.getStudentName();
+                            }
+                            items.add(new ThesesRequestsListItem(thesisRequest.getThesisId(), thesisRequest.getRequestingUserId(), thesisRequest.getTitle(), name, thesisRequest.getRequestType()));
                         }
                         mViewModel.setThesesRequests(items);
                     }

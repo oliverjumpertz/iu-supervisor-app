@@ -41,20 +41,29 @@ public class AdvertisedThesesListAdapter extends BaseAdapter implements View.OnC
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
+        String index = String.valueOf(i);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View row = inflater.inflate(R.layout.advertised_theses_list_item_row, viewGroup, false);
-        TextView title = (TextView) row.findViewById(R.id.advertised_theses_list_item_row_textTitle);
-        TextView description = (TextView) row.findViewById(R.id.advertised_theses_list_item_row_textDescription);
+        TextView title = row.findViewById(R.id.advertised_theses_list_item_row_textTitle);
+        TextView description = row.findViewById(R.id.advertised_theses_list_item_row_textDescription);
+
         AdvertisedThesesListItem item = items.get(i);
-        title.setText(item.getTitle());
-        description.setText(item.getDescription());
         View linearLayout = row.findViewById(R.id.advertised_theses_list_item_row_linearLayout);
+
         linearLayout.setClickable(true);
         linearLayout.setOnClickListener(this);
+        linearLayout.setTag(index);
+
+        title.setText(item.getTitle());
         title.setClickable(true);
         title.setOnClickListener(this);
+        title.setTag(index);
+
+        description.setText(item.getDescription());
         description.setClickable(true);
         description.setOnClickListener(this);
+        description.setTag(index);
+
         return row;
     }
 
@@ -65,8 +74,10 @@ public class AdvertisedThesesListAdapter extends BaseAdapter implements View.OnC
             case R.id.advertised_theses_list_item_row_textTitle:
             case R.id.advertised_theses_list_item_row_textDescription:
                 Intent intent = new Intent(context, ActivitySubmitThesis.class);
+                String index = (String) view.getTag();
+                AdvertisedThesesListItem item = items.get(Integer.valueOf(index));
+                intent.putExtra("thesisId", item.getThesisId());
                 context.startActivity(intent);
-                // TODO: send bundle so activity knows what to load or show
                 break;
             default:
                 throw new IllegalStateException("Unrecognized id passed to onClick handler");

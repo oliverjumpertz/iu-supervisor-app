@@ -1,9 +1,6 @@
 package com.example.supervisionapp.data.list.model;
 
-import com.example.supervisionapp.data.model.SupervisoryType;
 import com.example.supervisionapp.data.model.SupervisoryTypeModel;
-
-import java.util.Objects;
 
 public class SupervisedThesesListItem {
     private final long thesisId;
