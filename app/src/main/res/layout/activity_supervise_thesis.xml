@@ -211,24 +211,19 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="5dp"
-                    android:labelFor="@id/activity_supervise_thesis_textExpose"
+                    android:labelFor="@id/activity_supervise_thesis_iconExpose"
                     android:text="@string/activity_supervise_thesis_headerExpose"
                     android:textAlignment="viewStart"
                     android:textColor="@color/black"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/activity_supervise_thesis_textExpose"
+                <ImageView
+                    android:id="@+id/activity_supervise_thesis_iconExpose"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="5dp"
-                    android:text="TODO: Icon"
-                    android:textAlignment="viewStart"
-                    android:textColor="@color/black"
-                    android:textSize="24sp"
-                    android:textStyle="bold" />
+                    android:contentDescription="@string/activity_supervise_thesis_iconExpose_description"
+                    app:srcCompat="@drawable/ic_file_icon" />
 
                 <TextView
                     android:id="@+id/activity_supervise_thesis_headerStatus"
