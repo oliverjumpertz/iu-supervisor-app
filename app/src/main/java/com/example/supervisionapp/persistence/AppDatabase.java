@@ -122,29 +122,6 @@ public abstract class AppDatabase extends RoomDatabase {
                                 SupervisionRequestType secondSupervisorRequest = new SupervisionRequestType();
                                 secondSupervisorRequest.type = SupervisionRequestTypeModel.SECOND_SUPERVISOR.name();
                                 secondSupervisorRequest.id = supervisionRequestTypeDao.insert(secondSupervisorRequest).blockingGet();
-
-                                ThesisDao thesisDao = INSTANCE.thesisDao();
-                                Thesis thesisOne = new Thesis();
-                                thesisOne.title = "Created for test";
-                                thesisOne.description = "Only exists for testing purposes";
-                                thesisOne.state = advertisedThesisState.id;
-                                thesisOne.id = thesisDao.insert(thesisOne).blockingGet();
-
-                                SupervisorDao supervisorDao = INSTANCE.supervisorDao();
-                                Supervisor supervisor = new Supervisor();
-                                supervisor.thesis = thesisOne.id;
-                                supervisor.user = userOne.id;
-                                supervisor.type = firstSupervisorType.id;
-                                supervisor.state = draftSupervisoryState.id;
-                                supervisor.invoiceState = invoiceStateUnfinished.id;
-                                supervisorDao.insert(supervisor).blockingAwait();
-
-                                SupervisionRequestDao supervisionRequestDao = INSTANCE.supervisionRequestDao();
-                                SupervisionRequest supervisionRequest = new SupervisionRequest();
-                                supervisionRequest.type = supervisionRequestType.id;
-                                supervisionRequest.thesis = thesisOne.id;
-                                supervisionRequest.user = userTwo.id;
-                                supervisionRequestDao.insert(supervisionRequest).blockingAwait();
                             }
                         });
                     } catch (Exception e) {

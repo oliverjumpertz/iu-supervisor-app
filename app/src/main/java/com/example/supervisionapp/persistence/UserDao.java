@@ -26,6 +26,9 @@ public interface UserDao {
     @Query("SELECT * FROM USER WHERE id IN (:ids)")
     Maybe<List<User>> getByIds(List<Long> ids);
 
+    @Query("SELECT * FROM USER WHERE type = :type AND id <> :user")
+    Maybe<List<User>> getByTypeWhereUserIsNot(long type, long user);
+
     @Insert
     Single<Long> insert(User user);
 

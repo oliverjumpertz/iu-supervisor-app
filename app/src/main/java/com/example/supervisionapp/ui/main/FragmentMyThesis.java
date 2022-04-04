@@ -33,9 +33,16 @@ public class FragmentMyThesis extends Fragment {
     private static final String LOG_TAG = "FragmentMyThesis";
 
     private ViewModelMyThesis mViewModel;
+    private boolean initialized = false;
 
     public static FragmentMyThesis newInstance() {
         return new FragmentMyThesis();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initialized = true;
     }
 
     @Nullable
@@ -93,6 +100,14 @@ public class FragmentMyThesis extends Fragment {
     public void onResume() {
         super.onResume();
         loadData();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (initialized && isVisibleToUser) {
+            loadData();
+        }
     }
 
     private void loadData() {

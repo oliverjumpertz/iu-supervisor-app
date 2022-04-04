@@ -83,7 +83,6 @@ public class ActivitySubmitThesis extends AppCompatActivity {
 
                             @Override
                             public void onError(@NonNull Throwable e) {
-                                // TODO: error message
                                 Log.e(LOG_TAG,
                                         "Couldn't request supervision, see attached stacktrace",
                                         e);

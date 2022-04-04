@@ -50,36 +50,32 @@ public class UserRepository {
     }
 
     public Maybe<List<User>> getSupervisorsExcept(LoggedInUser user) {
-        SupervisorDao supervisorDao = appDatabase.supervisorDao();
         UserDao userDao = appDatabase.userDao();
         UserTypeDao userTypeDao = appDatabase.userTypeDao();
-        return supervisorDao
-                .getWhereUserIsNot(user.getUserId())
-                .flatMap(new Function<List<Supervisor>, MaybeSource<List<User>>>() {
+        return userTypeDao
+                .getByType(UserTypeModel.SUPERVISOR.name())
+                .flatMap(new Function<UserType, MaybeSource<List<com.example.supervisionapp.persistence.User>>>() {
                     @Override
-                    public MaybeSource<List<User>> apply(List<Supervisor> supervisors) throws Throwable {
-                        Set<Long> ids = new HashSet<>();
-                        for (Supervisor supervisor : supervisors) {
-                            ids.add(supervisor.user);
+                    public MaybeSource<List<com.example.supervisionapp.persistence.User>> apply(UserType userType) throws Throwable {
+                        return userDao
+                                .getByTypeWhereUserIsNot(userType.id, user.getUserId());
+                    }
+                })
+                .map(new Function<List<com.example.supervisionapp.persistence.User>, List<User>>() {
+                    @Override
+                    public List<User> apply(List<com.example.supervisionapp.persistence.User> users) throws Throwable {
+                        List<User> userModels = new ArrayList<>();
+                        for (com.example.supervisionapp.persistence.User user : users) {
+                            UserType userType = userTypeDao.getById(user.type).blockingGet();
+                            userModels.add(new User(user.id,
+                                    user.username,
+                                    user.password,
+                                    user.title,
+                                    user.name,
+                                    user.foreName,
+                                    UserTypeModel.valueOf(userType.type)));
                         }
-                        return userDao.getByIds(new ArrayList<>(ids))
-                                .map(new Function<List<com.example.supervisionapp.persistence.User>, List<User>>() {
-                                    @Override
-                                    public List<User> apply(List<com.example.supervisionapp.persistence.User> users) throws Throwable {
-                                        List<User> userModels = new ArrayList<>();
-                                        for (com.example.supervisionapp.persistence.User user : users) {
-                                            UserType userType = userTypeDao.getById(user.type).blockingGet();
-                                            userModels.add(new User(user.id,
-                                                    user.username,
-                                                    user.password,
-                                                    user.title,
-                                                    user.name,
-                                                    user.foreName,
-                                                    UserTypeModel.valueOf(userType.type)));
-                                        }
-                                        return userModels;
-                                    }
-                                });
+                        return userModels;
                     }
                 });
     }

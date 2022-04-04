@@ -830,6 +830,10 @@ public class ThesisRepositoryTest {
                 .acceptSupervisionRequest(request)
                 .blockingAwait();
 
+        ThesisState inProgressThesisState = thesisStateDao
+                .getByState(ThesisStateModel.IN_PROGRESS.name())
+                .blockingGet();
+
         SupervisoryState supervisedState = supervisoryStateDao
                 .getByState(SupervisoryStateModel.SUPERVISED.name())
                 .blockingGet();
@@ -859,6 +863,7 @@ public class ThesisRepositoryTest {
         assertEquals(supervisionRequest.subtitle, updatedThesis.subtitle);
         assertEquals(supervisionRequest.description, updatedThesis.description);
         assertEquals(supervisionRequest.expose, updatedThesis.expose);
+        assertEquals(inProgressThesisState.id, updatedThesis.state);
     }
 
     @Test

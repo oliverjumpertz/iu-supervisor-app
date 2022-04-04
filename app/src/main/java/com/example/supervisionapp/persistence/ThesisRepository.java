@@ -679,6 +679,7 @@ public class ThesisRepository {
         StudentDao studentDao = appDatabase.studentDao();
         InvoiceStateDao invoiceStateDao = appDatabase.invoiceStateDao();
         ThesisDao thesisDao = appDatabase.thesisDao();
+        ThesisStateDao thesisStateDao = appDatabase.thesisStateDao();
         return Completable.fromRunnable(new Runnable() {
             @Override
             public void run() {
@@ -708,12 +709,17 @@ public class ThesisRepository {
                                     .update(firstSupervisor)
                                     .blockingAwait();
 
+                            ThesisState inProgressState = thesisStateDao
+                                    .getByState(ThesisStateModel.IN_PROGRESS.name())
+                                    .blockingGet();
+
                             Thesis thesis = thesisDao
                                     .getById(supervisionRequest.getThesisId())
                                     .blockingGet();
                             thesis.subtitle = supervisionRequest.getSubTitle();
                             thesis.description = supervisionRequest.getDescription();
                             thesis.expose = supervisionRequest.getExpose();
+                            thesis.state = inProgressState.id;
                             thesisDao.update(thesis).blockingAwait();
 
                             Student student = new Student();

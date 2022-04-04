@@ -1,5 +1,6 @@
 package com.example.supervisionapp.ui.list;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -8,9 +9,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
+
 import com.example.supervisionapp.ActivityViewThesisRequest;
 import com.example.supervisionapp.R;
 import com.example.supervisionapp.data.list.model.ThesesRequestsListItem;
+import com.example.supervisionapp.ui.main.FragmentThesesRequests;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,10 +22,17 @@ import java.util.List;
 public class ThesesRequestsListAdapter extends BaseAdapter implements View.OnClickListener {
     private Context context;
     private List<ThesesRequestsListItem> items;
+    private int activityStartRequestCode;
+    private Fragment fragmentContext;
 
-    public ThesesRequestsListAdapter(Context context, List<ThesesRequestsListItem> items) {
+    public ThesesRequestsListAdapter(Context context,
+                                     List<ThesesRequestsListItem> items,
+                                     int activityStartRequestCode,
+                                     Fragment fragmentContext) {
         this.context = context;
         this.items = new ArrayList<>(items);
+        this.activityStartRequestCode = activityStartRequestCode;
+        this.fragmentContext = fragmentContext;
     }
 
     @Override
@@ -91,7 +102,7 @@ public class ThesesRequestsListAdapter extends BaseAdapter implements View.OnCli
                 intent.putExtra("thesisId", item.getThesisId());
                 intent.putExtra("userId", item.getUserId());
                 intent.putExtra("requestType", item.getRequestType());
-                context.startActivity(intent);
+                ((Fragment) fragmentContext).startActivityForResult(intent, activityStartRequestCode);
                 break;
             default:
                 throw new IllegalStateException("Unrecognized id passed to onClick handler");

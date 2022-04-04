@@ -1,5 +1,7 @@
 package com.example.supervisionapp.ui.main;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +30,8 @@ import java.util.List;
 import io.reactivex.rxjava3.functions.Consumer;
 
 public class FragmentThesesRequests extends Fragment {
+    private static final int REQUEST_CODE = 1;
+
     public static FragmentThesesRequests newInstance() {
         return new FragmentThesesRequests();
     }
@@ -56,7 +60,11 @@ public class FragmentThesesRequests extends Fragment {
         mViewModel.getThesesRequests().observe(getViewLifecycleOwner(), new Observer<List<ThesesRequestsListItem>>() {
             @Override
             public void onChanged(List<ThesesRequestsListItem> items) {
-                ThesesRequestsListAdapter thesesRequestsListAdapter = new ThesesRequestsListAdapter(getActivity(), items);
+                ThesesRequestsListAdapter thesesRequestsListAdapter = new ThesesRequestsListAdapter(
+                        getActivity(),
+                        items,
+                        REQUEST_CODE,
+                        FragmentThesesRequests.this);
                 listView.setAdapter(thesesRequestsListAdapter);
             }
         });
@@ -68,6 +76,14 @@ public class FragmentThesesRequests extends Fragment {
         super.setUserVisibleHint(isVisibleToUser);
 
         if (initialized && isVisibleToUser) {
+            updateData();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             updateData();
         }
     }

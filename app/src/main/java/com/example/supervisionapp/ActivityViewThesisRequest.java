@@ -1,5 +1,6 @@
 package com.example.supervisionapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -47,6 +48,7 @@ public class ActivityViewThesisRequest extends AppCompatActivity {
         arrowBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                setResult(Activity.RESULT_CANCELED);
                 finish();
             }
         });
@@ -69,6 +71,7 @@ public class ActivityViewThesisRequest extends AppCompatActivity {
 
                             @Override
                             public void onComplete() {
+                                setResult(Activity.RESULT_OK);
                                 finish();
                             }
 
@@ -98,6 +101,7 @@ public class ActivityViewThesisRequest extends AppCompatActivity {
                 thesisRepository
                         .rejectSupervisionRequest(supervisionRequest)
                         .blockingAwait();
+                setResult(Activity.RESULT_CANCELED);
                 finish();
             }
         });
