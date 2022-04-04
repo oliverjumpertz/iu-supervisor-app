@@ -15,15 +15,12 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.supervisionapp.data.LoginRepository;
 import com.example.supervisionapp.data.model.LoggedInUser;
-import com.example.supervisionapp.data.model.SupervisionRequestModel;
-import com.example.supervisionapp.data.model.SupervisionRequestTypeModel;
 import com.example.supervisionapp.databinding.ActivitySubmitThesisBinding;
 import com.example.supervisionapp.persistence.AppDatabase;
 import com.example.supervisionapp.persistence.Thesis;
 import com.example.supervisionapp.persistence.ThesisRepository;
 import com.example.supervisionapp.ui.login.LoginActivity;
 import com.example.supervisionapp.ui.main.ViewModelSubmitThesis;
-import com.example.supervisionapp.ui.main.ViewModelSuperviseThesis;
 
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.CompletableObserver;
@@ -64,7 +61,8 @@ public class ActivitySubmitThesis extends AppCompatActivity {
                 Thesis thesis = mViewModel.getThesis().getValue();
                 EditText descriptionView = findViewById(R.id.activity_submit_thesis_multiLineTextDescription);
                 thesisRepository
-                        .requestSupervision(thesis.id,
+                        .requestSupervision(
+                                thesis.id,
                                 loggedInUser,
                                 subTitleView.getText().toString(),
                                 descriptionView.getText().toString(),
@@ -155,7 +153,6 @@ public class ActivitySubmitThesis extends AppCompatActivity {
     private void loadData(long thesisId) {
         AppDatabase appDatabase = AppDatabase.getDatabase(getApplicationContext());
         LoginRepository loginRepository = LoginRepository.getInstance(null);
-        LoggedInUser loggedInUser = loginRepository.getLoggedInUser();
         ThesisRepository thesisRepository = new ThesisRepository(appDatabase);
         thesisRepository
                 .getThesisById(thesisId)

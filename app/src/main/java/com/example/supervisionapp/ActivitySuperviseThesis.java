@@ -107,6 +107,7 @@ public class ActivitySuperviseThesis extends AppCompatActivity {
                 // if and only if user is the first supervisor
                 // and the thesis is no draft anymore,
                 // which means that a student is already supervised
+                // TODO prevent second request if one already sent
                 if (thesisModel.getSupervisoryType() == SupervisoryTypeModel.FIRST_SUPERVISOR
                         && !thesisModel.hasSecondSupervisor()
                         && thesisModel.getSupervisoryState() != SupervisoryStateModel.DRAFT) {
