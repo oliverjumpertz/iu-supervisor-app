@@ -9,6 +9,7 @@ import com.example.supervisionapp.data.model.ThesisModel;
 import com.example.supervisionapp.data.model.SupervisionRequestModel;
 import com.example.supervisionapp.data.model.ThesisStateModel;
 import com.example.supervisionapp.data.model.Tuple4;
+import com.example.supervisionapp.data.model.UserThesisModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -573,9 +574,10 @@ public class ThesisRepository {
         });
     }
 
-    public Maybe<List<Thesis>> getAdvertisedTheses() {
+    public Maybe<List<UserThesisModel>> getAdvertisedTheses(LoggedInUser loggedInUser) {
         ThesisStateDao thesisStateDao = appDatabase.thesisStateDao();
         ThesisDao thesisDao = appDatabase.thesisDao();
+        SupervisionRequestDao supervisionRequestDao = appDatabase.supervisionRequestDao();
         return thesisStateDao
                 .getByState(ThesisStateModel.ADVERTISED.name())
                 .flatMap(new Function<ThesisState, MaybeSource<List<Thesis>>>() {
@@ -583,6 +585,28 @@ public class ThesisRepository {
                     public MaybeSource<List<Thesis>> apply(ThesisState thesisState) throws Throwable {
                         return thesisDao
                                 .getByState(thesisState.id);
+                    }
+                })
+                .map(new Function<List<Thesis>, List<UserThesisModel>>() {
+                    @Override
+                    public List<UserThesisModel> apply(List<Thesis> theses) throws Throwable {
+                        List<UserThesisModel> userTheses = new ArrayList<>(theses.size());
+                        for (Thesis thesis : theses) {
+                            SupervisionRequest existingRequest = supervisionRequestDao
+                                    .getByThesisIdAndUserId(thesis.id, loggedInUser.getUserId())
+                                    .blockingGet();
+                            boolean alreadyRequested = existingRequest != null;
+                            userTheses.add(new UserThesisModel(
+                                    thesis.id,
+                                    thesis.title,
+                                    thesis.subtitle,
+                                    thesis.description,
+                                    thesis.expose,
+                                    thesis.state,
+                                    alreadyRequested
+                            ));
+                        }
+                        return userTheses;
                     }
                 });
     }

@@ -13,7 +13,10 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.supervisionapp.R;
+import com.example.supervisionapp.data.LoginRepository;
 import com.example.supervisionapp.data.list.model.AdvertisedThesesListItem;
+import com.example.supervisionapp.data.model.LoggedInUser;
+import com.example.supervisionapp.data.model.UserThesisModel;
 import com.example.supervisionapp.persistence.AppDatabase;
 import com.example.supervisionapp.persistence.Thesis;
 import com.example.supervisionapp.persistence.ThesisRepository;
@@ -28,6 +31,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class FragmentAdvertisedTheses extends Fragment {
 
     private ViewModelAdvertisedTheses mViewModel;
+    private boolean initialized = false;
 
     public static FragmentAdvertisedTheses newInstance() {
         return new FragmentAdvertisedTheses();
@@ -36,12 +40,7 @@ public class FragmentAdvertisedTheses extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        final List<AdvertisedThesesListItem> items = new ArrayList<>();
-        items.add(new AdvertisedThesesListItem(0, "Die Paarung Der Fliege", "Das Paarungsverhalten der gemeinen Fliege ist ein lange erforschtes Problem, das allerdings noch nicht tiefgreifend genug erforscht wurde."));
-        items.add(new AdvertisedThesesListItem(1, "Die Paarung Der Fliege", "Das Paarungsverhalten der gemeinen Fliege ist ein lange erforschtes Problem, das allerdings noch nicht tiefgreifend genug erforscht wurde."));
-        AdvertisedThesesListAdapter advertisedThesesListAdapter = new AdvertisedThesesListAdapter(getActivity(), items);
-        ListView listView = getView().findViewById(R.id.fragment_advertised_theses_advertisedTheses);
-        listView.setAdapter(advertisedThesesListAdapter);
+        initialized = true;
     }
 
     @Nullable
@@ -66,6 +65,14 @@ public class FragmentAdvertisedTheses extends Fragment {
     }
 
     @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (initialized && isVisibleToUser) {
+            loadData();
+        }
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         loadData();
@@ -74,15 +81,23 @@ public class FragmentAdvertisedTheses extends Fragment {
     private void loadData() {
         AppDatabase appDatabase = AppDatabase.getDatabase(getContext());
         ThesisRepository thesisRepository = new ThesisRepository(appDatabase);
+        LoginRepository loginRepository = LoginRepository.getInstance(null);
+        LoggedInUser loggedInUser = loginRepository.getLoggedInUser();
         thesisRepository
-                .getAdvertisedTheses()
+                .getAdvertisedTheses(loggedInUser)
                 .observeOn(Schedulers.io())
-                .subscribe(new Consumer<List<Thesis>>() {
+                .subscribe(new Consumer<List<UserThesisModel>>() {
                     @Override
-                    public void accept(List<Thesis> theses) throws Throwable {
+                    public void accept(List<UserThesisModel> theses) throws Throwable {
                         List<AdvertisedThesesListItem> items = new ArrayList<>(theses.size());
-                        for (Thesis thesis : theses) {
-                            items.add(new AdvertisedThesesListItem(thesis.id, thesis.title, thesis.description));
+                        for (UserThesisModel thesis : theses) {
+                            items.add(new AdvertisedThesesListItem(
+                                            thesis.getId(),
+                                            thesis.getTitle(),
+                                            thesis.getDescription(),
+                                            thesis.isAlreadyRequested()
+                                    )
+                            );
                         }
                         mViewModel.setAdvertisedTheses(items);
                     }

@@ -20,6 +20,7 @@ import com.example.supervisionapp.data.model.SupervisoryTypeModel;
 import com.example.supervisionapp.data.model.ThesisModel;
 import com.example.supervisionapp.data.model.SupervisionRequestModel;
 import com.example.supervisionapp.data.model.ThesisStateModel;
+import com.example.supervisionapp.data.model.UserThesisModel;
 import com.example.supervisionapp.data.model.UserTypeModel;
 
 import org.junit.After;
@@ -644,9 +645,9 @@ public class ThesisRepositoryTest {
 
     @Test
     public void testThatGetAdvertisedThesesWorksWhenResultSetIsEmpty() {
-        insertBaseData();
+        LoggedInUser user = insertBaseData();
 
-        List<Thesis> advertisedTheses = thesisRepository.getAdvertisedTheses().blockingGet();
+        List<UserThesisModel> advertisedTheses = thesisRepository.getAdvertisedTheses(user).blockingGet();
         assertNotNull(advertisedTheses);
         assertTrue(advertisedTheses.isEmpty());
     }
@@ -656,7 +657,7 @@ public class ThesisRepositoryTest {
         LoggedInUser user = insertBaseData();
         thesisRepository.createThesis("Test1", "TestDescription", user).blockingAwait();
 
-        List<Thesis> advertisedTheses = thesisRepository.getAdvertisedTheses().blockingGet();
+        List<UserThesisModel> advertisedTheses = thesisRepository.getAdvertisedTheses(user).blockingGet();
         assertNotNull(advertisedTheses);
         assertFalse(advertisedTheses.isEmpty());
         assertEquals(1, advertisedTheses.size());
@@ -669,7 +670,7 @@ public class ThesisRepositoryTest {
         thesisRepository.createThesis("Test2", "TestDescription", user).blockingAwait();
         thesisRepository.createThesis("Test3", "TestDescription", user).blockingAwait();
 
-        List<Thesis> advertisedTheses = thesisRepository.getAdvertisedTheses().blockingGet();
+        List<UserThesisModel> advertisedTheses = thesisRepository.getAdvertisedTheses(user).blockingGet();
         assertNotNull(advertisedTheses);
         assertFalse(advertisedTheses.isEmpty());
         assertEquals(3, advertisedTheses.size());
@@ -688,7 +689,7 @@ public class ThesisRepositoryTest {
         thesisToModify.state = inProgressThesisState.id;
         thesisDao.update(thesisToModify).blockingAwait();
 
-        List<Thesis> advertisedTheses = thesisRepository.getAdvertisedTheses().blockingGet();
+        List<UserThesisModel> advertisedTheses = thesisRepository.getAdvertisedTheses(user).blockingGet();
         assertNotNull(advertisedTheses);
         assertFalse(advertisedTheses.isEmpty());
         assertEquals(2, advertisedTheses.size());

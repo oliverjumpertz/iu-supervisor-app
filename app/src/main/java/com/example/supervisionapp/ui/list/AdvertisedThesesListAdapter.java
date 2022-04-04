@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.supervisionapp.R;
 import com.example.supervisionapp.data.list.model.AdvertisedThesesListItem;
@@ -54,6 +55,10 @@ public class AdvertisedThesesListAdapter extends BaseAdapter implements View.OnC
         linearLayout.setOnClickListener(this);
         linearLayout.setTag(index);
 
+        if (item.isAlreadyRequested()) {
+            linearLayout.setBackgroundColor(context.getResources().getColor(R.color.lighter_grey));
+        }
+
         title.setText(item.getTitle());
         title.setClickable(true);
         title.setOnClickListener(this);
@@ -76,6 +81,14 @@ public class AdvertisedThesesListAdapter extends BaseAdapter implements View.OnC
                 Intent intent = new Intent(context, ActivitySubmitThesis.class);
                 String index = (String) view.getTag();
                 AdvertisedThesesListItem item = items.get(Integer.valueOf(index));
+                if (item.isAlreadyRequested()) {
+                    Toast.makeText(
+                            context,
+                            R.string.theses_request_already_send,
+                            Toast.LENGTH_LONG)
+                            .show();
+                    break;
+                }
                 intent.putExtra("thesisId", item.getThesisId());
                 context.startActivity(intent);
                 break;
