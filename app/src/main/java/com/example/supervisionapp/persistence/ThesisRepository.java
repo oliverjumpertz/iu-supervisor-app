@@ -470,6 +470,7 @@ public class ThesisRepository {
         ThesisDao thesisDao = appDatabase.thesisDao();
         UserDao userDao = appDatabase.userDao();
         SupervisoryTypeDao supervisoryTypeDao = appDatabase.supervisoryTypeDao();
+        StudentDao studentDao = appDatabase.studentDao();
         return supervisorDao
                 .getByUser(loggedInUser.getUserId())
                 .flatMap(new Function<List<Supervisor>, MaybeSource<List<Pair<Supervisor, SupervisionRequest>>>>() {
@@ -506,6 +507,9 @@ public class ThesisRepository {
                     @Override
                     public List<SupervisionRequestModel> apply(List<Pair<Supervisor, SupervisionRequest>> pairs) throws Throwable {
                         List<SupervisionRequestModel> results = new ArrayList<>(pairs.size());
+                        SupervisoryType firstSupervisorType = supervisoryTypeDao
+                                .getByType(SupervisoryTypeModel.FIRST_SUPERVISOR.name())
+                                .blockingGet();
                         for (Pair<Supervisor, SupervisionRequest> request : pairs) {
                             Supervisor supervisor = request.getFirst();
                             SupervisionRequest supervisionRequest = request.getSecond();
@@ -524,9 +528,6 @@ public class ThesisRepository {
                                 description = supervisionRequest.description;
                                 expose = supervisionRequest.expose;
                             } else {
-                                SupervisoryType firstSupervisorType = supervisoryTypeDao
-                                        .getByType(SupervisoryTypeModel.FIRST_SUPERVISOR.name())
-                                        .blockingGet();
                                 Supervisor thesisSupervisor = supervisorDao
                                         .getByThesisAndType(thesis.id, firstSupervisorType.id)
                                         .blockingGet();
@@ -549,6 +550,36 @@ public class ThesisRepository {
                                     requestType,
                                     description,
                                     expose));
+                        }
+                        List<SupervisionRequest> additionalSecondarySupervisionRequests = supervisionRequestDao
+                                .getByUserId(loggedInUser.getUserId())
+                                .blockingGet();
+                        for (SupervisionRequest supervisionRequest : additionalSecondarySupervisionRequests) {
+                            Thesis thesis = thesisDao.getById(supervisionRequest.thesis).blockingGet();
+                            Supervisor firstSupervisor = supervisorDao
+                                    .getByThesisAndType(supervisionRequest.thesis, firstSupervisorType.id)
+                                    .blockingGet();
+                            User firstSupervisorUser = userDao
+                                    .getById(firstSupervisor.user)
+                                    .blockingGet();
+                            String supervisorName = firstSupervisorUser.foreName + " " + firstSupervisorUser.name;
+                            Student student = studentDao
+                                    .getByThesis(supervisionRequest.thesis)
+                                    .blockingGet();
+                            User studentUser = userDao
+                                    .getById(student.user)
+                                    .blockingGet();
+                            String studentName = studentUser.foreName + " " + studentUser.name;
+                            results.add(new SupervisionRequestModel(
+                                    thesis.id,
+                                    supervisionRequest.user,
+                                    thesis.title,
+                                    thesis.subtitle,
+                                    studentName,
+                                    supervisorName,
+                                    SupervisionRequestTypeModel.SECOND_SUPERVISOR,
+                                    thesis.description,
+                                    thesis.expose));
                         }
                         return results;
                     }

@@ -472,6 +472,58 @@ public class ThesisRepositoryTest {
     }
 
     @Test
+    public void testThatGetSupervisionRequestsForUserWorksForSecondSupervisor() {
+        LoggedInUser user = insertBaseData();
+        thesisRepository.createThesis("Test1", "TestDescription", user).blockingAwait();
+
+        List<Thesis> theses = thesisDao.getAll().blockingGet();
+        Thesis thesis = theses.get(0);
+
+        UserType studentUserType = userTypeDao
+                .getByType(UserTypeModel.STUDENT.name())
+                .blockingGet();
+
+        User studentUser = new User();
+        studentUser.username = "c";
+        studentUser.foreName = "This is";
+        studentUser.name = "a test student";
+        studentUser.type = studentUserType.id;
+        studentUser.id = userDao.insert(studentUser).blockingGet();
+
+        Student student = new Student();
+        student.user = studentUser.id;
+        student.thesis = thesis.id;
+        studentDao.insert(student).blockingAwait();
+
+        UserType supervisorUserType = userTypeDao
+                .getByType(UserTypeModel.SUPERVISOR.name())
+                .blockingGet();
+
+        User secondSupervisorUser = new User();
+        secondSupervisorUser.foreName = "Karl";
+        secondSupervisorUser.name = "Test-Second-Supervisor";
+        secondSupervisorUser.type = supervisorUserType.id;
+        secondSupervisorUser.id = userDao.insert(secondSupervisorUser).blockingGet();
+
+        LoggedInUser secondSupervisor = new LoggedInUser(
+                secondSupervisorUser.id,
+                secondSupervisorUser.username,
+                UserTypeModel.SUPERVISOR
+        );
+
+        SupervisionRequestType secondSupervisionRequestType = new SupervisionRequestType();
+        secondSupervisionRequestType.type = SupervisionRequestTypeModel.SECOND_SUPERVISOR.name();
+        secondSupervisionRequestType.id = supervisionRequestTypeDao.insert(secondSupervisionRequestType).blockingGet();
+
+        thesisRepository.requestSecondSupervisor(thesis.id, secondSupervisorUser.id).blockingAwait();
+
+        List<SupervisionRequestModel> requests = thesisRepository.getSupervisionRequestsForUser(secondSupervisor).blockingGet();
+        assertNotNull(requests);
+        assertFalse(requests.isEmpty());
+        assertEquals(1, requests.size());
+    }
+
+    @Test
     public void testThatRequestSecondSupervisorWorks() {
         LoggedInUser user = insertBaseData();
         thesisRepository.createThesis("Test1", "TestDescription", user).blockingAwait();

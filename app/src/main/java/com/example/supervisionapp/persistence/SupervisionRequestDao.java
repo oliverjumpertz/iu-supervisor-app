@@ -22,6 +22,9 @@ public interface SupervisionRequestDao {
     @Query("SELECT * FROM SUPERVISIONREQUEST WHERE thesis = :thesis AND user = :user")
     Maybe<SupervisionRequest> getByThesisIdAndUserId(long thesis, long user);
 
+    @Query("SELECT * FROM SUPERVISIONREQUEST WHERE user = :user")
+    Maybe<List<SupervisionRequest>> getByUserId(long user);
+
     @Insert
     Completable insert(SupervisionRequest supervisionRequestType);
 
