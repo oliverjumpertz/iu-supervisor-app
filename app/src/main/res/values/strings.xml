@@ -1,12 +1,6 @@
 <resources>
     <string name="app_name">Supervision App</string>
     <string name="app_bar_logout_text">Logout</string>
-    <string name="title_activity_login">LoginActivity</string>
-    <string name="title_activity_submit_thesis">SubmitThesisActivity</string>
-    <string name="title_activity_view_thesis_request">ActivityViewThesisRequest</string>
-    <string name="title_activity_advertise_thesis">ActivityAdvertiseThesis</string>
-    <string name="title_activity_supervise_thesis">ActivitySuperviseThesis</string>
-    <string name="title_activity_second_supervisor_request">ActivitySecondSupervisorRequest</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Login</string>

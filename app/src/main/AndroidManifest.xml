@@ -18,32 +18,32 @@
         <activity
             android:name=".ActivitySubmitThesis"
             android:exported="false"
-            android:label="@string/title_activity_submit_thesis"
+            android:label="@string/app_name"
             android:theme="@style/Theme.SupervisionApp.NoActionBar" />
         <activity
             android:name=".ActivityViewThesisRequest"
             android:exported="false"
-            android:label="@string/title_activity_view_thesis_request"
+            android:label="@string/app_name"
             android:theme="@style/Theme.SupervisionApp.NoActionBar" />
         <activity
             android:name=".ActivityAdvertiseThesis"
             android:exported="false"
-            android:label="@string/title_activity_advertise_thesis"
+            android:label="@string/app_name"
             android:theme="@style/Theme.SupervisionApp.NoActionBar" />
         <activity
             android:name=".ActivitySuperviseThesis"
             android:exported="false"
-            android:label="@string/title_activity_supervise_thesis"
+            android:label="@string/app_name"
             android:theme="@style/Theme.SupervisionApp.NoActionBar" />
         <activity
             android:name=".ActivitySecondSupervisorRequest"
             android:exported="false"
-            android:label="@string/title_activity_second_supervisor_request"
+            android:label="@string/app_name"
             android:theme="@style/Theme.SupervisionApp.NoActionBar" />
         <activity
             android:name=".ui.login.LoginActivity"
             android:exported="true"
-            android:label="@string/title_activity_login">
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
