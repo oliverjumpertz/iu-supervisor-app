@@ -1,10 +1,15 @@
 package com.example.supervisionapp;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +27,9 @@ import com.example.supervisionapp.persistence.ThesisRepository;
 import com.example.supervisionapp.ui.login.LoginActivity;
 import com.example.supervisionapp.ui.main.ViewModelSubmitThesis;
 
+import java.io.File;
+import java.net.URISyntaxException;
+
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.CompletableObserver;
 import io.reactivex.rxjava3.core.MaybeObserver;
@@ -30,9 +38,12 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class ActivitySubmitThesis extends AppCompatActivity {
     private static final String LOG_TAG = "ActivitySubmitThesis";
+    private static final int OPEN_PDF_REQUEST_CODE = 1337;
 
     private ActivitySubmitThesisBinding binding;
     private ViewModelSubmitThesis mViewModel;
+
+    private volatile boolean isResumeAfterResult = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,14 +71,15 @@ public class ActivitySubmitThesis extends AppCompatActivity {
                 EditText subTitleView = findViewById(R.id.activity_submit_thesis_plainTextSubTitle);
                 Thesis thesis = mViewModel.getThesis().getValue();
                 EditText descriptionView = findViewById(R.id.activity_submit_thesis_multiLineTextDescription);
+                ImageView uploadIcon = findViewById(R.id.activity_submit_thesis_uploadExposeIcon);
+                String expose = (String) uploadIcon.getTag();
                 thesisRepository
                         .requestSupervision(
                                 thesis.id,
                                 loggedInUser,
                                 subTitleView.getText().toString(),
                                 descriptionView.getText().toString(),
-                                // TODO exposé
-                                "file:///foo")
+                                expose)
                         .blockingSubscribe(new CompletableObserver() {
                             @Override
                             public void onSubscribe(@NonNull Disposable d) {
@@ -104,6 +116,18 @@ public class ActivitySubmitThesis extends AppCompatActivity {
             }
         });
 
+        ImageView uploadIcon = findViewById(R.id.activity_submit_thesis_uploadExposeIcon);
+        uploadIcon.setClickable(true);
+        uploadIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("application/pdf");
+                startActivityForResult(intent, OPEN_PDF_REQUEST_CODE);
+            }
+        });
+
         mViewModel = new ViewModelProvider(this).get(ViewModelSubmitThesis.class);
         mViewModel.getThesis().observe(this, new Observer<Thesis>() {
             @Override
@@ -119,13 +143,35 @@ public class ActivitySubmitThesis extends AppCompatActivity {
 
                 EditText description = findViewById(R.id.activity_submit_thesis_multiLineTextDescription);
                 description.setText(thesis.description);
+
+                ImageView uploadIcon = findViewById(R.id.activity_submit_thesis_uploadExposeIcon);
+                uploadIcon.setTag(thesis.expose);
             }
         });
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK
+                && requestCode == OPEN_PDF_REQUEST_CODE) {
+            if (data != null) {
+                Uri uri = data.getData();
+                Thesis thesis = mViewModel.getThesis().getValue();
+                thesis.expose = uri.toString();
+                mViewModel.setThesis(thesis);
+                isResumeAfterResult = true;
+            }
+        }
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
+        if (isResumeAfterResult) {
+            isResumeAfterResult = false;
+            return;
+        }
         Intent intent = getIntent();
         if (intent == null) {
             return;

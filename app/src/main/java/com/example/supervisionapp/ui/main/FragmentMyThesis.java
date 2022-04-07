@@ -1,10 +1,13 @@
 package com.example.supervisionapp.ui.main;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -69,7 +72,7 @@ public class FragmentMyThesis extends Fragment {
                             R.id.fragment_my_thesis_headerSecondSupervisor,
                             R.id.fragment_my_thesis_textSecondSupervisor,
                             R.id.fragment_my_thesis_headerExpose,
-                            R.id.fragment_my_thesis_todoIcon,
+                            R.id.fragment_my_thesis_iconExpose,
                             R.id.fragment_my_thesis_headerStatus,
                             R.id.fragment_my_thesis_textStatus
                     ));
@@ -86,12 +89,25 @@ public class FragmentMyThesis extends Fragment {
                 TextView secondSupervisor = view.findViewById(R.id.fragment_my_thesis_textSecondSupervisor);
                 secondSupervisor.setText(thesisModel.getSecondSupervisorName());
 
-                // TODO: Exposé
-
                 TextView status = view.findViewById(R.id.fragment_my_thesis_textStatus);
                 // TODO: Enum to resource
                 status.setText(thesisModel.getThesisState().name());
 
+                if (thesisModel.getExpose() != null
+                        && !thesisModel.getExpose().isEmpty()) {
+                    ImageView exposeIcon = view.findViewById(R.id.fragment_my_thesis_iconExpose);
+                    exposeIcon.setClickable(true);
+                    exposeIcon.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(Intent.ACTION_VIEW);
+                            intent.setDataAndType(Uri.parse(thesisModel.getExpose()), "application/pdf");
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                            Intent sendIntent = Intent.createChooser(intent, null);
+                            startActivity(sendIntent);
+                        }
+                    });
+                }
             }
         });
     }

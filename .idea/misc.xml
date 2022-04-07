@@ -6,6 +6,7 @@
         <entry key="../../../../layout/custom_preview.xml" value="0.20677083333333332" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1505" />
         <entry key="app/src/main/res/drawable/ic_backarrow.xml" value="0.161" />
+        <entry key="app/src/main/res/drawable/ic_file_icon.xml" value="0.1955" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1505" />
         <entry key="app/src/main/res/drawable/ic_logout.xml" value="0.2205" />
         <entry key="app/src/main/res/layout-w1240dp/activity_login.xml" value="0.26031036376953126" />
@@ -17,7 +18,7 @@
         <entry key="app/src/main/res/layout/activity_main3.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_second_supervisor_request.xml" value="0.20244565217391305" />
         <entry key="app/src/main/res/layout/activity_submit_thesis.xml" value="0.20133809529378732" />
-        <entry key="app/src/main/res/layout/activity_supervise_thesis.xml" value="0.21791229248046878" />
+        <entry key="app/src/main/res/layout/activity_supervise_thesis.xml" value="0.29176483154296884" />
         <entry key="app/src/main/res/layout/activity_view-thesis-request.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_view_thesis_request.xml" value="0.14963226318359374" />
         <entry key="app/src/main/res/layout/advertised_theses_list_item_row.xml" value="0.23561211185178893" />

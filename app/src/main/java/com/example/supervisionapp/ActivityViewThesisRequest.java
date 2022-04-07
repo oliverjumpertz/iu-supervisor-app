@@ -2,9 +2,11 @@ package com.example.supervisionapp;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -153,7 +155,21 @@ public class ActivityViewThesisRequest extends AppCompatActivity {
                 TextView studentView = findViewById(R.id.activity_view_thesis_request_thesis_textStudent);
                 studentView.setText(supervisionRequest.getStudentName());
 
-                // TODO: exposé
+                if (supervisionRequest.getExpose() != null
+                        && !supervisionRequest.getExpose().isEmpty()) {
+                    ImageView exposeIcon = findViewById(R.id.activity_view_thesis_request_thesis_iconExpose);
+                    exposeIcon.setClickable(true);
+                    exposeIcon.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(Intent.ACTION_VIEW);
+                            intent.setDataAndType(Uri.parse(supervisionRequest.getExpose()), "application/pdf");
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                            Intent sendIntent = Intent.createChooser(intent, null);
+                            startActivity(sendIntent);
+                        }
+                    });
+                }
             }
         });
     }

@@ -3,9 +3,11 @@ package com.example.supervisionapp;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -129,12 +131,26 @@ public class ActivitySuperviseThesis extends AppCompatActivity {
                 supervisionStateText.setText(thesisModel.getSupervisoryState().toString());
                 TextView studentText = findViewById(R.id.activity_supervise_thesis_textStudent);
                 studentText.setText(thesisModel.getStudentName());
-                View exposeText = findViewById(R.id.activity_supervise_thesis_textExpose);
-                exposeText.setTag(thesisModel.getExpose());
                 TextView statusText = findViewById(R.id.activity_supervise_thesis_textStatus);
                 statusText.setText(thesisModel.getThesisState().toString());
                 TextView invoiceStateText = findViewById(R.id.activity_supervise_thesis_textInvoiceStatus);
                 invoiceStateText.setText(thesisModel.getInvoiceState().toString());
+
+                if (thesisModel.getExpose() != null
+                        && !thesisModel.getExpose().isEmpty()) {
+                    ImageView exposeIcon = findViewById(R.id.activity_supervise_thesis_iconExpose);
+                    exposeIcon.setClickable(true);
+                    exposeIcon.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(Intent.ACTION_VIEW);
+                            intent.setDataAndType(Uri.parse(thesisModel.getExpose()), "application/pdf");
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                            Intent sendIntent = Intent.createChooser(intent, null);
+                            startActivity(sendIntent);
+                        }
+                    });
+                }
             }
         });
     }

@@ -190,16 +190,15 @@
                     android:textAllCaps="false"
                     android:textColor="@color/black"
                     android:textSize="24sp"
+                    android:labelFor="@+id/activity_submit_thesis_uploadExposeIcon"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/activity_submit_thesis_todoExposeIcon"
+                <ImageView
+                    android:id="@+id/activity_submit_thesis_uploadExposeIcon"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="10dp"
-                    android:text="TODO Exposé Icon"
-                    android:textAlignment="center" />
+                    android:contentDescription="@string/activity_submit_thesis_uploadExposeIconDescription"
+                    app:srcCompat="@drawable/ic_uploadicon" />
 
                 <LinearLayout
                     android:id="@+id/activity_submit_thesis_linearLayoutButtons"
