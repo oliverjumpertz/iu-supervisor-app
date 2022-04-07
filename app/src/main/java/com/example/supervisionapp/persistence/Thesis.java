@@ -13,14 +13,9 @@ import androidx.room.PrimaryKey;
 public class Thesis {
     @PrimaryKey(autoGenerate = true)
     public long id;
-
     public String title;
-
     public String subtitle;
-
     public String description;
-
     public String expose;
-
     public long state;
 }

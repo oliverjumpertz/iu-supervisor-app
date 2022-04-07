@@ -15,6 +15,5 @@ import androidx.room.Index;
 })
 public class Student {
     public long user;
-
     public long thesis;
 }

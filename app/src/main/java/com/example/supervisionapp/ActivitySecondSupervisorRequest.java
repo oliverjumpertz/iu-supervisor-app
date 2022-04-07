@@ -72,7 +72,7 @@ public class ActivitySecondSupervisorRequest extends AppCompatActivity {
                 for (User user : users) {
                     items.add(new SecondSupervisorRequestListItem(user.getId(), thesis.getThesisId(), user.getForename() + " " + user.getName()));
                 }
-                SecondSupervisorRequestListAdapter listAdapter = new SecondSupervisorRequestListAdapter(getApplicationContext(), items);
+                SecondSupervisorRequestListAdapter listAdapter = new SecondSupervisorRequestListAdapter(ActivitySecondSupervisorRequest.this, items);
                 listView.setAdapter(listAdapter);
             }
         });

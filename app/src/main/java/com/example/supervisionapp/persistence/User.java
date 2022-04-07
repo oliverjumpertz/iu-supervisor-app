@@ -14,16 +14,10 @@ import androidx.room.PrimaryKey;
 public class User {
     @PrimaryKey(autoGenerate = true)
     public long id;
-
     public String username;
-
     public String password;
-
     public String title;
-
     public String name;
-
     public String foreName;
-
     public long type;
 }

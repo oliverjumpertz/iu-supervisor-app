@@ -7,6 +7,5 @@ import androidx.room.PrimaryKey;
 public class InvoiceState {
     @PrimaryKey(autoGenerate = true)
     public long id;
-
     public String state;
 }

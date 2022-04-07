@@ -165,6 +165,7 @@ public class ActivityViewThesisRequest extends AppCompatActivity {
                             Intent intent = new Intent(Intent.ACTION_VIEW);
                             intent.setDataAndType(Uri.parse(supervisionRequest.getExpose()), "application/pdf");
                             intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                             Intent sendIntent = Intent.createChooser(intent, null);
                             startActivity(sendIntent);
                         }

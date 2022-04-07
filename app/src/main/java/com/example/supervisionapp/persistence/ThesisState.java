@@ -7,6 +7,5 @@ import androidx.room.PrimaryKey;
 public class ThesisState {
     @PrimaryKey(autoGenerate = true)
     public long id;
-
     public String state;
 }

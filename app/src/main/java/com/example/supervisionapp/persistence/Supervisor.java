@@ -22,13 +22,9 @@ import androidx.room.Index;
 })
 public class Supervisor {
     public long user;
-
     public long thesis;
-
     public long type;
-
     @ColumnInfo(name = "invoice_state")
     public long invoiceState;
-
     public long state;
 }
