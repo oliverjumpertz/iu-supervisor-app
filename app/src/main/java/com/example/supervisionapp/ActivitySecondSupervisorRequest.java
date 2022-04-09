@@ -124,7 +124,7 @@ public class ActivitySecondSupervisorRequest extends AppCompatActivity {
                     }
                 });
         userRepository
-                .getSupervisorsExcept(loggedInUser)
+                .getEligibleSecondSupervisors(loggedInUser)
                 .observeOn(Schedulers.io())
                 .subscribe(new Consumer<List<User>>() {
                     @Override

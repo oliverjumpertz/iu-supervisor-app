@@ -1,17 +1,15 @@
 <resources>
     <string name="app_name">Supervision App</string>
     <string name="app_bar_logout_text">Logout</string>
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
+    <string name="prompt_email">Benutzername</string>
+    <string name="prompt_password">Passwort</string>
     <string name="action_sign_in">Login</string>
     <string name="action_sign_in_short">Login</string>
-    <string name="welcome">"Welcome !"</string>
+    <string name="welcome">"Willkommen!"</string>
     <string name="invalid_username">Kein valider Nutzername</string>
     <string name="invalid_password">Falsches Passwort</string>
     <string name="login_failed">"Login fehlgeschlagen"</string>
     <string name="title_activity_main">MainActivity</string>
-    <string name="tab_text_1">Tab 1</string>
-    <string name="tab_text_2">Tab 2</string>
     <string name="tab_advertised_theses">Ausgeschriebene Arbeiten</string>
     <string name="tab_my_thesis">Meine Arbeit</string>
     <string name="tab_theses_requests">Anfragen</string>
@@ -60,6 +58,8 @@
     <string name="activity_supervise_thesis_headerTitle">Titel:</string>
     <string name="activity_supervise_thesis_headerSubTitle">Untertitel:</string>
     <string name="activity_supervise_thesis_headerSupervisionState">Betreuungsstatus:</string>
+    <string name="activity_supervise_thesis_headerSupervisorFirst">Erstbetreuer:</string>
+    <string name="activity_supervise_thesis_headerSupervisorSecond">Zweitbetreuer:</string>
     <string name="activity_supervise_thesis_headerStudent">Student:</string>
     <string name="activity_supervise_thesis_headerExpose">Exposé:</string>
     <string name="activity_supervise_thesis_iconExpose_description">A file icon</string>

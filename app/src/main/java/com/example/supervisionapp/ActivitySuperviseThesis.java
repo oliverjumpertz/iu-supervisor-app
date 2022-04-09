@@ -124,11 +124,25 @@ public class ActivitySuperviseThesis extends AppCompatActivity {
                 // if and only if user is the first supervisor
                 // and the thesis is no draft anymore,
                 // which means that a student is already supervised
-                // TODO prevent second request if one already sent
                 if (thesisModel.getSupervisoryType() == SupervisoryTypeModel.FIRST_SUPERVISOR
                         && !thesisModel.hasSecondSupervisor()
                         && thesisModel.getSupervisoryState() != SupervisoryStateModel.DRAFT) {
                     secondSupervisorButton.setVisibility(View.VISIBLE);
+                }
+
+                TextView supervisorHeader = findViewById(R.id.activity_supervise_thesis_headerSupervisor);
+                TextView supervisorText = findViewById(R.id.activity_supervise_thesis_textSupervisor);
+
+                if (thesisModel.getSupervisoryType() == SupervisoryTypeModel.FIRST_SUPERVISOR) {
+                    if (thesisModel.hasSecondSupervisor()) {
+                        supervisorHeader.setText(R.string.activity_supervise_thesis_headerSupervisorSecond);
+                        supervisorText.setText(thesisModel.getSecondSupervisorName());
+                    } else {
+                        supervisorHeader.setVisibility(View.GONE);
+                    }
+                } else {
+                    supervisorHeader.setText(R.string.activity_supervise_thesis_headerSupervisorFirst);
+                    supervisorText.setText(thesisModel.getFirstSupervisorName());
                 }
 
                 Button deleteDraftButton = findViewById(R.id.activity_supervise_thesis_buttonDeleteDraft);
