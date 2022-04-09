@@ -16,6 +16,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.supervisionapp.data.LoginRepository;
+import com.example.supervisionapp.data.model.InvoiceStateModel;
 import com.example.supervisionapp.data.model.LoggedInUser;
 import com.example.supervisionapp.data.model.SupervisoryStateModel;
 import com.example.supervisionapp.data.model.SupervisoryTypeModel;
@@ -28,10 +29,24 @@ import com.example.supervisionapp.persistence.ThesisRepository;
 import com.example.supervisionapp.ui.login.LoginActivity;
 import com.example.supervisionapp.ui.main.ViewModelSuperviseThesis;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class ActivitySuperviseThesis extends AppCompatActivity {
+    private static final Map<SupervisoryStateModel, Integer> SUPERVISORY_STATE_MODEL_MAPPING = new HashMap<>();
+    private static final Map<ThesisStateModel, Integer> THESIS_STATE_MODEL_MAPPING = new HashMap<>();
+    private static final Map<InvoiceStateModel, Integer> INVOICE_STATE_MODEL_MAPPING = new HashMap<>();
+
+    static {
+        SUPERVISORY_STATE_MODEL_MAPPING.put(SupervisoryStateModel.DRAFT, R.string.SupervisoryStateModel_DRAFT);
+        SUPERVISORY_STATE_MODEL_MAPPING.put(SupervisoryStateModel.SUPERVISED, R.string.SupervisoryStateModel_SUPERVISED);
+        THESIS_STATE_MODEL_MAPPING.put(ThesisStateModel.ADVERTISED, R.string.ThesisStateModel_ADVERTISED);
+        THESIS_STATE_MODEL_MAPPING.put(ThesisStateModel.IN_PROGRESS, R.string.ThesisStateModel_IN_PROGRESS);
+        INVOICE_STATE_MODEL_MAPPING.put(InvoiceStateModel.UNFINISHED, R.string.InvoiceStateModel_UNFINISHED);
+    }
 
     private ActivitySuperviseThesisBinding binding;
     private ViewModelSuperviseThesis mViewModel;
@@ -122,19 +137,23 @@ public class ActivitySuperviseThesis extends AppCompatActivity {
                     deleteDraftButton.setVisibility(View.VISIBLE);
                 }
 
-                // TODO: enums to string resources
                 TextView titleText = findViewById(R.id.activity_supervise_thesis_textTitle);
                 titleText.setText(thesisModel.getTitle());
+
                 TextView subTitleText = findViewById(R.id.activity_supervise_thesis_textSubTitle);
                 subTitleText.setText(thesisModel.getSubTitle());
+
                 TextView supervisionStateText = findViewById(R.id.activity_supervise_thesis_textSupervisionState);
-                supervisionStateText.setText(thesisModel.getSupervisoryState().toString());
+                supervisionStateText.setText(SUPERVISORY_STATE_MODEL_MAPPING.get(thesisModel.getSupervisoryState()));
+
                 TextView studentText = findViewById(R.id.activity_supervise_thesis_textStudent);
                 studentText.setText(thesisModel.getStudentName());
+
                 TextView statusText = findViewById(R.id.activity_supervise_thesis_textStatus);
-                statusText.setText(thesisModel.getThesisState().toString());
+                statusText.setText(THESIS_STATE_MODEL_MAPPING.get(thesisModel.getThesisState()));
+
                 TextView invoiceStateText = findViewById(R.id.activity_supervise_thesis_textInvoiceStatus);
-                invoiceStateText.setText(thesisModel.getInvoiceState().toString());
+                invoiceStateText.setText(INVOICE_STATE_MODEL_MAPPING.get(thesisModel.getInvoiceState()));
 
                 if (thesisModel.getExpose() != null
                         && !thesisModel.getExpose().isEmpty()) {

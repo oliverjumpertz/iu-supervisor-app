@@ -84,4 +84,11 @@
     <string name="error_loading_data">Daten konnten nicht geladen werden</string>
     <string name="error_request_not_sent">Betreuung konnte nicht beantragt werden</string>
     <string name="theses_request_already_send">Du hast für diese Anschlussarbeit bereits um Betreuung gebeten</string>
+    <string name="ThesisStateModel_ADVERTISED">Ausgeschrieben</string>
+    <string name="ThesisStateModel_IN_PROGRESS">In Bearbeitung</string>
+    <string name="SupervisoryStateModel_DRAFT">Noch nicht in Betreuung</string>
+    <string name="SupervisoryStateModel_SUPERVISED">In Betreuung</string>
+    <string name="InvoiceStateModel_UNFINISHED">Noch nicht abgerechnet</string>
+    <string name="SupervisoryTypeList_FIRST_SUPERVISOR">1.</string>
+    <string name="SupervisoryTypeList_SECOND_SUPERVISOR">2.</string>
 </resources>

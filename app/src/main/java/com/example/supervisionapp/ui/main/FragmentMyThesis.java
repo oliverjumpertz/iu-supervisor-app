@@ -21,11 +21,14 @@ import com.example.supervisionapp.R;
 import com.example.supervisionapp.data.LoginRepository;
 import com.example.supervisionapp.data.model.LoggedInUser;
 import com.example.supervisionapp.data.model.ThesisModel;
+import com.example.supervisionapp.data.model.ThesisStateModel;
 import com.example.supervisionapp.persistence.AppDatabase;
 import com.example.supervisionapp.persistence.ThesisRepository;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.rxjava3.core.MaybeObserver;
 import io.reactivex.rxjava3.disposables.Disposable;
@@ -33,6 +36,13 @@ import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class FragmentMyThesis extends Fragment {
+    private static final Map<ThesisStateModel, Integer> MAPPING = new HashMap<>();
+
+    static {
+        MAPPING.put(ThesisStateModel.IN_PROGRESS, R.string.ThesisStateModel_IN_PROGRESS);
+        MAPPING.put(ThesisStateModel.ADVERTISED, R.string.ThesisStateModel_ADVERTISED);
+    }
+
     private static final String LOG_TAG = "FragmentMyThesis";
 
     private ViewModelMyThesis mViewModel;
@@ -86,12 +96,26 @@ public class FragmentMyThesis extends Fragment {
                 TextView firstSupervisor = view.findViewById(R.id.fragment_my_thesis_textFirstSupervisor);
                 firstSupervisor.setText(thesisModel.getFirstSupervisorName());
 
-                TextView secondSupervisor = view.findViewById(R.id.fragment_my_thesis_textSecondSupervisor);
-                secondSupervisor.setText(thesisModel.getSecondSupervisorName());
+                if (thesisModel.hasSecondSupervisor()) {
+                    TextView secondSupervisorHeader = view.findViewById(R.id.fragment_my_thesis_headerSecondSupervisor);
+                    secondSupervisorHeader.setVisibility(View.VISIBLE);
+                    secondSupervisorHeader.setText(R.string.fragment_my_thesis_header_second_supervisor);
+
+                    TextView secondSupervisor = view.findViewById(R.id.fragment_my_thesis_textSecondSupervisor);
+                    secondSupervisor.setVisibility(View.VISIBLE);
+                    secondSupervisor.setText(thesisModel.getSecondSupervisorName());
+                }
+
+                TextView headerExpose = view.findViewById(R.id.fragment_my_thesis_headerExpose);
+                headerExpose.setVisibility(View.VISIBLE);
+                headerExpose.setText(R.string.fragment_my_thesis_header_expose);
+
+                TextView headerStatus = view.findViewById(R.id.fragment_my_thesis_headerStatus);
+                headerStatus.setVisibility(View.VISIBLE);
+                headerStatus.setText(R.string.fragment_my_thesis_header_status);
 
                 TextView status = view.findViewById(R.id.fragment_my_thesis_textStatus);
-                // TODO: Enum to resource
-                status.setText(thesisModel.getThesisState().name());
+                status.setText(MAPPING.get(thesisModel.getThesisState()));
 
                 if (thesisModel.getExpose() != null
                         && !thesisModel.getExpose().isEmpty()) {
