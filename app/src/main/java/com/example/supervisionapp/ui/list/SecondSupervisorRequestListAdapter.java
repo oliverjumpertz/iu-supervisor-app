@@ -74,6 +74,7 @@ public class SecondSupervisorRequestListAdapter extends BaseAdapter implements V
                         thesisRepository
                                 .requestSecondSupervisor(item.getThesisId(), item.getUserId())
                                 .blockingAwait();
+                        // TODO: finish somehow?
                     }
                 });
                 builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -81,7 +82,7 @@ public class SecondSupervisorRequestListAdapter extends BaseAdapter implements V
                         // noop
                     }
                 });
-                builder.setMessage("Soll " + item.getName() + " um Zweitbetreuung gebeten werden?")
+                builder.setMessage(R.string.activity_second_supervisor_request_dialog_question)
                         .setTitle(R.string.activity_second_supervisor_request_dialog_title);
 
                 AlertDialog dialog = builder.create();

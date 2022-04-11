@@ -16,7 +16,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.supervisionapp.data.LoginRepository;
-import com.example.supervisionapp.data.model.InvoiceStateModel;
 import com.example.supervisionapp.data.model.LoggedInUser;
 import com.example.supervisionapp.data.model.SupervisoryStateModel;
 import com.example.supervisionapp.data.model.SupervisoryTypeModel;
@@ -24,30 +23,14 @@ import com.example.supervisionapp.data.model.ThesisModel;
 import com.example.supervisionapp.data.model.ThesisStateModel;
 import com.example.supervisionapp.databinding.ActivitySuperviseThesisBinding;
 import com.example.supervisionapp.persistence.AppDatabase;
-import com.example.supervisionapp.persistence.Thesis;
 import com.example.supervisionapp.persistence.ThesisRepository;
 import com.example.supervisionapp.ui.login.LoginActivity;
 import com.example.supervisionapp.ui.main.ViewModelSuperviseThesis;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class ActivitySuperviseThesis extends AppCompatActivity {
-    private static final Map<SupervisoryStateModel, Integer> SUPERVISORY_STATE_MODEL_MAPPING = new HashMap<>();
-    private static final Map<ThesisStateModel, Integer> THESIS_STATE_MODEL_MAPPING = new HashMap<>();
-    private static final Map<InvoiceStateModel, Integer> INVOICE_STATE_MODEL_MAPPING = new HashMap<>();
-
-    static {
-        SUPERVISORY_STATE_MODEL_MAPPING.put(SupervisoryStateModel.DRAFT, R.string.SupervisoryStateModel_DRAFT);
-        SUPERVISORY_STATE_MODEL_MAPPING.put(SupervisoryStateModel.SUPERVISED, R.string.SupervisoryStateModel_SUPERVISED);
-        THESIS_STATE_MODEL_MAPPING.put(ThesisStateModel.ADVERTISED, R.string.ThesisStateModel_ADVERTISED);
-        THESIS_STATE_MODEL_MAPPING.put(ThesisStateModel.IN_PROGRESS, R.string.ThesisStateModel_IN_PROGRESS);
-        INVOICE_STATE_MODEL_MAPPING.put(InvoiceStateModel.UNFINISHED, R.string.InvoiceStateModel_UNFINISHED);
-    }
-
     private ActivitySuperviseThesisBinding binding;
     private ViewModelSuperviseThesis mViewModel;
 
@@ -158,16 +141,16 @@ public class ActivitySuperviseThesis extends AppCompatActivity {
                 subTitleText.setText(thesisModel.getSubTitle());
 
                 TextView supervisionStateText = findViewById(R.id.activity_supervise_thesis_textSupervisionState);
-                supervisionStateText.setText(SUPERVISORY_STATE_MODEL_MAPPING.get(thesisModel.getSupervisoryState()));
+                supervisionStateText.setText(thesisModel.getSupervisoryState().getResourceId());
 
                 TextView studentText = findViewById(R.id.activity_supervise_thesis_textStudent);
                 studentText.setText(thesisModel.getStudentName());
 
                 TextView statusText = findViewById(R.id.activity_supervise_thesis_textStatus);
-                statusText.setText(THESIS_STATE_MODEL_MAPPING.get(thesisModel.getThesisState()));
+                statusText.setText(thesisModel.getThesisState().getResourceId());
 
                 TextView invoiceStateText = findViewById(R.id.activity_supervise_thesis_textInvoiceStatus);
-                invoiceStateText.setText(INVOICE_STATE_MODEL_MAPPING.get(thesisModel.getInvoiceState()));
+                invoiceStateText.setText(thesisModel.getInvoiceState().getResourceId());
 
                 if (thesisModel.getExpose() != null
                         && !thesisModel.getExpose().isEmpty()) {
@@ -182,6 +165,20 @@ public class ActivitySuperviseThesis extends AppCompatActivity {
                             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                             Intent sendIntent = Intent.createChooser(intent, null);
                             startActivity(sendIntent);
+                        }
+                    });
+                }
+
+                Button buttonEdit = findViewById(R.id.activity_supervise_thesis_editThesis);
+                buttonEdit.setVisibility(View.GONE);
+                if (thesisModel.getThesisState().getSortPosition() >= ThesisStateModel.IN_PROGRESS.getSortPosition()) {
+                    buttonEdit.setVisibility(View.VISIBLE);
+                    buttonEdit.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(ActivitySuperviseThesis.this, ActivityEditSupervisedThesis.class);
+                            intent.putExtra("thesisId", thesisModel.getThesisId());
+                            startActivity(intent);
                         }
                     });
                 }

@@ -22,6 +22,9 @@ public interface ThesisStateDao {
     @Query("SELECT * FROM THESISSTATE WHERE state = :state")
     Maybe<ThesisState> getByState(String state);
 
+    @Query("SELECT * FROM THESISSTATE WHERE state in (:states)")
+    Maybe<List<ThesisState>> getByStates(List<String> states);
+
     @Insert
     Single<Long> insert(ThesisState thesisState);
 

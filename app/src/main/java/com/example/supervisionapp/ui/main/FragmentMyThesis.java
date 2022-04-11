@@ -36,13 +36,6 @@ import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class FragmentMyThesis extends Fragment {
-    private static final Map<ThesisStateModel, Integer> MAPPING = new HashMap<>();
-
-    static {
-        MAPPING.put(ThesisStateModel.IN_PROGRESS, R.string.ThesisStateModel_IN_PROGRESS);
-        MAPPING.put(ThesisStateModel.ADVERTISED, R.string.ThesisStateModel_ADVERTISED);
-    }
-
     private static final String LOG_TAG = "FragmentMyThesis";
 
     private ViewModelMyThesis mViewModel;
@@ -115,7 +108,7 @@ public class FragmentMyThesis extends Fragment {
                 headerStatus.setText(R.string.fragment_my_thesis_header_status);
 
                 TextView status = view.findViewById(R.id.fragment_my_thesis_textStatus);
-                status.setText(MAPPING.get(thesisModel.getThesisState()));
+                status.setText(thesisModel.getThesisState().getResourceId());
 
                 if (thesisModel.getExpose() != null
                         && !thesisModel.getExpose().isEmpty()) {

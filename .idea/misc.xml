@@ -12,6 +12,7 @@
         <entry key="app/src/main/res/layout-w1240dp/activity_login.xml" value="0.26031036376953126" />
         <entry key="app/src/main/res/layout-w936dp/activity_login.xml" value="0.37359008789062503" />
         <entry key="app/src/main/res/layout/activity_advertise_thesis.xml" value="0.24828999837239585" />
+        <entry key="app/src/main/res/layout/activity_edit_supervised_thesis.xml" value="0.2359375" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.3664398193359375" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.20171508789062503" />
         <entry key="app/src/main/res/layout/activity_main2.xml" value="0.32211151123046877" />
@@ -32,14 +33,19 @@
         <entry key="app/src/main/res/layout/fragment_submit_thesis.xml" value="0.25936599423631124" />
         <entry key="app/src/main/res/layout/fragment_supervised_thesis.xml" value="0.1899490356445313" />
         <entry key="app/src/main/res/layout/fragment_theses_requests.xml" value="0.20630372492836677" />
+        <entry key="app/src/main/res/layout/invoice_state_spinner_item_row.xml" value="0.1" />
         <entry key="app/src/main/res/layout/list_item_row.xml" value="0.21082916259765627" />
         <entry key="app/src/main/res/layout/main_activity.xml" value="0.15208333333333332" />
         <entry key="app/src/main/res/layout/main_fragment.xml" value="0.1" />
         <entry key="app/src/main/res/layout/my_research_list_item_row.xml" value="0.13145896656534956" />
         <entry key="app/src/main/res/layout/second_supervisor_request_list_item_row.xml" value="0.10891590678824721" />
+        <entry key="app/src/main/res/layout/simple_spinner_item.xml" value="0.1" />
         <entry key="app/src/main/res/layout/supervised_theses_list_item_row.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/supervisory_state_spinner_item_row.xml" value="0.14739583333333334" />
+        <entry key="app/src/main/res/layout/test.xml" value="0.3655334472656251" />
         <entry key="app/src/main/res/layout/theses_requests_list_item_row.xml" value="0.1" />
         <entry key="app/src/main/res/layout/theses_requests_list_item_row_alternative.xml" value="0.2374664306640625" />
+        <entry key="app/src/main/res/layout/thesis_state_spinner_item_row.xml" value="0.1" />
         <entry key="app/src/main/res/layout/three_piece_list_item_row.xml" value="0.1068840579710145" />
         <entry key="app/src/main/res/layout/two_piece_list_item_row.xml" value="0.10960144927536232" />
       </map>

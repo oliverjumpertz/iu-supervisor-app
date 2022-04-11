@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.supervisionapp.data.LoginRepository;
+import com.example.supervisionapp.persistence.AppDatabase;
 import com.example.supervisionapp.ui.login.LoggedInUserView;
 import com.example.supervisionapp.ui.login.LoginActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -48,6 +49,18 @@ public class MainActivity extends AppCompatActivity {
                 onClickLogout(view);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AppDatabase.getDatabase(getApplicationContext());
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        AppDatabase.shutDown();
     }
 
     public void onClickLogout(View view) {

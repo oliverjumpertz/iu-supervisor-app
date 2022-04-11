@@ -12,6 +12,7 @@ import com.example.supervisionapp.data.model.Tuple4;
 import com.example.supervisionapp.data.model.UserThesisModel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import io.reactivex.rxjava3.core.Completable;
@@ -240,9 +241,24 @@ public class ThesisRepository {
                         for (Student student : students) {
                             ids.add(student.thesis);
                         }
-                        ThesisState inProgressState = thesisStateDao.getByState(ThesisStateModel.IN_PROGRESS.name()).blockingGet();
+
+                        // TODO: get by states
+                        List<ThesisState> states = thesisStateDao
+                                .getByStates(Arrays
+                                        .asList(
+                                                ThesisStateModel.IN_PROGRESS.name(),
+                                                ThesisStateModel.TURNED_IN.name(),
+                                                ThesisStateModel.RATED.name()
+                                        )
+                                ).blockingGet();
+
+                        List<Long> thesisStateIds = new ArrayList<>(states.size());
+                        for (ThesisState thesisState : states) {
+                            thesisStateIds.add(thesisState.id);
+                        }
+
                         List<Thesis> theses = thesisDao
-                                .getByIdsAndState(ids, inProgressState.id).blockingGet();
+                                .getByIdsAndStates(ids, thesisStateIds).blockingGet();
                         if (theses.isEmpty()) {
                             return Maybe.empty();
                         }
@@ -865,6 +881,44 @@ public class ThesisRepository {
                                 supervisionRequestDao.insert(supervisionRequest).blockingAwait();
                             }
                         });
+            }
+        });
+    }
+
+    // TODO: need to update Supervisor, as well
+    //  maybe take in user id, as well?
+    public Completable updateThesis(
+            long thesisId,
+            LoggedInUser loggedInUser,
+            ThesisStateModel thesisState,
+            InvoiceStateModel invoiceState) {
+        ThesisDao thesisDao = appDatabase.thesisDao();
+        SupervisorDao supervisorDao = appDatabase.supervisorDao();
+        SupervisoryStateDao supervisoryStateDao = appDatabase.supervisoryStateDao();
+        ThesisStateDao thesisStateDao = appDatabase.thesisStateDao();
+        InvoiceStateDao invoiceStateDao = appDatabase.invoiceStateDao();
+        return Completable.fromRunnable(new Runnable() {
+            @Override
+            public void run() {
+                Thesis thesis = thesisDao.getById(thesisId).blockingGet();
+                if (thesisState != null) {
+                    ThesisState databaseThesisState = thesisStateDao
+                            .getByState(thesisState.name())
+                            .blockingGet();
+                    thesis.state = databaseThesisState.id;
+                    thesisDao.update(thesis).blockingAwait();
+                }
+                if (invoiceState != null) {
+                    InvoiceState databaseInvoiceState = invoiceStateDao
+                            .getByState(invoiceState.name())
+                            .blockingGet();
+                    Supervisor supervisor = supervisorDao
+                            .getByUserAndThesis(loggedInUser.getUserId(), thesisId)
+                            .blockingGet();
+                    supervisor.invoiceState = databaseInvoiceState.id;
+                    supervisorDao.update(supervisor).blockingAwait();
+                }
+                thesisDao.update(thesis);
             }
         });
     }

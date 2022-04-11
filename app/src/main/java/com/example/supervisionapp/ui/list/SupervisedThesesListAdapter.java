@@ -21,13 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 public class SupervisedThesesListAdapter extends BaseAdapter implements View.OnClickListener {
-    private static final Map<SupervisoryTypeModel, Integer> SUPERVISORY_TYPE_MAPPING = new HashMap<>();
-
-    static {
-        SUPERVISORY_TYPE_MAPPING.put(SupervisoryTypeModel.FIRST_SUPERVISOR, R.string.SupervisoryTypeList_FIRST_SUPERVISOR);
-        SUPERVISORY_TYPE_MAPPING.put(SupervisoryTypeModel.SECOND_SUPERVISOR, R.string.SupervisoryTypeList_SECOND_SUPERVISOR);
-    }
-
     private Context context;
     private List<SupervisedThesesListItem> items;
 
@@ -72,7 +65,7 @@ public class SupervisedThesesListAdapter extends BaseAdapter implements View.OnC
         student.setClickable(true);
         student.setOnClickListener(this);
 
-        supervisoryType.setText(SUPERVISORY_TYPE_MAPPING.get(item.getSupervisoryType()));
+        supervisoryType.setText(item.getSupervisoryType().getResourceId());
         supervisoryType.setClickable(true);
         supervisoryType.setOnClickListener(this);
         supervisoryType.setTag(index);

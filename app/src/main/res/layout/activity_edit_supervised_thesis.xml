@@ -2,13 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_supervise_thesis_constraintLayout"
+    android:id="@+id/activity_edit_supervised_thesis_constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ActivitySuperviseThesis">
+    tools:context=".ActivityEditSupervisedThesis">
 
     <ScrollView
-        android:id="@+id/activity_supervise_thesis_scrollView"
+        android:id="@+id/activity_edit_supervised_thesis_scrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:id="@+id/activity_supervise_thesis_linearLayout"
+            android:id="@+id/activity_edit_supervised_thesis_linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="1dp"
@@ -26,7 +26,7 @@
             android:orientation="vertical">
 
             <com.google.android.material.appbar.AppBarLayout
-                android:id="@+id/activity_supervise_thesis_appBarLayout"
+                android:id="@+id/activity_edit_supervised_thesis_appBarLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:theme="@style/Theme.SupervisionApp.AppBarOverlay">
@@ -37,7 +37,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/activity_supervise_thesis_app_bar_title"
+                        android:id="@+id/activity_edit_supervised_thesis_app_bar_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -52,7 +52,7 @@
                         android:layout_gravity="center_vertical">
 
                         <ImageView
-                            android:id="@+id/activity_supervise_thesis_appBar_logout"
+                            android:id="@+id/activity_edit_supervised_thesis_appBar_logout"
                             android:layout_width="25dp"
                             android:layout_height="26dp"
                             android:layout_alignParentRight="true"
@@ -67,14 +67,14 @@
             </com.google.android.material.appbar.AppBarLayout>
 
             <LinearLayout
-                android:id="@+id/activity_supervise_thesis_innerLinearLayout"
+                android:id="@+id/activity_edit_supervised_thesis_innerLinearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
                 android:orientation="vertical">
                 <LinearLayout
-                    android:id="@+id/activity_supervise_thesis_headLayout"
+                    android:id="@+id/activity_edit_supervised_thesis_headLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="10dp"
@@ -82,18 +82,18 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:id="@+id/activity_supervise_thesis_backArrow"
+                        android:id="@+id/activity_edit_supervised_thesis_backArrow"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="0"
                         app:srcCompat="@drawable/ic_backarrow" />
 
                     <TextView
-                        android:id="@+id/activity_supervise_thesis_pageTitle"
+                        android:id="@+id/activity_edit_supervised_thesis_pageTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/activity_supervise_thesis_pageTitle"
+                        android:text="@string/activity_edit_supervised_thesis_pageTitle"
                         android:textAlignment="center"
                         android:textAllCaps="false"
                         android:textColor="@color/black"
@@ -101,33 +101,21 @@
                         android:textStyle="bold" />
                 </LinearLayout>
 
-                <Button
-                    android:id="@+id/activity_supervise_thesis_buttonSecondSupervisor"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/activity_supervise_thesis_buttonSecondSupervisor" />
-
-                <Button
-                    android:id="@+id/activity_supervise_thesis_buttonDeleteDraft"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/activity_supervise_thesis_buttonDeleteDraft" />
-
                 <TextView
-                    android:id="@+id/activity_supervise_thesis_headerTitle"
+                    android:id="@+id/activity_edit_supervised_thesis_headerTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="5dp"
-                    android:labelFor="@id/activity_supervise_thesis_textTitle"
-                    android:text="@string/activity_supervise_thesis_headerTitle"
+                    android:labelFor="@id/activity_edit_supervised_thesis_textTitle"
+                    android:text="@string/activity_edit_supervised_thesis_headerTitle"
                     android:textAlignment="viewStart"
                     android:textColor="@color/black"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/activity_supervise_thesis_textTitle"
+                    android:id="@+id/activity_edit_supervised_thesis_textTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -137,20 +125,20 @@
                     android:textSize="24sp" />
 
                 <TextView
-                    android:id="@+id/activity_supervise_thesis_headerSubTitle"
+                    android:id="@+id/activity_edit_supervised_thesis_headerSubTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="5dp"
-                    android:labelFor="@id/activity_supervise_thesis_textSubTitle"
-                    android:text="@string/activity_supervise_thesis_headerSubTitle"
+                    android:labelFor="@id/activity_edit_supervised_thesis_textSubTitle"
+                    android:text="@string/activity_edit_supervised_thesis_headerSubTitle"
                     android:textAlignment="viewStart"
                     android:textColor="@color/black"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/activity_supervise_thesis_textSubTitle"
+                    android:id="@+id/activity_edit_supervised_thesis_textSubTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -160,20 +148,43 @@
                     android:textSize="24sp" />
 
                 <TextView
-                    android:id="@+id/activity_supervise_thesis_headerSupervisionState"
+                    android:id="@+id/activity_edit_supervised_thesis_headerSupervisionState"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="5dp"
-                    android:labelFor="@id/activity_supervise_thesis_textSupervisionState"
-                    android:text="@string/activity_supervise_thesis_headerSupervisionState"
+                    android:labelFor="@id/activity_edit_supervised_thesis_textSupervisionState"
+                    android:text="@string/activity_edit_supervised_thesis_headerSupervisionState"
                     android:textAlignment="viewStart"
                     android:textColor="@color/black"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/activity_supervise_thesis_textSupervisionState"
+                    android:id="@+id/activity_edit_supervised_thesis_textSupervisionState"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/black"
+                    android:textSize="24sp"/>
+
+                <TextView
+                    android:id="@+id/activity_edit_supervised_thesis_headerSupervisor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:labelFor="@id/activity_edit_supervised_thesis_textSupervisor"
+                    android:text="@string/activity_edit_supervised_thesis_headerSupervisor"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/black"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/activity_edit_supervised_thesis_textSupervisor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -183,20 +194,20 @@
                     android:textSize="24sp" />
 
                 <TextView
-                    android:id="@+id/activity_supervise_thesis_headerSupervisor"
+                    android:id="@+id/activity_edit_supervised_thesis_headerStudent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="5dp"
-                    android:labelFor="@id/activity_supervise_thesis_textSupervisor"
-                    android:text="@string/activity_supervise_thesis_headerSupervisorFirst"
+                    android:labelFor="@id/activity_edit_supervised_thesis_textStudent"
+                    android:text="@string/activity_edit_supervised_thesis_headerStudent"
                     android:textAlignment="viewStart"
                     android:textColor="@color/black"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/activity_supervise_thesis_textSupervisor"
+                    android:id="@+id/activity_edit_supervised_thesis_textStudent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -206,100 +217,86 @@
                     android:textSize="24sp" />
 
                 <TextView
-                    android:id="@+id/activity_supervise_thesis_headerStudent"
+                    android:id="@+id/activity_edit_supervised_thesis_headerExpose"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="5dp"
-                    android:labelFor="@id/activity_supervise_thesis_textStudent"
-                    android:text="@string/activity_supervise_thesis_headerStudent"
-                    android:textAlignment="viewStart"
-                    android:textColor="@color/black"
-                    android:textSize="24sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/activity_supervise_thesis_textStudent"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="5dp"
-                    android:textAlignment="viewStart"
-                    android:textColor="@color/black"
-                    android:textSize="24sp" />
-
-                <TextView
-                    android:id="@+id/activity_supervise_thesis_headerExpose"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="5dp"
-                    android:labelFor="@id/activity_supervise_thesis_iconExpose"
-                    android:text="@string/activity_supervise_thesis_headerExpose"
+                    android:labelFor="@id/activity_edit_supervised_thesis_iconExpose"
+                    android:text="@string/activity_edit_supervised_thesis_headerExpose"
                     android:textAlignment="viewStart"
                     android:textColor="@color/black"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
                 <ImageView
-                    android:id="@+id/activity_supervise_thesis_iconExpose"
+                    android:id="@+id/activity_edit_supervised_thesis_iconExpose"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:contentDescription="@string/activity_supervise_thesis_iconExpose_description"
+                    android:contentDescription="@string/activity_edit_supervised_thesis_iconExpose_description"
                     app:srcCompat="@drawable/ic_file_icon" />
 
                 <TextView
-                    android:id="@+id/activity_supervise_thesis_headerStatus"
+                    android:id="@+id/activity_edit_supervised_thesis_headerStatus"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="5dp"
-                    android:labelFor="@id/activity_supervise_thesis_textStatus"
-                    android:text="@string/activity_supervise_thesis_headerStatus"
+                    android:labelFor="@id/activity_edit_supervised_thesis_statusSpinner"
+                    android:text="@string/activity_edit_supervised_thesis_headerStatus"
                     android:textAlignment="viewStart"
                     android:textColor="@color/black"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/activity_supervise_thesis_textStatus"
+                <Spinner
+                    android:id="@+id/activity_edit_supervised_thesis_statusSpinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="5dp"
                     android:textAlignment="viewStart"
                     android:textColor="@color/black"
-                    android:textSize="24sp" />
+                    android:textSize="24sp"/>
 
                 <TextView
-                    android:id="@+id/activity_supervise_thesis_headerInvoiceStatus"
+                    android:id="@+id/activity_edit_supervised_thesis_statusText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="5dp"
-                    android:labelFor="@id/activity_supervise_thesis_textInvoiceStatus"
-                    android:text="@string/activity_supervise_thesis_headerInvoiceStatus"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/black"
+                    android:textSize="24sp"/>
+
+                <TextView
+                    android:id="@+id/activity_edit_supervised_thesis_headerInvoiceStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:labelFor="@id/activity_edit_supervised_thesis_textInvoiceStatus"
+                    android:text="@string/activity_edit_supervised_thesis_headerInvoiceStatus"
                     android:textAlignment="viewStart"
                     android:textColor="@color/black"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/activity_supervise_thesis_textInvoiceStatus"
+                <Spinner
+                    android:id="@+id/activity_edit_supervised_thesis_textInvoiceStatus"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="5dp"
                     android:textAlignment="viewStart"
                     android:textColor="@color/black"
-                    android:textSize="24sp" />
+                    android:textSize="24sp"/>
 
                 <Button
-                    android:id="@+id/activity_supervise_thesis_editThesis"
+                    android:id="@+id/activity_edit_supervised_thesis_buttonSave"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/activity_supervise_thesis_editThesis" />
-
+                    android:text="@string/activity_edit_supervised_thesis_buttonSave" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

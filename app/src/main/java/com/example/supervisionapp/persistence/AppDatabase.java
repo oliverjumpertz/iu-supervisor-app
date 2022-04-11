@@ -52,6 +52,7 @@ public abstract class AppDatabase extends RoomDatabase {
                                 UserType userTypeStudent = new UserType();
                                 userTypeStudent.type = UserTypeModel.STUDENT.name();
                                 userTypeStudent.id = userTypeDao.insert(userTypeStudent).blockingGet();
+
                                 UserType userTypeSupervisor = new UserType();
                                 userTypeSupervisor.type = UserTypeModel.SUPERVISOR.name();
                                 userTypeSupervisor.id = userTypeDao.insert(userTypeSupervisor).blockingGet();
@@ -83,45 +84,40 @@ public abstract class AppDatabase extends RoomDatabase {
                                 userThree.id = userDao.insert(userThree).blockingGet();
 
                                 ThesisStateDao thesisStateDao = INSTANCE.thesisStateDao();
-                                ThesisState advertisedThesisState = new ThesisState();
-                                advertisedThesisState.state = ThesisStateModel.ADVERTISED.name();
-                                advertisedThesisState.id = thesisStateDao.insert(advertisedThesisState).blockingGet();
 
-                                ThesisState inProgressThesisState = new ThesisState();
-                                inProgressThesisState.state = ThesisStateModel.IN_PROGRESS.name();
-                                inProgressThesisState.id = thesisStateDao.insert(inProgressThesisState).blockingGet();
+                                for (ThesisStateModel thesisState : ThesisStateModel.values()) {
+                                    ThesisState newThesisState = new ThesisState();
+                                    newThesisState.state = thesisState.name();
+                                    newThesisState.id = thesisStateDao.insert(newThesisState).blockingGet();
+                                }
 
                                 SupervisoryTypeDao supervisoryTypeDao = INSTANCE.supervisoryTypeDao();
-                                SupervisoryType firstSupervisorType = new SupervisoryType();
-                                firstSupervisorType.type = SupervisoryTypeModel.FIRST_SUPERVISOR.name();
-                                firstSupervisorType.id = supervisoryTypeDao.insert(firstSupervisorType).blockingGet();
-                                SupervisoryType secondSupervisorType = new SupervisoryType();
-                                secondSupervisorType.type = SupervisoryTypeModel.SECOND_SUPERVISOR.name();
-                                secondSupervisorType.id = supervisoryTypeDao.insert(secondSupervisorType).blockingGet();
+                                for (SupervisoryTypeModel supervisoryType : SupervisoryTypeModel.values()) {
+                                    SupervisoryType newSupervisoryType = new SupervisoryType();
+                                    newSupervisoryType.type = supervisoryType.name();
+                                    newSupervisoryType.id = supervisoryTypeDao.insert(newSupervisoryType).blockingGet();
+                                }
 
                                 InvoiceStateDao invoiceStateDao = INSTANCE.invoiceStateDao();
-                                InvoiceState invoiceStateUnfinished = new InvoiceState();
-                                invoiceStateUnfinished.state = InvoiceStateModel.UNFINISHED.name();
-                                invoiceStateUnfinished.id = invoiceStateDao.insert(invoiceStateUnfinished).blockingGet();
+                                for (InvoiceStateModel invoiceState : InvoiceStateModel.values()) {
+                                    InvoiceState newInvoiceState = new InvoiceState();
+                                    newInvoiceState.state = invoiceState.name();
+                                    newInvoiceState.id = invoiceStateDao.insert(newInvoiceState).blockingGet();
+                                }
 
                                 SupervisoryStateDao supervisoryStateDao = INSTANCE.supervisoryStateDao();
-
-                                SupervisoryState draftSupervisoryState = new SupervisoryState();
-                                draftSupervisoryState.state = SupervisoryStateModel.DRAFT.name();
-                                draftSupervisoryState.id = supervisoryStateDao.insert(draftSupervisoryState).blockingGet();
-
-                                SupervisoryState supervisedSupervisoryState = new SupervisoryState();
-                                supervisedSupervisoryState.state = SupervisoryStateModel.SUPERVISED.name();
-                                supervisedSupervisoryState.id = supervisoryStateDao.insert(supervisedSupervisoryState).blockingGet();
+                                for (SupervisoryStateModel supervisoryState : SupervisoryStateModel.values()) {
+                                    SupervisoryState newSupervisoryState = new SupervisoryState();
+                                    newSupervisoryState.state = supervisoryState.name();
+                                    newSupervisoryState.id = supervisoryStateDao.insert(newSupervisoryState).blockingGet();
+                                }
 
                                 SupervisionRequestTypeDao supervisionRequestTypeDao = INSTANCE.supervisionRequestTypeDao();
-                                SupervisionRequestType supervisionRequestType = new SupervisionRequestType();
-                                supervisionRequestType.type = SupervisionRequestTypeModel.SUPERVISION.name();
-                                supervisionRequestType.id = supervisionRequestTypeDao.insert(supervisionRequestType).blockingGet();
-
-                                SupervisionRequestType secondSupervisorRequest = new SupervisionRequestType();
-                                secondSupervisorRequest.type = SupervisionRequestTypeModel.SECOND_SUPERVISOR.name();
-                                secondSupervisorRequest.id = supervisionRequestTypeDao.insert(secondSupervisorRequest).blockingGet();
+                                for (SupervisionRequestTypeModel supervisionRequestType : SupervisionRequestTypeModel.values()) {
+                                    SupervisionRequestType newSupervisionRequestType = new SupervisionRequestType();
+                                    newSupervisionRequestType.type = supervisionRequestType.name();
+                                    newSupervisionRequestType.id = supervisionRequestTypeDao.insert(newSupervisionRequestType).blockingGet();
+                                }
                             }
                         });
                     } catch (Exception e) {
@@ -153,6 +149,17 @@ public abstract class AppDatabase extends RoomDatabase {
             }
         }
         return INSTANCE;
+    }
+
+    public static void shutDown() {
+        if (INSTANCE != null) {
+            synchronized (AppDatabase.class) {
+                if (INSTANCE != null) {
+                    INSTANCE.close();
+                    INSTANCE = null;
+                }
+            }
+        }
     }
 
     public abstract InvoiceStateDao invoiceStateDao();

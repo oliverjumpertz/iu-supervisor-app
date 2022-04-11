@@ -70,7 +70,7 @@ public class ThesesRequestsListAdapter extends BaseAdapter implements View.OnCli
         name.setOnClickListener(this);
         name.setTag(index);
 
-        type.setText(item.getRequestType().name());
+        type.setText(item.getRequestType().getResourceId());
         type.setClickable(true);
         type.setOnClickListener(this);
         type.setTag(index);
