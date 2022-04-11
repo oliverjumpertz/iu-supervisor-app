@@ -75,7 +75,12 @@ public class ActivityEditSupervisedThesis extends AppCompatActivity {
                 titleText.setText(thesisModel.getTitle());
 
                 TextView subTitleText = findViewById(R.id.activity_edit_supervised_thesis_textSubTitle);
-                subTitleText.setText(thesisModel.getSubTitle());
+                String subtitle = thesisModel.getSubTitle();
+                if (subtitle != null && !subtitle.isEmpty()) {
+                    subTitleText.setText(thesisModel.getSubTitle());
+                } else {
+                    subTitleText.setText(R.string.empty_subtitle);
+                }
 
                 TextView supervisionStateText = findViewById(R.id.activity_edit_supervised_thesis_textSupervisionState);
                 supervisionStateText.setText(getResources().getString(thesisModel.getSupervisoryState().getResourceId()));
