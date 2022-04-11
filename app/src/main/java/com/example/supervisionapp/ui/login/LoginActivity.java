@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.example.supervisionapp.MainActivity;
 import com.example.supervisionapp.databinding.ActivityLoginBinding;
+import com.example.supervisionapp.persistence.AppDatabase;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -119,6 +120,12 @@ public class LoginActivity extends AppCompatActivity {
                         passwordEditText.getText().toString());
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AppDatabase.getDatabase(getApplicationContext());
     }
 
     private void updateUiWithUser(LoggedInUserView model) {

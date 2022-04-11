@@ -51,18 +51,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        AppDatabase.getDatabase(getApplicationContext());
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        AppDatabase.shutDown();
-    }
-
     public void onClickLogout(View view) {
         LoginRepository loginRepository = LoginRepository.getInstance(null);
         loginRepository.logout();

@@ -16,6 +16,7 @@ public class SupervisorApplication extends Application {
     public void onCreate() {
         super.onCreate();
         SupervisorApplication.context = getApplicationContext();
+        AppDatabase.getDatabase(context);
     }
 
     @Override

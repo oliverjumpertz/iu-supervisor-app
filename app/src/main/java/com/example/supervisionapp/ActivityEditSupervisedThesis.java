@@ -20,7 +20,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.supervisionapp.data.LoginRepository;
 import com.example.supervisionapp.data.model.InvoiceStateModel;
 import com.example.supervisionapp.data.model.LoggedInUser;
-import com.example.supervisionapp.data.model.SupervisoryStateModel;
 import com.example.supervisionapp.data.model.SupervisoryTypeModel;
 import com.example.supervisionapp.data.model.ThesisModel;
 import com.example.supervisionapp.data.model.ThesisStateModel;
@@ -111,7 +110,7 @@ public class ActivityEditSupervisedThesis extends AppCompatActivity {
                 for (InvoiceStateModel invoiceState : InvoiceStateModel.values()) {
                     if (invoiceState.getSortPosition() >= thesisModel.getInvoiceState().getSortPosition()) {
                         if (invoiceState.getSortPosition() > InvoiceStateModel.UNFINISHED.getSortPosition()
-                        && thesisModel.getThesisState().getSortPosition() < ThesisStateModel.TURNED_IN.getSortPosition()) {
+                        && thesisModel.getThesisState().getSortPosition() <= ThesisStateModel.TURNED_IN.getSortPosition()) {
                             continue;
                         }
                         invoiceStateAdapter.add(getResources().getString(invoiceState.getResourceId()));

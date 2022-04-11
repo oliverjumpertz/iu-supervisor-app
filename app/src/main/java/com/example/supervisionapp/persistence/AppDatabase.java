@@ -151,17 +151,6 @@ public abstract class AppDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
-    public static void shutDown() {
-        if (INSTANCE != null) {
-            synchronized (AppDatabase.class) {
-                if (INSTANCE != null) {
-                    INSTANCE.close();
-                    INSTANCE = null;
-                }
-            }
-        }
-    }
-
     public abstract InvoiceStateDao invoiceStateDao();
 
     public abstract StudentDao studentDao();
