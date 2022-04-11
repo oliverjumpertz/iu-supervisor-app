@@ -8,6 +8,8 @@ import com.example.supervisionapp.ui.main.SupervisorApplication;
 import com.example.supervisionapp.utils.PasswordUtils;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class that handles authentication w/ login credentials and retrieves user information.
@@ -18,6 +20,18 @@ public class LoginDataSource {
         try {
             AppDatabase appDatabase = AppDatabase.getDatabase(SupervisorApplication.getAppContext());
             UserRepository userRepository = new UserRepository(appDatabase);
+            // this is a hacky way to ensure that the
+            // initial database data ingestion has
+            // actually finished.
+            // This ingestion has to be async because it
+            // otherwise triggers an infinite loop.
+            // As we cannot await the ingestion elsewhere,
+            // we do it here to ensure the login succeeds
+            // and does not always fail the first time.
+            List<User> users = new ArrayList<>();
+            while (users.isEmpty()) {
+                users = userRepository.getAll().blockingGet();
+            }
             User user = userRepository.getUserByUsername(username).blockingGet();
             if (user == null) {
                 return new Result.Error(new IllegalArgumentException("User or password wrong"));

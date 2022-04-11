@@ -13,6 +13,7 @@ import java.util.Set;
 
 import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.core.MaybeSource;
+import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.functions.BiFunction;
 import io.reactivex.rxjava3.functions.Function;
 
@@ -115,6 +116,32 @@ public class UserRepository {
                                     UserTypeModel.valueOf(userType.type)));
                         }
                         return userModels;
+                    }
+                });
+    }
+
+    public Single<List<User>> getAll() {
+        UserDao userDao = appDatabase.userDao();
+        UserTypeDao userTypeDao = appDatabase.userTypeDao();
+        return userDao
+                .getAll()
+                .map(new Function<List<com.example.supervisionapp.persistence.User>, List<User>>() {
+                    @Override
+                    public List<User> apply(List<com.example.supervisionapp.persistence.User> users) throws Throwable {
+                        List<User> resultingUsers = new ArrayList<>();
+                        for (com.example.supervisionapp.persistence.User dbUser : users) {
+                            UserType userType = userTypeDao.getById(dbUser.type).blockingGet();
+                            resultingUsers.add(new User(
+                                    dbUser.id,
+                                    dbUser.username,
+                                    dbUser.password,
+                                    dbUser.title,
+                                    dbUser.name,
+                                    dbUser.foreName,
+                                    UserTypeModel.valueOf(userType.type)
+                            ));
+                        }
+                        return resultingUsers;
                     }
                 });
     }
