@@ -115,4 +115,6 @@
     <string name="SupervisionRequestTypeModel_SECOND_SUPERVISOR">2.</string>
     <string name="activity_edit_supervised_thesis_dialog_title">Speichern</string>
     <string name="activity_edit_supervised_thesis_dialog_question">Statusänderungen können nicht rückgängig gemacht werden. Bist du sicher, dass du fortfahren willst?</string>
+    <string name="empty_student_name">Kein Student zugewiesen</string>
+    <string name="empty_second_supervisor_name">Kein Zweitbetreuer zugewiesen</string>
 </resources>

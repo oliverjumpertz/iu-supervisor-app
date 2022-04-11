@@ -144,7 +144,12 @@ public class ActivitySuperviseThesis extends AppCompatActivity {
                 supervisionStateText.setText(thesisModel.getSupervisoryState().getResourceId());
 
                 TextView studentText = findViewById(R.id.activity_supervise_thesis_textStudent);
-                studentText.setText(thesisModel.getStudentName());
+                String studentName = thesisModel.getStudentName();
+                if (studentName != null && !studentName.isEmpty()) {
+                    studentText.setText(thesisModel.getStudentName());
+                } else {
+                    studentText.setText(R.string.empty_student_name);
+                }
 
                 TextView statusText = findViewById(R.id.activity_supervise_thesis_textStatus);
                 statusText.setText(thesisModel.getThesisState().getResourceId());
