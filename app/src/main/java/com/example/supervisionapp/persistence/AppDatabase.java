@@ -19,6 +19,7 @@ import com.example.supervisionapp.utils.PasswordUtils;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 @Database(entities = {
         InvoiceState.class,
@@ -123,12 +124,16 @@ public abstract class AppDatabase extends RoomDatabase {
                     } catch (Exception e) {
                         Log.e(LOG_TAG, "There was an error when trying to set up the database", e);
                         throw e;
-                    } finally {
-                        // don't waste precious resources
-                        databaseExecutor.shutdown();
                     }
                 }
             });
+            // don't waste precious resources
+            databaseExecutor.shutdown();
+            try {
+                databaseExecutor.awaitTermination(10, TimeUnit.SECONDS);
+            } catch (InterruptedException e) {
+                Log.e(LOG_TAG, "Executor took too long to shut down", e);
+            }
         }
     }
 
