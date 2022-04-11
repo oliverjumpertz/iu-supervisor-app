@@ -129,11 +129,6 @@ public abstract class AppDatabase extends RoomDatabase {
             });
             // don't waste precious resources
             databaseExecutor.shutdown();
-            try {
-                databaseExecutor.awaitTermination(10, TimeUnit.SECONDS);
-            } catch (InterruptedException e) {
-                Log.e(LOG_TAG, "Executor took too long to shut down", e);
-            }
         }
     }
 

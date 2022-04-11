@@ -59,7 +59,7 @@ public class ActivityAdvertiseThesis extends AppCompatActivity {
                 LoggedInUser loggedInUser = loginRepository.getLoggedInUser();
                 AppDatabase appDatabase = AppDatabase.getDatabase(getApplicationContext());
                 TextView titleView = findViewById(R.id.activity_advertise_thesis_plainTextTitle);
-                TextView descriptionView = findViewById(R.id.activity_advertise_thesis_textViewDescription);
+                TextView descriptionView = findViewById(R.id.activity_advertise_thesis_multiLineTextDescription);
 
                 ThesisRepository thesisRepository = new ThesisRepository(appDatabase);
                 try {

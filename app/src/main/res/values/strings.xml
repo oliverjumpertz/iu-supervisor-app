@@ -117,4 +117,5 @@
     <string name="activity_edit_supervised_thesis_dialog_question">Statusänderungen können nicht rückgängig gemacht werden. Bist du sicher, dass du fortfahren willst?</string>
     <string name="empty_student_name">Kein Student zugewiesen</string>
     <string name="empty_subtitle">Noch kein Untertitel gesetzt</string>
+    <string name="no_expose_uploaded">Bitte lade ein Exposé hoch. Ohne dieses kannst du keine Betreuung beantragen.</string>
 </resources>

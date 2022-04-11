@@ -73,6 +73,15 @@ public class ActivitySubmitThesis extends AppCompatActivity {
                 EditText descriptionView = findViewById(R.id.activity_submit_thesis_multiLineTextDescription);
                 ImageView uploadIcon = findViewById(R.id.activity_submit_thesis_uploadExposeIcon);
                 String expose = (String) uploadIcon.getTag();
+                if (expose == null || expose.isEmpty()) {
+                    Toast
+                            .makeText(
+                                    ActivitySubmitThesis.this,
+                                    R.string.no_expose_uploaded,
+                                    Toast.LENGTH_LONG)
+                            .show();
+                    return;
+                }
                 thesisRepository
                         .requestSupervision(
                                 thesis.id,
@@ -138,8 +147,13 @@ public class ActivitySubmitThesis extends AppCompatActivity {
                 TextView title = findViewById(R.id.activity_submit_thesis_plainTextTitle);
                 title.setText(thesis.title);
 
-                EditText subTitle = findViewById(R.id.activity_submit_thesis_plainTextSubTitle);
-                subTitle.setText(thesis.subtitle);
+                EditText subtitleText = findViewById(R.id.activity_submit_thesis_plainTextSubTitle);
+                String subtitle = thesis.subtitle;
+                if (subtitle != null && !subtitle.isEmpty()) {
+                    subtitleText.setText(thesis.subtitle);
+                } else {
+                    subtitleText.setText(R.string.empty_subtitle);
+                }
 
                 EditText description = findViewById(R.id.activity_submit_thesis_multiLineTextDescription);
                 description.setText(thesis.description);
