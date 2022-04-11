@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -56,16 +57,24 @@ public class FragmentThesesRequests extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ListView listView = getView().findViewById(R.id.fragment_theses_requests_thesesRequests);
+        TextView emptyThesesView = getView().findViewById(R.id.fragment_theses_requests_emptyTheses);
         mViewModel = new ViewModelProvider(this).get(ViewModelThesesRequests.class);
         mViewModel.getThesesRequests().observe(getViewLifecycleOwner(), new Observer<List<ThesesRequestsListItem>>() {
             @Override
             public void onChanged(List<ThesesRequestsListItem> items) {
-                ThesesRequestsListAdapter thesesRequestsListAdapter = new ThesesRequestsListAdapter(
-                        getActivity(),
-                        items,
-                        REQUEST_CODE,
-                        FragmentThesesRequests.this);
-                listView.setAdapter(thesesRequestsListAdapter);
+                if (items != null && !items.isEmpty()) {
+                    ThesesRequestsListAdapter thesesRequestsListAdapter = new ThesesRequestsListAdapter(
+                            getActivity(),
+                            items,
+                            REQUEST_CODE,
+                            FragmentThesesRequests.this);
+                    listView.setAdapter(thesesRequestsListAdapter);
+                    listView.setVisibility(View.VISIBLE);
+                    emptyThesesView.setVisibility(View.GONE);
+                } else {
+                    listView.setVisibility(View.GONE);
+                    emptyThesesView.setVisibility(View.VISIBLE);
+                }
             }
         });
         updateData();

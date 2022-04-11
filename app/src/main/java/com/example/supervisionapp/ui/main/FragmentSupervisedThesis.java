@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,7 +29,6 @@ import java.util.List;
 import io.reactivex.rxjava3.functions.Consumer;
 
 public class FragmentSupervisedThesis extends Fragment {
-
     private ViewModelSupervisedThesis mViewModel;
     private boolean initialized = false;
 
@@ -53,12 +53,20 @@ public class FragmentSupervisedThesis extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ListView listView = getView().findViewById(R.id.fragment_supervised_thesis_supervisedTheses);
+        TextView emptyThesesView = getView().findViewById(R.id.fragment_supervised_thesis_emptyTheses);
         mViewModel = new ViewModelProvider(this).get(ViewModelSupervisedThesis.class);
         mViewModel.getSupervisedTheses().observe(getViewLifecycleOwner(), new Observer<List<SupervisedThesesListItem>>() {
             @Override
             public void onChanged(List<SupervisedThesesListItem> items) {
-                SupervisedThesesListAdapter myResearchListAdapter = new SupervisedThesesListAdapter(getActivity(), items);
-                listView.setAdapter(myResearchListAdapter);
+                if (items != null && !items.isEmpty()) {
+                    SupervisedThesesListAdapter myResearchListAdapter = new SupervisedThesesListAdapter(getActivity(), items);
+                    listView.setAdapter(myResearchListAdapter);
+                    listView.setVisibility(View.VISIBLE);
+                    emptyThesesView.setVisibility(View.GONE);
+                } else {
+                    listView.setVisibility(View.GONE);
+                    emptyThesesView.setVisibility(View.VISIBLE);
+                }
             }
         });
         updateData();

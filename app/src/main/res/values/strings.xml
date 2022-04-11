@@ -118,4 +118,7 @@
     <string name="empty_student_name">Kein Student zugewiesen</string>
     <string name="empty_subtitle">Noch kein Untertitel gesetzt</string>
     <string name="no_expose_uploaded">Bitte lade ein Exposé hoch. Ohne dieses kannst du keine Betreuung beantragen.</string>
+    <string name="fragment_advertised_theses_emptyTheses">Zur Zeit sind leider keine Arbeiten ausgeschrieben. Bitte schau später noch einma vorbei oder wende dich direkt an einen Betreuer.</string>
+    <string name="fragment_theses_requests_emptyTheses">Zur Zeit sind keine Anfragen für eine Betreuung vorhanden.</string>
+    <string name="fragment_supervised_thesis_emptyTheses">Zur Zeit sind keine Arbeiten in Betreuung.</string>
 </resources>

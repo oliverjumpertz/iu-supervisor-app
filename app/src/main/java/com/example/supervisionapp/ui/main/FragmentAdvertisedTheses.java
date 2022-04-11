@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -54,12 +55,20 @@ public class FragmentAdvertisedTheses extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ListView listView = getView().findViewById(R.id.fragment_advertised_theses_advertisedTheses);
+        TextView emptyThesesView = getView().findViewById(R.id.fragment_advertised_theses_emptyTheses);
         mViewModel = new ViewModelProvider(this).get(ViewModelAdvertisedTheses.class);
         mViewModel.getAdvertisedTheses().observe(getViewLifecycleOwner(), new Observer<List<AdvertisedThesesListItem>>() {
             @Override
             public void onChanged(List<AdvertisedThesesListItem> items) {
-                AdvertisedThesesListAdapter advertisedThesesListAdapter = new AdvertisedThesesListAdapter(getActivity(), items);
-                listView.setAdapter(advertisedThesesListAdapter);
+                if (items != null && !items.isEmpty()) {
+                    AdvertisedThesesListAdapter advertisedThesesListAdapter = new AdvertisedThesesListAdapter(getActivity(), items);
+                    listView.setAdapter(advertisedThesesListAdapter);
+                    listView.setVisibility(View.VISIBLE);
+                    emptyThesesView.setVisibility(View.GONE);
+                } else {
+                    listView.setVisibility(View.GONE);
+                    emptyThesesView.setVisibility(View.VISIBLE);
+                }
             }
         });
     }

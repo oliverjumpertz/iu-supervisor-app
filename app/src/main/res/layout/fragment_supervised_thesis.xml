@@ -40,6 +40,16 @@
             android:layout_marginTop="20dp"
             android:layout_marginRight="20dp" />
 
+        <TextView
+            android:id="@+id/fragment_supervised_thesis_emptyTheses"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:text="@string/fragment_supervised_thesis_emptyTheses" />
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
