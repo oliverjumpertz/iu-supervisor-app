@@ -120,12 +120,17 @@ public class ActivitySuperviseThesis extends AppCompatActivity {
                     if (thesisModel.hasSecondSupervisor()) {
                         supervisorHeader.setText(R.string.activity_supervise_thesis_headerSupervisorSecond);
                         supervisorText.setText(thesisModel.getSecondSupervisorName());
+                        supervisorHeader.setVisibility(View.VISIBLE);
+                        supervisorText.setVisibility(View.VISIBLE);
                     } else {
                         supervisorHeader.setVisibility(View.GONE);
+                        supervisorText.setVisibility(View.GONE);
                     }
                 } else {
                     supervisorHeader.setText(R.string.activity_supervise_thesis_headerSupervisorFirst);
                     supervisorText.setText(thesisModel.getFirstSupervisorName());
+                    supervisorHeader.setVisibility(View.VISIBLE);
+                    supervisorText.setVisibility(View.VISIBLE);
                 }
 
                 Button deleteDraftButton = findViewById(R.id.activity_supervise_thesis_buttonDeleteDraft);
