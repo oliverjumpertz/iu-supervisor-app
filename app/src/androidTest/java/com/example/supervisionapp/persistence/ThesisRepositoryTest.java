@@ -405,6 +405,10 @@ public class ThesisRepositoryTest {
         supervisionRequestType.type = SupervisionRequestTypeModel.SUPERVISION.name();
         supervisionRequestType.id = supervisionRequestTypeDao.insert(supervisionRequestType).blockingGet();
 
+        SupervisionRequestType secondSupervisionRequestType = new SupervisionRequestType();
+        secondSupervisionRequestType.type = SupervisionRequestTypeModel.SECOND_SUPERVISOR.name();
+        secondSupervisionRequestType.id = supervisionRequestTypeDao.insert(secondSupervisionRequestType).blockingGet();
+
         SupervisionRequest supervisionRequest = new SupervisionRequest();
         supervisionRequest.thesis = thesis.id;
         supervisionRequest.user = studentUser.id;
@@ -436,6 +440,10 @@ public class ThesisRepositoryTest {
         SupervisionRequestType supervisionRequestType = new SupervisionRequestType();
         supervisionRequestType.type = SupervisionRequestTypeModel.SUPERVISION.name();
         supervisionRequestType.id = supervisionRequestTypeDao.insert(supervisionRequestType).blockingGet();
+
+        SupervisionRequestType secondSupervisionRequestType = new SupervisionRequestType();
+        secondSupervisionRequestType.type = SupervisionRequestTypeModel.SECOND_SUPERVISOR.name();
+        secondSupervisionRequestType.id = supervisionRequestTypeDao.insert(secondSupervisionRequestType).blockingGet();
 
         SupervisionRequest supervisionRequestOne = new SupervisionRequest();
         supervisionRequestOne.thesis = thesis.id;
@@ -521,6 +529,10 @@ public class ThesisRepositoryTest {
         assertNotNull(requests);
         assertFalse(requests.isEmpty());
         assertEquals(1, requests.size());
+
+        List<SupervisionRequestModel> firstSupervisorRequests = thesisRepository.getSupervisionRequestsForUser(user).blockingGet();
+        assertNotNull(firstSupervisorRequests);
+        assertTrue(firstSupervisorRequests.isEmpty());
     }
 
     @Test

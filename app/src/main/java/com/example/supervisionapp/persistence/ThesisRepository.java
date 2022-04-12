@@ -503,12 +503,19 @@ public class ThesisRepository {
                                     @Override
                                     public List<Pair<Supervisor, SupervisionRequest>> apply(List<Supervisor> supervisors, List<SupervisionRequest> supervisionRequests) throws Throwable {
                                         List<Pair<Supervisor, SupervisionRequest>> result = new ArrayList<>();
+                                        SupervisionRequestType secondSupervisionRequestType = supervisionRequestTypeDao
+                                                .getByType(SupervisionRequestTypeModel.SECOND_SUPERVISOR.name())
+                                                .blockingGet();
                                         // supervisors should be filtered here
                                         // resulting list should only contain
                                         // entities where a request was supplied for
                                         for (Supervisor supervisor : supervisors) {
                                             for (SupervisionRequest supervisionRequest : supervisionRequests) {
                                                 if (supervisionRequest.thesis == supervisor.thesis) {
+                                                    if (supervisionRequest.type == secondSupervisionRequestType.id &&
+                                                            supervisionRequest.user != loggedInUser.getUserId()) {
+                                                        continue;
+                                                    }
                                                     result.add(new Pair<>(supervisor, supervisionRequest));
                                                 }
                                             }

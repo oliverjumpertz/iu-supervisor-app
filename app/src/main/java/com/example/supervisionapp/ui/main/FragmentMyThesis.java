@@ -89,14 +89,18 @@ public class FragmentMyThesis extends Fragment {
                 TextView firstSupervisor = view.findViewById(R.id.fragment_my_thesis_textFirstSupervisor);
                 firstSupervisor.setText(thesisModel.getFirstSupervisorName());
 
+                TextView secondSupervisorHeader = view.findViewById(R.id.fragment_my_thesis_headerSecondSupervisor);
+                TextView secondSupervisor = view.findViewById(R.id.fragment_my_thesis_textSecondSupervisor);
+
                 if (thesisModel.hasSecondSupervisor()) {
-                    TextView secondSupervisorHeader = view.findViewById(R.id.fragment_my_thesis_headerSecondSupervisor);
                     secondSupervisorHeader.setVisibility(View.VISIBLE);
                     secondSupervisorHeader.setText(R.string.fragment_my_thesis_header_second_supervisor);
 
-                    TextView secondSupervisor = view.findViewById(R.id.fragment_my_thesis_textSecondSupervisor);
                     secondSupervisor.setVisibility(View.VISIBLE);
                     secondSupervisor.setText(thesisModel.getSecondSupervisorName());
+                } else {
+                    secondSupervisorHeader.setVisibility(View.GONE);
+                    secondSupervisor.setVisibility(View.GONE);
                 }
 
                 TextView headerExpose = view.findViewById(R.id.fragment_my_thesis_headerExpose);
@@ -126,6 +130,11 @@ public class FragmentMyThesis extends Fragment {
                         }
                     });
                 }
+                secondSupervisorHeader.invalidate();
+                secondSupervisor.invalidate();
+                view
+                        .findViewById(R.id.fragment_my_thesis_constraintLayout)
+                        .invalidate();
             }
         });
     }

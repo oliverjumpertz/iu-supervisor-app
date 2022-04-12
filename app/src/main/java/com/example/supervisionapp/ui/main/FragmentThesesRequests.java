@@ -75,8 +75,19 @@ public class FragmentThesesRequests extends Fragment {
                     listView.setVisibility(View.GONE);
                     emptyThesesView.setVisibility(View.VISIBLE);
                 }
+                listView.invalidate();
+                emptyThesesView.invalidate();
+                getView()
+                        .findViewById(R.id.fragment_advertised_theses_constraintLayout)
+                        .invalidate();
             }
         });
+        updateData();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         updateData();
     }
 
