@@ -929,4 +929,31 @@ public class ThesisRepository {
             }
         });
     }
+
+    // TODO: tests
+    public Maybe<Boolean> studentHasThesis(LoggedInUser user) {
+        StudentDao studentDao = appDatabase.studentDao();
+        ThesisDao thesisDao = appDatabase.thesisDao();
+        ThesisStateDao thesisStateDao = appDatabase.thesisStateDao();
+        return studentDao
+                .getByUser(user.getUserId())
+                .map(new Function<List<Student>, Boolean>() {
+                    @Override
+                    public Boolean apply(List<Student> students) throws Throwable {
+                        for (Student student : students) {
+                            Thesis thesis = thesisDao
+                                    .getById(student.thesis)
+                                    .blockingGet();
+                            ThesisState thesisState = thesisStateDao
+                                    .getById(thesis.state)
+                                    .blockingGet();
+                            ThesisStateModel thesisStateModel = ThesisStateModel.valueOf(thesisState.state);
+                            if (thesisStateModel.getSortPosition() < ThesisStateModel.FINISHED.getSortPosition()) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    }
+                });
+    }
 }

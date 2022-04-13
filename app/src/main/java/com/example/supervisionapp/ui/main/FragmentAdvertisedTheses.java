@@ -27,6 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.rxjava3.functions.Consumer;
+import io.reactivex.rxjava3.functions.Function;
+import io.reactivex.rxjava3.functions.Predicate;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class FragmentAdvertisedTheses extends Fragment {
@@ -69,6 +71,8 @@ public class FragmentAdvertisedTheses extends Fragment {
                     listView.setVisibility(View.GONE);
                     emptyThesesView.setVisibility(View.VISIBLE);
                 }
+                listView.invalidate();
+                emptyThesesView.invalidate();
             }
         });
     }
@@ -94,6 +98,18 @@ public class FragmentAdvertisedTheses extends Fragment {
         LoggedInUser loggedInUser = loginRepository.getLoggedInUser();
         thesisRepository
                 .getAdvertisedTheses(loggedInUser)
+                .map(new Function<List<UserThesisModel>, List<UserThesisModel>>() {
+                    @Override
+                    public List<UserThesisModel> apply(List<UserThesisModel> userThesisModels) throws Throwable {
+                        Boolean hasThesis = thesisRepository
+                                .studentHasThesis(loggedInUser)
+                                .blockingGet();
+                        if (hasThesis != null && hasThesis) {
+                            return new ArrayList<>();
+                        }
+                        return userThesisModels;
+                    }
+                })
                 .observeOn(Schedulers.io())
                 .subscribe(new Consumer<List<UserThesisModel>>() {
                     @Override
