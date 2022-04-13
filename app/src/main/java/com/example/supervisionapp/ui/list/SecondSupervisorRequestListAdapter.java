@@ -20,10 +20,15 @@ import java.util.List;
 public class SecondSupervisorRequestListAdapter extends BaseAdapter implements View.OnClickListener {
     private Context context;
     private List<SecondSupervisorRequestListItem> items;
+    private Runnable onRequest;
 
-    public SecondSupervisorRequestListAdapter(Context context, List<SecondSupervisorRequestListItem> items) {
+    public SecondSupervisorRequestListAdapter(
+            Context context,
+            List<SecondSupervisorRequestListItem> items,
+            Runnable onRequest) {
         this.context = context;
         this.items = new ArrayList<>(items);
+        this.onRequest = onRequest;
     }
 
     @Override
@@ -74,7 +79,7 @@ public class SecondSupervisorRequestListAdapter extends BaseAdapter implements V
                         thesisRepository
                                 .requestSecondSupervisor(item.getThesisId(), item.getUserId())
                                 .blockingAwait();
-                        // TODO: finish somehow?
+                        onRequest.run();
                     }
                 });
                 builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

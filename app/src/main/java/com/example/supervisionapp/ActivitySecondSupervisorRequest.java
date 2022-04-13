@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -63,17 +64,38 @@ public class ActivitySecondSupervisorRequest extends AppCompatActivity {
         });
 
         ListView listView = findViewById(R.id.activity_second_supervisor_request_supervisors);
+        TextView emptyList = findViewById(R.id.activity_second_supervisor_request_emptySupervisors);
         mViewModel = new ViewModelProvider(this).get(ViewModelSecondSupervisorRequest.class);
         mViewModel.getUsers().observe(this, new Observer<List<User>>() {
             @Override
             public void onChanged(List<User> users) {
                 ThesisModel thesis = mViewModel.getThesis().getValue();
                 List<SecondSupervisorRequestListItem> items = new ArrayList<>();
+                if (users == null || users.isEmpty()) {
+                    listView.setVisibility(View.GONE);
+                    listView.invalidate();
+                    emptyList.setVisibility(View.VISIBLE);
+                    emptyList.invalidate();
+                    return;
+                }
                 for (User user : users) {
                     items.add(new SecondSupervisorRequestListItem(user.getId(), thesis.getThesisId(), user.getForename() + " " + user.getName()));
                 }
-                SecondSupervisorRequestListAdapter listAdapter = new SecondSupervisorRequestListAdapter(ActivitySecondSupervisorRequest.this, items);
+                SecondSupervisorRequestListAdapter listAdapter = new SecondSupervisorRequestListAdapter(
+                        ActivitySecondSupervisorRequest.this,
+                        items,
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                loadData(thesis.getThesisId());
+                            }
+                        }
+                );
                 listView.setAdapter(listAdapter);
+                listView.setVisibility(View.VISIBLE);
+                listView.invalidate();
+                emptyList.setVisibility(View.GONE);
+                emptyList.invalidate();
             }
         });
     }
