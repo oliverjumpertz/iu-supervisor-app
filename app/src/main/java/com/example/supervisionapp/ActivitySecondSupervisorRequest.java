@@ -63,12 +63,12 @@ public class ActivitySecondSupervisorRequest extends AppCompatActivity {
             }
         });
 
-        ListView listView = findViewById(R.id.activity_second_supervisor_request_supervisors);
-        TextView emptyList = findViewById(R.id.activity_second_supervisor_request_emptySupervisors);
         mViewModel = new ViewModelProvider(this).get(ViewModelSecondSupervisorRequest.class);
         mViewModel.getUsers().observe(this, new Observer<List<User>>() {
             @Override
             public void onChanged(List<User> users) {
+                ListView listView = findViewById(R.id.activity_second_supervisor_request_supervisors);
+                TextView emptyList = findViewById(R.id.activity_second_supervisor_request_emptySupervisors);
                 ThesisModel thesis = mViewModel.getThesis().getValue();
                 List<SecondSupervisorRequestListItem> items = new ArrayList<>();
                 if (users == null || users.isEmpty()) {

@@ -51,12 +51,12 @@ public class FragmentSupervisedThesis extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ListView listView = getView().findViewById(R.id.fragment_supervised_thesis_supervisedTheses);
-        TextView emptyThesesView = getView().findViewById(R.id.fragment_supervised_thesis_emptyTheses);
         mViewModel = new ViewModelProvider(this).get(ViewModelSupervisedThesis.class);
         mViewModel.getSupervisedTheses().observe(getViewLifecycleOwner(), new Observer<List<SupervisedThesesListItem>>() {
             @Override
             public void onChanged(List<SupervisedThesesListItem> items) {
+                ListView listView = getView().findViewById(R.id.fragment_supervised_thesis_supervisedTheses);
+                TextView emptyThesesView = getView().findViewById(R.id.fragment_supervised_thesis_emptyTheses);
                 if (items != null && !items.isEmpty()) {
                     SupervisedThesesListAdapter myResearchListAdapter = new SupervisedThesesListAdapter(getActivity(), items);
                     listView.setAdapter(myResearchListAdapter);
@@ -66,11 +66,6 @@ public class FragmentSupervisedThesis extends Fragment {
                     listView.setVisibility(View.GONE);
                     emptyThesesView.setVisibility(View.VISIBLE);
                 }
-                listView.invalidate();
-                emptyThesesView.invalidate();
-                getView()
-                        .findViewById(R.id.fragment_supervised_thesis_constraintLayout)
-                        .invalidate();
             }
         });
         loadData();

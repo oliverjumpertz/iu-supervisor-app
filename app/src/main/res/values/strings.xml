@@ -52,7 +52,8 @@
     <string name="activity_advertise_thesis_textViewDescription">Beschreibung:</string>
     <string name="activity_advertise_thesis_multiLineTextDescription">Beschreibe hier die Arbeit</string>
     <string name="activity_advertise_thesis_buttonCreate">Erstellen</string>
-    <string name="activity_supervise_thesis_pageTitle">Betreuung</string>
+    <string name="activity_supervise_thesis_pageTitleFirst">Erstbetreuung</string>
+    <string name="activity_supervise_thesis_pageTitleSecond">Zweitbetreuung</string>
     <string name="activity_supervise_thesis_buttonSecondSupervisor">Zweitbetreuer Suchen</string>
     <string name="activity_supervise_thesis_buttonDeleteDraft">Draft Löschen</string>
     <string name="activity_supervise_thesis_headerTitle">Titel:</string>

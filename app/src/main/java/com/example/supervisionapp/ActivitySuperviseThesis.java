@@ -113,6 +113,13 @@ public class ActivitySuperviseThesis extends AppCompatActivity {
                     secondSupervisorButton.setVisibility(View.VISIBLE);
                 }
 
+                TextView pageTitle = findViewById(R.id.activity_supervise_thesis_pageTitle);
+                if (thesisModel.getSupervisoryType() == SupervisoryTypeModel.FIRST_SUPERVISOR) {
+                    pageTitle.setText(R.string.activity_supervise_thesis_pageTitleFirst);
+                } else {
+                    pageTitle.setText(R.string.activity_supervise_thesis_pageTitleSecond);
+                }
+
                 TextView supervisorHeader = findViewById(R.id.activity_supervise_thesis_headerSupervisor);
                 TextView supervisorText = findViewById(R.id.activity_supervise_thesis_textSupervisor);
 

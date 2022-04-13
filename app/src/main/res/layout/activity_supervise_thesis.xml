@@ -93,7 +93,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/activity_supervise_thesis_pageTitle"
+                        android:text="@string/activity_supervise_thesis_pageTitleFirst"
                         android:textAlignment="center"
                         android:textAllCaps="false"
                         android:textColor="@color/black"

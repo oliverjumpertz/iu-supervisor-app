@@ -56,12 +56,12 @@ public class FragmentAdvertisedTheses extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ListView listView = getView().findViewById(R.id.fragment_advertised_theses_advertisedTheses);
-        TextView emptyThesesView = getView().findViewById(R.id.fragment_advertised_theses_emptyTheses);
         mViewModel = new ViewModelProvider(this).get(ViewModelAdvertisedTheses.class);
         mViewModel.getAdvertisedTheses().observe(getViewLifecycleOwner(), new Observer<List<AdvertisedThesesListItem>>() {
             @Override
             public void onChanged(List<AdvertisedThesesListItem> items) {
+                ListView listView = getView().findViewById(R.id.fragment_advertised_theses_advertisedTheses);
+                TextView emptyThesesView = getView().findViewById(R.id.fragment_advertised_theses_emptyTheses);
                 if (items != null && !items.isEmpty()) {
                     AdvertisedThesesListAdapter advertisedThesesListAdapter = new AdvertisedThesesListAdapter(getActivity(), items);
                     listView.setAdapter(advertisedThesesListAdapter);
