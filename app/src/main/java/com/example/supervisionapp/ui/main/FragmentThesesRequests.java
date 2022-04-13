@@ -82,13 +82,13 @@ public class FragmentThesesRequests extends Fragment {
                         .invalidate();
             }
         });
-        updateData();
+        loadData();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        updateData();
+        loadData();
     }
 
     @Override
@@ -96,7 +96,7 @@ public class FragmentThesesRequests extends Fragment {
         super.setUserVisibleHint(isVisibleToUser);
 
         if (initialized && isVisibleToUser) {
-            updateData();
+            loadData();
         }
     }
 
@@ -104,11 +104,11 @@ public class FragmentThesesRequests extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            updateData();
+            loadData();
         }
     }
 
-    private void updateData() {
+    private void loadData() {
         AppDatabase appDatabase = AppDatabase.getDatabase(SupervisorApplication.getAppContext());
         ThesisRepository thesisRepository = new ThesisRepository(appDatabase);
 

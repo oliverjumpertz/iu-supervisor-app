@@ -17,7 +17,6 @@ import com.example.supervisionapp.R;
 import com.example.supervisionapp.data.LoginRepository;
 import com.example.supervisionapp.data.list.model.SupervisedThesesListItem;
 import com.example.supervisionapp.data.model.LoggedInUser;
-import com.example.supervisionapp.data.model.SupervisoryTypeModel;
 import com.example.supervisionapp.data.model.ThesisModel;
 import com.example.supervisionapp.persistence.AppDatabase;
 import com.example.supervisionapp.persistence.ThesisRepository;
@@ -74,13 +73,13 @@ public class FragmentSupervisedThesis extends Fragment {
                         .invalidate();
             }
         });
-        updateData();
+        loadData();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        updateData();
+        loadData();
     }
 
     @Override
@@ -88,11 +87,11 @@ public class FragmentSupervisedThesis extends Fragment {
         super.setUserVisibleHint(isVisibleToUser);
 
         if (initialized && isVisibleToUser) {
-            updateData();
+            loadData();
         }
     }
 
-    private void updateData() {
+    private void loadData() {
         AppDatabase appDatabase = AppDatabase.getDatabase(SupervisorApplication.getAppContext());
         ThesisRepository thesisRepository = new ThesisRepository(appDatabase);
 
