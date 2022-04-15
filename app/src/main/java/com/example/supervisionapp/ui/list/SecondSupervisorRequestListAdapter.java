@@ -87,7 +87,8 @@ public class SecondSupervisorRequestListAdapter extends BaseAdapter implements V
                         // noop
                     }
                 });
-                builder.setMessage(R.string.activity_second_supervisor_request_dialog_question)
+
+                builder.setMessage(createAlertDialogMessage(item.getName()))
                         .setTitle(R.string.activity_second_supervisor_request_dialog_title);
 
                 AlertDialog dialog = builder.create();
@@ -96,5 +97,20 @@ public class SecondSupervisorRequestListAdapter extends BaseAdapter implements V
             default:
                 throw new IllegalStateException("Unrecognized id passed to onClick handler");
         }
+    }
+
+    private String createAlertDialogMessage(String supervisorName) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(context
+                .getResources()
+                .getString(R.string.activity_second_supervisor_request_dialog_question));
+        stringBuilder.append(" ");
+        stringBuilder.append(context
+                .getResources()
+                .getString(R.string.activity_second_supervisor_request_dialog_question_supervisorName));
+        stringBuilder.append(" \"");
+        stringBuilder.append(supervisorName);
+        stringBuilder.append("\"");
+        return stringBuilder.toString();
     }
 }

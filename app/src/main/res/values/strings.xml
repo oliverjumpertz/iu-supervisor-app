@@ -95,6 +95,7 @@
     <string name="cancel">Abbruch</string>
     <string name="activity_second_supervisor_request_dialog_title">Zweitbetreueranfrage</string>
     <string name="activity_second_supervisor_request_dialog_question">Soll dieser Kollege um Zweitbetreuung gebeten werden?</string>
+    <string name="activity_second_supervisor_request_dialog_question_supervisorName">Der ausgewählte Zweitbetreuer ist:</string>
     <string name="activity_supervise_thesis_dialog_delete_draft">Thesis Draft Löschen</string>
     <string name="activity_supervise_thesis_dialog_delete_draft_text">Soll dieser Thesis Draft tatsächlich gelöscht werden?</string>
     <string name="error_thesis_not_saved">Thesis konnte nicht erstellt werden.</string>
