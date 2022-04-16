@@ -197,7 +197,8 @@ public class ThesisRepository {
                                         String firstSupervisorName;
                                         String secondSupervisorName;
                                         if (SupervisoryTypeModel.valueOf(supervisoryType.type) == SupervisoryTypeModel.FIRST_SUPERVISOR) {
-                                            firstSupervisorName = Utils.createSupervisorName(firstSupervisorUser);;
+                                            firstSupervisorName = Utils.createSupervisorName(firstSupervisorUser);
+                                            ;
                                             secondSupervisorName = Utils.createSupervisorName(secondSupervisorUser);
                                         } else {
                                             firstSupervisorName = Utils.createSupervisorName(secondSupervisorUser);
