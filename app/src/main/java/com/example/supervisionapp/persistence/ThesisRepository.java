@@ -892,7 +892,6 @@ public class ThesisRepository {
         });
     }
 
-    // TODO: test
     public Completable updateThesis(
             long thesisId,
             LoggedInUser loggedInUser,
@@ -900,7 +899,6 @@ public class ThesisRepository {
             InvoiceStateModel invoiceState) {
         ThesisDao thesisDao = appDatabase.thesisDao();
         SupervisorDao supervisorDao = appDatabase.supervisorDao();
-        SupervisoryStateDao supervisoryStateDao = appDatabase.supervisoryStateDao();
         ThesisStateDao thesisStateDao = appDatabase.thesisStateDao();
         InvoiceStateDao invoiceStateDao = appDatabase.invoiceStateDao();
         return Completable.fromRunnable(new Runnable() {

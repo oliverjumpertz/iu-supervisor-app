@@ -80,6 +80,11 @@ public class ThesisRepositoryTest {
 
         inProgressThesisState.id = thesisStateDao.insert(inProgressThesisState).blockingGet();
 
+        ThesisState ratedThesisState = new ThesisState();
+        ratedThesisState.state = ThesisStateModel.RATED.name();
+
+        ratedThesisState.id = thesisStateDao.insert(ratedThesisState).blockingGet();
+
         SupervisoryType firstSupervisorType = new SupervisoryType();
         firstSupervisorType.type = SupervisoryTypeModel.FIRST_SUPERVISOR.name();
         supervisoryTypeDao.insert(firstSupervisorType).blockingSubscribe();
@@ -91,6 +96,10 @@ public class ThesisRepositoryTest {
         InvoiceState invoiceStateUnfinished = new InvoiceState();
         invoiceStateUnfinished.state = InvoiceStateModel.UNFINISHED.name();
         invoiceStateUnfinished.id = invoiceStateDao.insert(invoiceStateUnfinished).blockingGet();
+
+        InvoiceState invoiceSent = new InvoiceState();
+        invoiceSent.state = InvoiceStateModel.INVOICE_SENT.name();
+        invoiceSent.id = invoiceStateDao.insert(invoiceSent).blockingGet();
 
         SupervisoryState draftSupervisoryState = new SupervisoryState();
         draftSupervisoryState.state = SupervisoryStateModel.DRAFT.name();
@@ -1071,5 +1080,253 @@ public class ThesisRepositoryTest {
 
         Boolean hasThesis = thesisRepository.studentHasThesis(student).blockingGet();
         assertFalse(hasThesis);
+    }
+
+    @Test
+    public void testThatUpdateThesisWorksWithBoth() {
+        LoggedInUser user = insertBaseData();
+        thesisRepository.createThesis("Test1", "TestDescription", user).blockingAwait();
+
+        UserType studentUserType = userTypeDao.getByType(UserTypeModel.STUDENT.name()).blockingGet();
+
+        User studentUser = new User();
+        studentUser.foreName = "Karl";
+        studentUser.name = "Test-Student";
+        studentUser.type = studentUserType.id;
+        studentUser.id = userDao.insert(studentUser).blockingGet();
+
+        List<Thesis> theses = thesisDao.getAll().blockingGet();
+        Thesis thesis = theses.get(0);
+
+        SupervisionRequestType supervisionRequestType = new SupervisionRequestType();
+        supervisionRequestType.type = SupervisionRequestTypeModel.SUPERVISION.name();
+        supervisionRequestType.id = supervisionRequestTypeDao.insert(supervisionRequestType).blockingGet();
+
+        LoggedInUser student = new LoggedInUser(
+                studentUser.id,
+                studentUser.username,
+                UserTypeModel.STUDENT
+        );
+
+        thesisRepository.requestSupervision(
+                thesis.id,
+                student,
+                "",
+                "",
+                ""
+        ).blockingAwait();
+
+        thesisRepository
+                .acceptSupervisionRequest(
+                        thesisRepository.getSupervisionRequestByThesisAndUser(
+                                thesis.id,
+                                student.getUserId()
+                        )
+                                .blockingGet()
+                )
+                .blockingAwait();
+
+        thesisRepository
+                .updateThesis(
+                        thesis.id,
+                        user,
+                        ThesisStateModel.RATED,
+                        InvoiceStateModel.INVOICE_SENT
+                )
+                .blockingAwait();
+
+
+        ThesisModel thesisModel = thesisRepository
+                .getSupervisorsSupervisedTheses(user)
+                .blockingGet()
+                .get(0);
+        assertEquals(ThesisStateModel.RATED, thesisModel.getThesisState());
+        assertEquals(InvoiceStateModel.INVOICE_SENT, thesisModel.getInvoiceState());
+    }
+
+    @Test
+    public void testThatUpdateThesisWorksWithInvoiceState() {
+        LoggedInUser user = insertBaseData();
+        thesisRepository.createThesis("Test1", "TestDescription", user).blockingAwait();
+
+        UserType studentUserType = userTypeDao.getByType(UserTypeModel.STUDENT.name()).blockingGet();
+
+        User studentUser = new User();
+        studentUser.foreName = "Karl";
+        studentUser.name = "Test-Student";
+        studentUser.type = studentUserType.id;
+        studentUser.id = userDao.insert(studentUser).blockingGet();
+
+        List<Thesis> theses = thesisDao.getAll().blockingGet();
+        Thesis thesis = theses.get(0);
+
+        SupervisionRequestType supervisionRequestType = new SupervisionRequestType();
+        supervisionRequestType.type = SupervisionRequestTypeModel.SUPERVISION.name();
+        supervisionRequestType.id = supervisionRequestTypeDao.insert(supervisionRequestType).blockingGet();
+
+        LoggedInUser student = new LoggedInUser(
+                studentUser.id,
+                studentUser.username,
+                UserTypeModel.STUDENT
+        );
+
+        thesisRepository.requestSupervision(
+                thesis.id,
+                student,
+                "",
+                "",
+                ""
+        ).blockingAwait();
+
+        thesisRepository
+                .acceptSupervisionRequest(
+                        thesisRepository.getSupervisionRequestByThesisAndUser(
+                                thesis.id,
+                                student.getUserId()
+                        )
+                                .blockingGet()
+                )
+                .blockingAwait();
+
+        thesisRepository
+                .updateThesis(
+                        thesis.id,
+                        user,
+                        null,
+                        InvoiceStateModel.INVOICE_SENT
+                )
+                .blockingAwait();
+
+
+        ThesisModel thesisModel = thesisRepository
+                .getSupervisorsSupervisedTheses(user)
+                .blockingGet()
+                .get(0);
+        assertEquals(ThesisStateModel.IN_PROGRESS, thesisModel.getThesisState());
+        assertEquals(InvoiceStateModel.INVOICE_SENT, thesisModel.getInvoiceState());
+    }
+
+    @Test
+    public void testThatUpdateThesisWorksWithThesisState() {
+        LoggedInUser user = insertBaseData();
+        thesisRepository.createThesis("Test1", "TestDescription", user).blockingAwait();
+
+        UserType studentUserType = userTypeDao.getByType(UserTypeModel.STUDENT.name()).blockingGet();
+
+        User studentUser = new User();
+        studentUser.foreName = "Karl";
+        studentUser.name = "Test-Student";
+        studentUser.type = studentUserType.id;
+        studentUser.id = userDao.insert(studentUser).blockingGet();
+
+        List<Thesis> theses = thesisDao.getAll().blockingGet();
+        Thesis thesis = theses.get(0);
+
+        SupervisionRequestType supervisionRequestType = new SupervisionRequestType();
+        supervisionRequestType.type = SupervisionRequestTypeModel.SUPERVISION.name();
+        supervisionRequestType.id = supervisionRequestTypeDao.insert(supervisionRequestType).blockingGet();
+
+        LoggedInUser student = new LoggedInUser(
+                studentUser.id,
+                studentUser.username,
+                UserTypeModel.STUDENT
+        );
+
+        thesisRepository.requestSupervision(
+                thesis.id,
+                student,
+                "",
+                "",
+                ""
+        ).blockingAwait();
+
+        thesisRepository
+                .acceptSupervisionRequest(
+                        thesisRepository.getSupervisionRequestByThesisAndUser(
+                                thesis.id,
+                                student.getUserId()
+                        )
+                                .blockingGet()
+                )
+                .blockingAwait();
+
+        thesisRepository
+                .updateThesis(
+                        thesis.id,
+                        user,
+                        ThesisStateModel.RATED,
+                        null
+                )
+                .blockingAwait();
+
+
+        ThesisModel thesisModel = thesisRepository
+                .getSupervisorsSupervisedTheses(user)
+                .blockingGet()
+                .get(0);
+        assertEquals(ThesisStateModel.RATED, thesisModel.getThesisState());
+        assertEquals(InvoiceStateModel.UNFINISHED, thesisModel.getInvoiceState());
+    }
+
+    @Test
+    public void testThatUpdateThesisWorksWithNone() {
+        LoggedInUser user = insertBaseData();
+        thesisRepository.createThesis("Test1", "TestDescription", user).blockingAwait();
+
+        UserType studentUserType = userTypeDao.getByType(UserTypeModel.STUDENT.name()).blockingGet();
+
+        User studentUser = new User();
+        studentUser.foreName = "Karl";
+        studentUser.name = "Test-Student";
+        studentUser.type = studentUserType.id;
+        studentUser.id = userDao.insert(studentUser).blockingGet();
+
+        List<Thesis> theses = thesisDao.getAll().blockingGet();
+        Thesis thesis = theses.get(0);
+
+        SupervisionRequestType supervisionRequestType = new SupervisionRequestType();
+        supervisionRequestType.type = SupervisionRequestTypeModel.SUPERVISION.name();
+        supervisionRequestType.id = supervisionRequestTypeDao.insert(supervisionRequestType).blockingGet();
+
+        LoggedInUser student = new LoggedInUser(
+                studentUser.id,
+                studentUser.username,
+                UserTypeModel.STUDENT
+        );
+
+        thesisRepository.requestSupervision(
+                thesis.id,
+                student,
+                "",
+                "",
+                ""
+        ).blockingAwait();
+
+        thesisRepository
+                .acceptSupervisionRequest(
+                        thesisRepository.getSupervisionRequestByThesisAndUser(
+                                thesis.id,
+                                student.getUserId()
+                        )
+                                .blockingGet()
+                )
+                .blockingAwait();
+
+        thesisRepository
+                .updateThesis(
+                        thesis.id,
+                        user,
+                        null,
+                        null
+                )
+                .blockingAwait();
+
+
+        ThesisModel thesisModel = thesisRepository
+                .getSupervisorsSupervisedTheses(user)
+                .blockingGet()
+                .get(0);
+        assertEquals(ThesisStateModel.IN_PROGRESS, thesisModel.getThesisState());
+        assertEquals(InvoiceStateModel.UNFINISHED, thesisModel.getInvoiceState());
     }
 }

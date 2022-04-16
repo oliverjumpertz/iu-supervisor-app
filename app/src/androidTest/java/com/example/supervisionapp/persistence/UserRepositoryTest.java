@@ -10,7 +10,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.supervisionapp.data.model.InvoiceStateModel;
 import com.example.supervisionapp.data.model.LoggedInUser;
-import com.example.supervisionapp.data.model.SupervisionRequestModel;
 import com.example.supervisionapp.data.model.SupervisionRequestTypeModel;
 import com.example.supervisionapp.data.model.SupervisoryStateModel;
 import com.example.supervisionapp.data.model.SupervisoryTypeModel;
@@ -26,7 +25,6 @@ import org.junit.runner.RunWith;
 import java.util.List;
 
 import io.reactivex.rxjava3.core.Completable;
-import io.reactivex.rxjava3.core.Maybe;
 
 @RunWith(AndroidJUnit4.class)
 public class UserRepositoryTest {
@@ -113,7 +111,7 @@ public class UserRepositoryTest {
 
     @Test
     public void testThatGetEligibleSecondSupervisorsWorksWhenSupervisionRequestExists() {
-        basicSetup();
+        basicEnumSetup();
         UserType userType = new UserType();
         userType.type = UserTypeModel.SUPERVISOR.name();
         userType.id = userTypeDao.insert(userType).blockingGet();
@@ -154,7 +152,7 @@ public class UserRepositoryTest {
         assertEquals(1, eligibleSecondSupervisors.size());
     }
 
-    private void basicSetup() {
+    private void basicEnumSetup() {
         Completable.fromRunnable(new Runnable() {
             @Override
             public void run() {
