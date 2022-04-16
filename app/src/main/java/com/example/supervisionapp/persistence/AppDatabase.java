@@ -85,7 +85,6 @@ public abstract class AppDatabase extends RoomDatabase {
                                 userThree.id = userDao.insert(userThree).blockingGet();
 
                                 ThesisStateDao thesisStateDao = INSTANCE.thesisStateDao();
-
                                 for (ThesisStateModel thesisState : ThesisStateModel.values()) {
                                     ThesisState newThesisState = new ThesisState();
                                     newThesisState.state = thesisState.name();

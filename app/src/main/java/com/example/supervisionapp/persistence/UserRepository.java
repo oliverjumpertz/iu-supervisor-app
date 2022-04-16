@@ -50,7 +50,6 @@ public class UserRepository {
                 });
     }
 
-    // TODO test
     public Maybe<List<User>> getEligibleSecondSupervisors(LoggedInUser user) {
         UserDao userDao = appDatabase.userDao();
         UserTypeDao userTypeDao = appDatabase.userTypeDao();
@@ -75,37 +74,6 @@ public class UserRepository {
                             if (!optionalExistingSecondSupervisionRequests.isEmpty()) {
                                 continue;
                             }
-                            UserType userType = userTypeDao.getById(user.type).blockingGet();
-                            userModels.add(new User(user.id,
-                                    user.username,
-                                    user.password,
-                                    user.title,
-                                    user.name,
-                                    user.foreName,
-                                    UserTypeModel.valueOf(userType.type)));
-                        }
-                        return userModels;
-                    }
-                });
-    }
-
-    public Maybe<List<User>> getSupervisorsExcept(LoggedInUser user) {
-        UserDao userDao = appDatabase.userDao();
-        UserTypeDao userTypeDao = appDatabase.userTypeDao();
-        return userTypeDao
-                .getByType(UserTypeModel.SUPERVISOR.name())
-                .flatMap(new Function<UserType, MaybeSource<List<com.example.supervisionapp.persistence.User>>>() {
-                    @Override
-                    public MaybeSource<List<com.example.supervisionapp.persistence.User>> apply(UserType userType) throws Throwable {
-                        return userDao
-                                .getByTypeWhereUserIsNot(userType.id, user.getUserId());
-                    }
-                })
-                .map(new Function<List<com.example.supervisionapp.persistence.User>, List<User>>() {
-                    @Override
-                    public List<User> apply(List<com.example.supervisionapp.persistence.User> users) throws Throwable {
-                        List<User> userModels = new ArrayList<>();
-                        for (com.example.supervisionapp.persistence.User user : users) {
                             UserType userType = userTypeDao.getById(user.type).blockingGet();
                             userModels.add(new User(user.id,
                                     user.username,

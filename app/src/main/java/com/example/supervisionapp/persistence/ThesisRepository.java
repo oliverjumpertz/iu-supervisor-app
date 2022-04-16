@@ -243,7 +243,6 @@ public class ThesisRepository {
                             ids.add(student.thesis);
                         }
 
-                        // TODO: get by states
                         List<ThesisState> states = thesisStateDao
                                 .getByStates(Arrays
                                         .asList(
@@ -893,8 +892,7 @@ public class ThesisRepository {
         });
     }
 
-    // TODO: need to update Supervisor, as well
-    //  maybe take in user id, as well?
+    // TODO: test
     public Completable updateThesis(
             long thesisId,
             LoggedInUser loggedInUser,
