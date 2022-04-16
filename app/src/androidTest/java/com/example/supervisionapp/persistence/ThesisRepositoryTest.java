@@ -991,4 +991,85 @@ public class ThesisRepositoryTest {
                 .blockingGet();
         assertTrue(supervisionRequests.isEmpty());
     }
+
+    @Test
+    public void testThatStudentHasThesisWorks() {
+        LoggedInUser user = insertBaseData();
+
+        SupervisionRequestType supervisionRequestType = new SupervisionRequestType();
+        supervisionRequestType.type = SupervisionRequestTypeModel.SUPERVISION.name();
+        supervisionRequestType.id = supervisionRequestTypeDao.insert(supervisionRequestType).blockingGet();
+
+        SupervisionRequestType secondSupervisionRequestType = new SupervisionRequestType();
+        secondSupervisionRequestType.type = SupervisionRequestTypeModel.SECOND_SUPERVISOR.name();
+        secondSupervisionRequestType.id = supervisionRequestTypeDao.insert(secondSupervisionRequestType).blockingGet();
+
+        thesisRepository.createThesis("Test1", "TestDescription", user).blockingAwait();
+
+        UserType studentUserType = userTypeDao.getByType(UserTypeModel.STUDENT.name()).blockingGet();
+
+        User studentUser = new User();
+        studentUser.foreName = "Karl";
+        studentUser.name = "Test-Student";
+        studentUser.type = studentUserType.id;
+        studentUser.id = userDao.insert(studentUser).blockingGet();
+
+        Thesis thesis = thesisDao.getAll().blockingGet().get(0);
+
+        LoggedInUser student = new LoggedInUser(
+                studentUser.id,
+                studentUser.username,
+                UserTypeModel.STUDENT
+        );
+
+        thesisRepository.requestSupervision(thesis.id,
+                student,
+                "",
+                "",
+                ""
+        ).blockingAwait();
+
+        SupervisionRequestModel supervisionRequestModel = thesisRepository
+                .getSupervisionRequestByThesisAndUser(thesis.id, studentUser.id)
+                .blockingGet();
+
+        thesisRepository
+                .acceptSupervisionRequest(supervisionRequestModel)
+                .blockingAwait();
+
+        Boolean hasThesis = thesisRepository.studentHasThesis(student).blockingGet();
+        assertTrue(hasThesis);
+    }
+
+    @Test
+    public void testThatStudentHasThesisWorksWithNoThesis() {
+        LoggedInUser user = insertBaseData();
+
+        SupervisionRequestType supervisionRequestType = new SupervisionRequestType();
+        supervisionRequestType.type = SupervisionRequestTypeModel.SUPERVISION.name();
+        supervisionRequestType.id = supervisionRequestTypeDao.insert(supervisionRequestType).blockingGet();
+
+        SupervisionRequestType secondSupervisionRequestType = new SupervisionRequestType();
+        secondSupervisionRequestType.type = SupervisionRequestTypeModel.SECOND_SUPERVISOR.name();
+        secondSupervisionRequestType.id = supervisionRequestTypeDao.insert(secondSupervisionRequestType).blockingGet();
+
+        thesisRepository.createThesis("Test1", "TestDescription", user).blockingAwait();
+
+        UserType studentUserType = userTypeDao.getByType(UserTypeModel.STUDENT.name()).blockingGet();
+
+        User studentUser = new User();
+        studentUser.foreName = "Karl";
+        studentUser.name = "Test-Student";
+        studentUser.type = studentUserType.id;
+        studentUser.id = userDao.insert(studentUser).blockingGet();
+
+        LoggedInUser student = new LoggedInUser(
+                studentUser.id,
+                studentUser.username,
+                UserTypeModel.STUDENT
+        );
+
+        Boolean hasThesis = thesisRepository.studentHasThesis(student).blockingGet();
+        assertFalse(hasThesis);
+    }
 }

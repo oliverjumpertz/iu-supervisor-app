@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment;
 import com.example.supervisionapp.ActivityViewThesisRequest;
 import com.example.supervisionapp.R;
 import com.example.supervisionapp.data.list.model.ThesesRequestsListItem;
-import com.example.supervisionapp.ui.main.FragmentThesesRequests;
 
 import java.util.ArrayList;
 import java.util.List;

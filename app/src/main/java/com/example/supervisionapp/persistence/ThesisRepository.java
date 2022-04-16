@@ -929,7 +929,6 @@ public class ThesisRepository {
         });
     }
 
-    // TODO: tests
     public Maybe<Boolean> studentHasThesis(LoggedInUser user) {
         StudentDao studentDao = appDatabase.studentDao();
         ThesisDao thesisDao = appDatabase.thesisDao();
@@ -938,7 +937,7 @@ public class ThesisRepository {
                 .getByUser(user.getUserId())
                 .map(new Function<List<Student>, Boolean>() {
                     @Override
-                    public Boolean apply(List<Student> students) throws Throwable {
+                    public Boolean apply(List<Student> students) {
                         for (Student student : students) {
                             Thesis thesis = thesisDao
                                     .getById(student.thesis)
