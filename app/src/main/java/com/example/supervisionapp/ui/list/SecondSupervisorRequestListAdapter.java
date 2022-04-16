@@ -69,34 +69,37 @@ public class SecondSupervisorRequestListAdapter extends BaseAdapter implements V
         switch (view.getId()) {
             case R.id.second_supervisor_request_list_item_row_linearLayout:
             case R.id.second_supervisor_request_list_item_row_textName:
-                AppDatabase appDatabase = AppDatabase.getDatabase(context);
-                ThesisRepository thesisRepository = new ThesisRepository(appDatabase);
                 String index = (String) view.getTag();
                 SecondSupervisorRequestListItem item = items.get(Integer.valueOf(index));
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        thesisRepository
-                                .requestSecondSupervisor(item.getThesisId(), item.getUserId())
-                                .blockingAwait();
-                        onRequest.run();
-                    }
-                });
-                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // noop
-                    }
-                });
-
-                builder.setMessage(createAlertDialogMessage(item.getName()))
-                        .setTitle(R.string.activity_second_supervisor_request_dialog_title);
-
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                openAlertDialog(item);
                 break;
             default:
                 throw new IllegalStateException("Unrecognized id passed to onClick handler");
         }
+    }
+
+    private void openAlertDialog(SecondSupervisorRequestListItem item) {
+        AppDatabase appDatabase = AppDatabase.getDatabase(context);
+        ThesisRepository thesisRepository = new ThesisRepository(appDatabase);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                thesisRepository
+                        .requestSecondSupervisor(item.getThesisId(), item.getUserId())
+                        .blockingAwait();
+                onRequest.run();
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // noop
+            }
+        });
+
+        builder.setMessage(createAlertDialogMessage(item.getName()))
+                .setTitle(R.string.activity_second_supervisor_request_dialog_title);
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private String createAlertDialogMessage(String supervisorName) {
