@@ -12,21 +12,18 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.supervisionapp.data.LoginRepository;
-import com.example.supervisionapp.data.list.model.MyResearchListItem;
 import com.example.supervisionapp.data.list.model.SecondSupervisorRequestListItem;
 import com.example.supervisionapp.data.model.LoggedInUser;
 import com.example.supervisionapp.data.model.ThesisModel;
 import com.example.supervisionapp.data.model.User;
-import com.example.supervisionapp.databinding.ActivityAdvertiseThesisBinding;
 import com.example.supervisionapp.databinding.ActivitySecondSupervisorRequestBinding;
 import com.example.supervisionapp.persistence.AppDatabase;
 import com.example.supervisionapp.persistence.ThesisRepository;
 import com.example.supervisionapp.persistence.UserRepository;
-import com.example.supervisionapp.ui.list.MyResearchListAdapter;
 import com.example.supervisionapp.ui.list.SecondSupervisorRequestListAdapter;
 import com.example.supervisionapp.ui.login.LoginActivity;
 import com.example.supervisionapp.ui.main.ViewModelSecondSupervisorRequest;
-import com.example.supervisionapp.ui.main.ViewModelSuperviseThesis;
+import com.example.supervisionapp.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,7 +76,7 @@ public class ActivitySecondSupervisorRequest extends AppCompatActivity {
                     return;
                 }
                 for (User user : users) {
-                    items.add(new SecondSupervisorRequestListItem(user.getId(), thesis.getThesisId(), user.getForename() + " " + user.getName()));
+                    items.add(new SecondSupervisorRequestListItem(user.getId(), thesis.getThesisId(), Utils.createStudentName(user.getForename(), user.getName())));
                 }
                 SecondSupervisorRequestListAdapter listAdapter = new SecondSupervisorRequestListAdapter(
                         ActivitySecondSupervisorRequest.this,

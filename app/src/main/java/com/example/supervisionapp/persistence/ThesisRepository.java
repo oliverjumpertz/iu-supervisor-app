@@ -10,6 +10,7 @@ import com.example.supervisionapp.data.model.SupervisionRequestModel;
 import com.example.supervisionapp.data.model.ThesisStateModel;
 import com.example.supervisionapp.data.model.Tuple4;
 import com.example.supervisionapp.data.model.UserThesisModel;
+import com.example.supervisionapp.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -180,7 +181,7 @@ public class ThesisRepository {
                                     public ThesisModel apply(Thesis thesis, Supervisor supervisor, ThesisState thesisState, SupervisoryState supervisoryState, SupervisoryType supervisoryType, InvoiceState invoiceState, User user, Supervisor secondSupervisor) throws Throwable {
                                         String studentName = "";
                                         if (user.id >= 0) {
-                                            studentName = user.foreName + " " + user.name;
+                                            studentName = Utils.createStudentName(user.foreName, user.name);
                                         }
 
                                         User defaultFirstSupervisorUser = new User();
@@ -196,11 +197,11 @@ public class ThesisRepository {
                                         String firstSupervisorName;
                                         String secondSupervisorName;
                                         if (SupervisoryTypeModel.valueOf(supervisoryType.type) == SupervisoryTypeModel.FIRST_SUPERVISOR) {
-                                            firstSupervisorName = firstSupervisorUser.foreName + " " + firstSupervisorUser.name;
-                                            secondSupervisorName = secondSupervisorUser.foreName + " " + secondSupervisorUser.name;
+                                            firstSupervisorName = Utils.createSupervisorName(firstSupervisorUser);;
+                                            secondSupervisorName = Utils.createSupervisorName(secondSupervisorUser);
                                         } else {
-                                            firstSupervisorName = secondSupervisorUser.foreName + " " + secondSupervisorUser.name;
-                                            secondSupervisorName = firstSupervisorUser.foreName + " " + firstSupervisorUser.name;
+                                            firstSupervisorName = Utils.createSupervisorName(secondSupervisorUser);
+                                            secondSupervisorName = Utils.createSupervisorName(firstSupervisorUser);
                                         }
 
                                         boolean hasSecondSupervisor = secondSupervisor.user >= 0 && secondSupervisor.thesis >= 0;
@@ -326,7 +327,7 @@ public class ThesisRepository {
                                     public ThesisModel apply(Thesis thesis, Supervisor supervisor, ThesisState thesisState, SupervisoryState supervisoryState, SupervisoryType supervisoryType, InvoiceState invoiceState, User user, Supervisor secondSupervisor) throws Throwable {
                                         String studentName = "";
                                         if (user.id >= 0) {
-                                            studentName = user.foreName + " " + user.name;
+                                            studentName = Utils.createStudentName(user);
                                         }
 
                                         User defaultFirstSupervisorUser = new User();
@@ -342,11 +343,11 @@ public class ThesisRepository {
                                         String firstSupervisorName;
                                         String secondSupervisorName;
                                         if (SupervisoryTypeModel.valueOf(supervisoryType.type) == SupervisoryTypeModel.FIRST_SUPERVISOR) {
-                                            firstSupervisorName = firstSupervisorUser.foreName + " " + firstSupervisorUser.name;
-                                            secondSupervisorName = secondSupervisorUser.foreName + " " + secondSupervisorUser.name;
+                                            firstSupervisorName = Utils.createSupervisorName(firstSupervisorUser);
+                                            secondSupervisorName = Utils.createSupervisorName(secondSupervisorUser);
                                         } else {
-                                            firstSupervisorName = secondSupervisorUser.foreName + " " + secondSupervisorUser.name;
-                                            secondSupervisorName = firstSupervisorUser.foreName + " " + firstSupervisorUser.name;
+                                            firstSupervisorName = Utils.createSupervisorName(secondSupervisorUser);
+                                            secondSupervisorName = Utils.createSupervisorName(firstSupervisorUser);
                                         }
 
                                         boolean hasSecondSupervisor = secondSupervisor.user >= 0 && secondSupervisor.thesis >= 0;
@@ -445,11 +446,11 @@ public class ThesisRepository {
                             String firstSupervisorName;
                             String secondSupervisorName;
                             if (SupervisoryTypeModel.valueOf(supervisoryType.type) == SupervisoryTypeModel.FIRST_SUPERVISOR) {
-                                firstSupervisorName = firstSupervisorUser.foreName + " " + firstSupervisorUser.name;
-                                secondSupervisorName = secondSupervisorUser.foreName + " " + secondSupervisorUser.name;
+                                firstSupervisorName = Utils.createSupervisorName(firstSupervisorUser);
+                                secondSupervisorName = Utils.createSupervisorName(secondSupervisorUser);
                             } else {
-                                firstSupervisorName = secondSupervisorUser.foreName + " " + secondSupervisorUser.name;
-                                secondSupervisorName = firstSupervisorUser.foreName + " " + firstSupervisorUser.name;
+                                firstSupervisorName = Utils.createSupervisorName(secondSupervisorUser);
+                                secondSupervisorName = Utils.createSupervisorName(firstSupervisorUser);
                             }
 
                             theses.add(new ThesisModel(thesis.id,
@@ -457,7 +458,7 @@ public class ThesisRepository {
                                     thesis.subtitle,
                                     SupervisoryStateModel.valueOf(supervisoryState.state),
                                     SupervisoryTypeModel.valueOf(supervisoryType.type),
-                                    student.foreName + " " + student.name,
+                                    Utils.createStudentName(student),
                                     firstSupervisorName,
                                     secondSupervisorName,
                                     thesis.expose,
@@ -540,7 +541,7 @@ public class ThesisRepository {
                             SupervisionRequestType supervisionRequestType = supervisionRequestTypeDao.getById(supervisionRequest.type).blockingGet();
                             SupervisionRequestTypeModel requestType = SupervisionRequestTypeModel.valueOf(supervisionRequestType.type);
                             User requestingUser = userDao.getById(supervisionRequest.user).blockingGet();
-                            String studentName = requestingUser.foreName + " " + requestingUser.name;
+                            String studentName = Utils.createStudentName(requestingUser);
                             String supervisorName;
                             String subTitle;
                             String description;
@@ -557,7 +558,7 @@ public class ThesisRepository {
                                 User supervisorUser = userDao
                                         .getById(thesisSupervisor.user)
                                         .blockingGet();
-                                supervisorName = supervisorUser.foreName + " " + supervisorUser.name;
+                                supervisorName = Utils.createSupervisorName(supervisorUser);
                                 subTitle = thesis.subtitle;
                                 description = thesis.description;
                                 expose = thesis.expose;
@@ -585,14 +586,14 @@ public class ThesisRepository {
                             User firstSupervisorUser = userDao
                                     .getById(firstSupervisor.user)
                                     .blockingGet();
-                            String supervisorName = firstSupervisorUser.foreName + " " + firstSupervisorUser.name;
+                            String supervisorName = Utils.createSupervisorName(firstSupervisorUser);
                             Student student = studentDao
                                     .getByThesis(supervisionRequest.thesis)
                                     .blockingGet();
                             User studentUser = userDao
                                     .getById(student.user)
                                     .blockingGet();
-                            String studentName = studentUser.foreName + " " + studentUser.name;
+                            String studentName = Utils.createStudentName(studentUser);
                             results.add(new SupervisionRequestModel(
                                     thesis.id,
                                     supervisionRequest.user,
@@ -707,7 +708,7 @@ public class ThesisRepository {
                         SupervisionRequestType supervisionRequestType = supervisionRequestTypeDao.getById(supervisionRequest.type).blockingGet();
                         SupervisionRequestTypeModel requestType = SupervisionRequestTypeModel.valueOf(supervisionRequestType.type);
                         User requestingUser = userDao.getById(supervisionRequest.user).blockingGet();
-                        String studentName = requestingUser.foreName + " " + requestingUser.name;
+                        String studentName = Utils.createStudentName(requestingUser);
                         String supervisorName;
                         String subTitle;
                         String description;
@@ -727,7 +728,7 @@ public class ThesisRepository {
                             User supervisorUser = userDao
                                     .getById(thesisSupervisor.user)
                                     .blockingGet();
-                            supervisorName = supervisorUser.foreName + " " + supervisorUser.name;
+                            supervisorName = Utils.createSupervisorName(supervisorUser);
                             subTitle = thesis.subtitle;
                             description = thesis.description;
                             expose = thesis.expose;
