@@ -9,4 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="light_grey">#666666</color>
     <color name="lighter_grey">#AAAAAA</color>
+    <color name="iu_turquoise">#45818e</color>
+    <color name="iu_turquoise_dark">#2B5B65</color>
 </resources>

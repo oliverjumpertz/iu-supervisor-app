@@ -20,8 +20,6 @@
             android:id="@+id/activity_view_thesis_request_linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="1dp"
-            android:layout_marginTop="1dp"
             android:layout_marginBottom="1dp"
             android:orientation="vertical">
 
@@ -29,6 +27,7 @@
                 android:id="@+id/activity_view_thesis_request_appBarLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/iu_turquoise"
                 android:theme="@style/Theme.SupervisionApp.AppBarOverlay">
 
                 <LinearLayout
@@ -70,9 +69,10 @@
                 android:id="@+id/activity_view_thesis_request_innerLinearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:orientation="vertical">
+
                 <LinearLayout
                     android:id="@+id/activity_view_thesis_request_headLayout"
                     android:layout_width="match_parent"
@@ -240,17 +240,18 @@
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
                         android:layout_weight="1"
+                        android:backgroundTint="@color/iu_turquoise"
                         android:text="@string/activity_view_thesis_request_thesis_buttonAccept" />
 
                     <Button
                         android:id="@+id/activity_view_thesis_request_thesis_buttonReject"
+                        style="@style/Button.White"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
                         android:layout_weight="1"
-                        android:text="@string/activity_view_thesis_request_thesis_buttonReject"
-                        style="@style/Button.White" />
+                        android:text="@string/activity_view_thesis_request_thesis_buttonReject" />
                 </LinearLayout>
 
             </LinearLayout>

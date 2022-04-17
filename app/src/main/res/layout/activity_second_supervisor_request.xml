@@ -11,8 +11,6 @@
         android:id="@+id/activity_second_supervisor_request_linearLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="1dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,6 +20,7 @@
             android:id="@+id/activity_second_supervisor_request_appBarLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/iu_turquoise"
             android:theme="@style/Theme.SupervisionApp.AppBarOverlay">
 
             <LinearLayout
@@ -107,13 +106,13 @@
                 android:id="@+id/activity_second_supervisor_request_emptySupervisors"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="20dp"
                 android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginRight="20dp"
+                android:text="@string/activity_second_supervisor_request_emptySupervisors"
                 android:textColor="@color/black"
                 android:textSize="24sp"
-                android:textStyle="bold"
-                android:text="@string/activity_second_supervisor_request_emptySupervisors" />
+                android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

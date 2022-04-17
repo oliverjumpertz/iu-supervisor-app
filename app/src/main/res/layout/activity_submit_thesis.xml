@@ -20,8 +20,6 @@
             android:id="@+id/activity_submit_thesis_linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="1dp"
-            android:layout_marginTop="1dp"
             android:layout_marginBottom="1dp"
             android:orientation="vertical">
 
@@ -29,6 +27,7 @@
                 android:id="@+id/activity_submit_thesis_appBarLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/iu_turquoise"
                 android:theme="@style/Theme.SupervisionApp.AppBarOverlay">
 
                 <LinearLayout
@@ -70,9 +69,10 @@
                 android:id="@+id/activity_submit_thesis_innerLinearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:orientation="vertical">
+
                 <LinearLayout
                     android:id="@+id/activity_submit_thesis_headLayout"
                     android:layout_width="match_parent"
@@ -120,8 +120,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="10dp"
-                    android:textColor="@color/black"
                     android:textAlignment="viewStart"
+                    android:textColor="@color/black"
                     android:textSize="24sp" />
 
                 <TextView
@@ -185,12 +185,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="5dp"
+                    android:labelFor="@+id/activity_submit_thesis_uploadExposeIcon"
                     android:text="@string/activity_submit_thesis_headerExpose"
                     android:textAlignment="center"
                     android:textAllCaps="false"
                     android:textColor="@color/black"
                     android:textSize="24sp"
-                    android:labelFor="@+id/activity_submit_thesis_uploadExposeIcon"
                     android:textStyle="bold" />
 
                 <ImageView
@@ -215,6 +215,7 @@
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
                         android:layout_weight="1"
+                        android:backgroundTint="@color/iu_turquoise"
                         android:text="@string/activity_submit_thesis_buttonSend" />
 
                 </LinearLayout>
