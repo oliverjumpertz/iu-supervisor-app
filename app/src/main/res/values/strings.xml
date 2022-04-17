@@ -25,7 +25,7 @@
     <string name="fragment_my_thesis_header_status">Status:</string>
     <string name="activity_submit_thesis_textViewTitle">Titel:</string>
     <string name="activity_submit_thesis_textViewSubTitle">Untertitel:</string>
-    <string name="activity_submit_thesis_plainTextSubTitle">Trag hier einen Untertitel für deine Arbeit ein</string>
+    <string name="activity_submit_thesis_plainTextSubTitle">Untertitel der Arbeit</string>
     <string name="activity_submit_thesis_textViewDescription">Beschreibung:</string>
     <string name="activity_submit_thesis_multiLineTextDescription">Beschreibe hier deine Arbeit</string>
     <string name="activity_submit_thesis_headerExpose">Exposé hochladen:</string>
@@ -48,7 +48,7 @@
     <string name="activity_advertise_thesis_pageTitle">Arbeit ausschreiben</string>
     <string name="activity_second_supervisor_request">Zweitbetreuersuche</string>
     <string name="activity_advertise_thesis_request_thesis_type_title">Titel:</string>
-    <string name="activity_advertise_thesis_plainTextTitle">Trage hier einen Titel für die Arbeit ein</string>
+    <string name="activity_advertise_thesis_plainTextTitle">Titel der Arbeit</string>
     <string name="activity_advertise_thesis_textViewDescription">Beschreibung:</string>
     <string name="activity_advertise_thesis_multiLineTextDescription">Beschreibe hier die Arbeit</string>
     <string name="activity_advertise_thesis_buttonCreate">Erstellen</string>

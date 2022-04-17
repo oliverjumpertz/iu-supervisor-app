@@ -20,8 +20,6 @@
             android:id="@+id/activity_edit_supervised_thesis_linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="1dp"
-            android:layout_marginTop="1dp"
             android:layout_marginBottom="1dp"
             android:orientation="vertical">
 
@@ -29,6 +27,7 @@
                 android:id="@+id/activity_edit_supervised_thesis_appBarLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/iu_turquoise"
                 android:theme="@style/Theme.SupervisionApp.AppBarOverlay">
 
                 <LinearLayout
@@ -70,9 +69,10 @@
                 android:id="@+id/activity_edit_supervised_thesis_innerLinearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:orientation="vertical">
+
                 <LinearLayout
                     android:id="@+id/activity_edit_supervised_thesis_headLayout"
                     android:layout_width="match_parent"
@@ -168,7 +168,7 @@
                     android:layout_marginBottom="5dp"
                     android:textAlignment="viewStart"
                     android:textColor="@color/black"
-                    android:textSize="24sp"/>
+                    android:textSize="24sp" />
 
                 <TextView
                     android:id="@+id/activity_edit_supervised_thesis_headerSupervisor"
@@ -257,7 +257,7 @@
                     android:layout_marginBottom="5dp"
                     android:textAlignment="viewStart"
                     android:textColor="@color/black"
-                    android:textSize="24sp"/>
+                    android:textSize="24sp" />
 
                 <TextView
                     android:id="@+id/activity_edit_supervised_thesis_statusText"
@@ -267,7 +267,7 @@
                     android:layout_marginBottom="5dp"
                     android:textAlignment="viewStart"
                     android:textColor="@color/black"
-                    android:textSize="24sp"/>
+                    android:textSize="24sp" />
 
                 <TextView
                     android:id="@+id/activity_edit_supervised_thesis_headerInvoiceStatus"
@@ -290,12 +290,13 @@
                     android:layout_marginBottom="5dp"
                     android:textAlignment="viewStart"
                     android:textColor="@color/black"
-                    android:textSize="24sp"/>
+                    android:textSize="24sp" />
 
                 <Button
                     android:id="@+id/activity_edit_supervised_thesis_buttonSave"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="@color/iu_turquoise"
                     android:text="@string/activity_edit_supervised_thesis_buttonSave" />
             </LinearLayout>
         </LinearLayout>
