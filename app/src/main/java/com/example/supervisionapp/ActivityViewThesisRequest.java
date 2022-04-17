@@ -60,11 +60,12 @@ public class ActivityViewThesisRequest extends AppCompatActivity {
             public void onClick(View view) {
                 AppDatabase appDatabase = AppDatabase.getDatabase(getApplicationContext());
                 ThesisRepository thesisRepository = new ThesisRepository(appDatabase);
-                SupervisionRequestModel supervisionRequest = mViewModel
+                SupervisionRequestModel request = mViewModel
                         .getSupervisionRequest()
                         .getValue();
+                createAcceptToast(request);
                 thesisRepository
-                        .acceptSupervisionRequest(supervisionRequest)
+                        .acceptSupervisionRequest(request)
                         .subscribe(new CompletableObserver() {
                             @Override
                             public void onSubscribe(@NonNull Disposable d) {
@@ -95,6 +96,10 @@ public class ActivityViewThesisRequest extends AppCompatActivity {
         buttonReject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SupervisionRequestModel request = mViewModel
+                        .getSupervisionRequest()
+                        .getValue();
+                createRejectToast(request);
                 AppDatabase appDatabase = AppDatabase.getDatabase(getApplicationContext());
                 ThesisRepository thesisRepository = new ThesisRepository(appDatabase);
                 SupervisionRequestModel supervisionRequest = mViewModel
@@ -234,5 +239,37 @@ public class ActivityViewThesisRequest extends AppCompatActivity {
                         mViewModel.setSupervisionRequest(null);
                     }
                 });
+    }
+
+    private void createAcceptToast(SupervisionRequestModel request) {
+        int messageId;
+        if (request.getRequestType() == SupervisionRequestTypeModel.SECOND_SUPERVISOR) {
+            messageId = R.string.activity_view_thesis_request_thesis_acceptInfoMessageSupervisor;
+        } else {
+            messageId = R.string.activity_view_thesis_request_thesis_acceptInfoMessageStudent;
+        }
+        Toast
+                .makeText(
+                        ActivityViewThesisRequest.this,
+                        getResources().getString(messageId),
+                        Toast.LENGTH_LONG
+                )
+                .show();
+    }
+
+    private void createRejectToast(SupervisionRequestModel request) {
+        int messageId;
+        if (request.getRequestType() == SupervisionRequestTypeModel.SECOND_SUPERVISOR) {
+            messageId = R.string.activity_view_thesis_request_thesis_rejectInfoMessageSupervisor;
+        } else {
+            messageId = R.string.activity_view_thesis_request_thesis_rejectInfoMessageStudent;
+        }
+        Toast
+                .makeText(
+                        ActivityViewThesisRequest.this,
+                        getResources().getString(messageId),
+                        Toast.LENGTH_LONG
+                )
+                .show();
     }
 }

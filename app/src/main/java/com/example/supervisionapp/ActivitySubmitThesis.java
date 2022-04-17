@@ -82,6 +82,7 @@ public class ActivitySubmitThesis extends AppCompatActivity {
                             .show();
                     return;
                 }
+                createSendToast();
                 thesisRepository
                         .requestSupervision(
                                 thesis.id,
@@ -238,5 +239,14 @@ public class ActivitySubmitThesis extends AppCompatActivity {
                         mViewModel.setThesis(null);
                     }
                 });
+    }
+
+    private void createSendToast() {
+        Toast
+                .makeText(
+                        this,
+                        R.string.activity_submit_thesis_sendMessage,
+                        Toast.LENGTH_LONG)
+                .show();
     }
 }

@@ -124,4 +124,9 @@
     <string name="fragment_theses_requests_emptyTheses">Zur Zeit sind keine Anfragen für eine Betreuung vorhanden.</string>
     <string name="fragment_supervised_thesis_emptyTheses">Zur Zeit sind keine Arbeiten in Betreuung.</string>
     <string name="activity_second_supervisor_request_emptySupervisors">Zur Zeit stehen leider keine weiteren Tutoren für Zweitbetreuungsanfragen zur Verfügung.</string>
+    <string name="activity_view_thesis_request_thesis_rejectInfoMessageStudent">Die Anfrage wurde abgelehnt. Der Student wird darüber per eMail informiert werden.</string>
+    <string name="activity_view_thesis_request_thesis_rejectInfoMessageSupervisor">Die Anfrage wurde abgelehnt. Der Kollege wird per eMail darüber informiert werden.</string>
+    <string name="activity_view_thesis_request_thesis_acceptInfoMessageStudent">Die Anfrage wurde angenommen. Der Student wird darüber per eMail informiert werden.</string>
+    <string name="activity_view_thesis_request_thesis_acceptInfoMessageSupervisor">Die Anfrage wurde angenommen. Der Kollege wird per eMail darüber informiert werden.</string>
+    <string name="activity_submit_thesis_sendMessage">Deine Anfrage wurde abgeschickt. Du erhälst Feedback über die Annahme oder Ablehnung deiner Anfrage per eMail. Wenn der Betreuer deine Anfrage annimmt, wirst du auch hier in der App deine begonnene Arbeit sehen können.</string>
 </resources>
