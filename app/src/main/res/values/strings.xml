@@ -111,6 +111,7 @@
     <string name="SupervisoryStateModel_SUPERVISED">In Betreuung</string>
     <string name="InvoiceStateModel_UNFINISHED">Noch nicht abgerechnet</string>
     <string name="InvoiceStateModel_INVOICE_SENT">Rechnung versendet</string>
+    <string name="InvoiceStateModel_INVOICE_PAID">Rechnung bezahlt</string>
     <string name="SupervisoryTypeList_FIRST_SUPERVISOR">1.</string>
     <string name="SupervisoryTypeList_SECOND_SUPERVISOR">2.</string>
     <string name="SupervisionRequestTypeModel_SUPERVISION">1.</string>

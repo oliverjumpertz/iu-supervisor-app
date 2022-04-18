@@ -4,7 +4,8 @@ import com.example.supervisionapp.R;
 
 public enum InvoiceStateModel {
     UNFINISHED(0, R.string.InvoiceStateModel_UNFINISHED),
-    INVOICE_SENT(1, R.string.InvoiceStateModel_INVOICE_SENT);
+    INVOICE_SENT(1, R.string.InvoiceStateModel_INVOICE_SENT),
+    INVOICE_PAID(2, R.string.InvoiceStateModel_INVOICE_PAID);
 
     private final int resourceId;
     private final int sortPosition;
