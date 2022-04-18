@@ -26,6 +26,7 @@ import com.example.supervisionapp.persistence.AppDatabase;
 import com.example.supervisionapp.persistence.ThesisRepository;
 import com.example.supervisionapp.ui.login.LoginActivity;
 import com.example.supervisionapp.ui.main.ViewModelSuperviseThesis;
+import com.example.supervisionapp.utils.FileViewerUtils;
 
 import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.schedulers.Schedulers;
@@ -181,12 +182,7 @@ public class ActivitySuperviseThesis extends AppCompatActivity {
                     exposeIcon.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent = new Intent(Intent.ACTION_VIEW);
-                            intent.setDataAndType(Uri.parse(thesisModel.getExpose()), "application/pdf");
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                            Intent sendIntent = Intent.createChooser(intent, null);
-                            startActivity(sendIntent);
+                            FileViewerUtils.viewPdf(ActivitySuperviseThesis.this, thesisModel.getExpose());
                         }
                     });
                 }

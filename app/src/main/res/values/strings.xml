@@ -130,4 +130,5 @@
     <string name="activity_view_thesis_request_thesis_acceptInfoMessageStudent">Die Anfrage wurde angenommen. Der Student wird darüber per eMail informiert werden.</string>
     <string name="activity_view_thesis_request_thesis_acceptInfoMessageSupervisor">Die Anfrage wurde angenommen. Der Kollege wird per eMail darüber informiert werden.</string>
     <string name="activity_submit_thesis_sendMessage">Deine Anfrage wurde abgeschickt. Du erhälst Feedback über die Annahme oder Ablehnung deiner Anfrage per eMail. Wenn der Betreuer deine Anfrage annimmt, wirst du auch hier in der App deine begonnene Arbeit sehen können.</string>
+    <string name="view_pdf_final_state">Das Exposé dieser fertiggestellten Abschlussarbeiten kann hier leider nicht mehr angesehen werden.</string>
 </resources>

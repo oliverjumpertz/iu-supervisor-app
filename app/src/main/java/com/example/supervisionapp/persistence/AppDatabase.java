@@ -130,7 +130,7 @@ public abstract class AppDatabase extends RoomDatabase {
                                 thesis.title = "Agile Softwareentwicklung";
                                 thesis.subtitle = "Wie agile Softwareentwicklung die Industrie verändert";
                                 thesis.description = "Eine Beispielarbeit";
-                                thesis.expose = "android.resource://com.example.supervisionapp/raw/testdocument";
+                                thesis.expose = "finalMockURI";
                                 thesis.id = thesisDao.insert(thesis).blockingGet();
 
                                 InvoiceState invoiceState = invoiceStateDao
