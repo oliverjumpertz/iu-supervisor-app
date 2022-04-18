@@ -118,6 +118,60 @@ public abstract class AppDatabase extends RoomDatabase {
                                     newSupervisionRequestType.type = supervisionRequestType.name();
                                     newSupervisionRequestType.id = supervisionRequestTypeDao.insert(newSupervisionRequestType).blockingGet();
                                 }
+
+                                ThesisState finishedThesisState = thesisStateDao
+                                        .getByState(ThesisStateModel.FINISHED.name())
+                                        .blockingGet();
+
+                                ThesisDao thesisDao = INSTANCE.thesisDao();
+                                Thesis thesis = new Thesis();
+                                thesis.state = finishedThesisState.id;
+                                thesis.title = "Agile Softwareentwicklung";
+                                thesis.subtitle = "Wie agile Softwareentwicklung die Industrie verändert";
+                                thesis.description = "Eine Beispielarbeit";
+                                thesis.expose = "android.resource://com.example.supervisionapp/raw/testdocument";
+                                thesis.id = thesisDao.insert(thesis).blockingGet();
+
+                                InvoiceState invoiceState = invoiceStateDao
+                                        .getByState(InvoiceStateModel.INVOICE_PAID.name())
+                                        .blockingGet();
+
+                                SupervisoryState supervisoryState = supervisoryStateDao
+                                        .getByState(SupervisoryStateModel.SUPERVISED.name())
+                                        .blockingGet();
+
+                                SupervisoryType firstSupervisorType = supervisoryTypeDao
+                                        .getByType(SupervisoryTypeModel.FIRST_SUPERVISOR.name())
+                                        .blockingGet();
+
+                                SupervisorDao supervisorDao = INSTANCE.supervisorDao();
+
+                                Supervisor firstSupervisor = new Supervisor();
+                                firstSupervisor.user = userOne.id;
+                                firstSupervisor.type = firstSupervisorType.id;
+                                firstSupervisor.state = supervisoryState.id;
+                                firstSupervisor.thesis = thesis.id;
+                                firstSupervisor.invoiceState = invoiceState.id;
+                                supervisorDao.insert(firstSupervisor).blockingAwait();
+
+                                SupervisoryType secondSupervisorType = supervisoryTypeDao
+                                        .getByType(SupervisoryTypeModel.SECOND_SUPERVISOR.name())
+                                        .blockingGet();
+
+                                Supervisor secondSupervisor = new Supervisor();
+                                secondSupervisor.user = userThree.id;
+                                secondSupervisor.type = secondSupervisorType.id;
+                                secondSupervisor.state = supervisoryState.id;
+                                secondSupervisor.thesis = thesis.id;
+                                secondSupervisor.invoiceState = invoiceState.id;
+                                supervisorDao.insert(secondSupervisor).blockingAwait();
+
+                                StudentDao studentDao = INSTANCE.studentDao();
+
+                                Student student = new Student();
+                                student.user = userTwo.id;
+                                student.thesis = thesis.id;
+                                studentDao.insert(student).blockingAwait();
                             }
                         });
                     } catch (Exception e) {

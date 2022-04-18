@@ -114,9 +114,12 @@ public class ActivityEditSupervisedThesis extends AppCompatActivity {
                 ArrayAdapter<String> invoiceStateAdapter = new ArrayAdapter<>(ActivityEditSupervisedThesis.this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item);
                 for (InvoiceStateModel invoiceState : InvoiceStateModel.values()) {
                     if (invoiceState.getSortPosition() >= thesisModel.getInvoiceState().getSortPosition()) {
-                        if ((invoiceState.getSortPosition() > InvoiceStateModel.UNFINISHED.getSortPosition()
-                                && thesisModel.getThesisState().getSortPosition() <= ThesisStateModel.TURNED_IN.getSortPosition())
-                                || invoiceState.getSortPosition() >= InvoiceStateModel.INVOICE_PAID.getSortPosition()) {
+                        if (invoiceState.getSortPosition() > InvoiceStateModel.UNFINISHED.getSortPosition()
+                                && thesisModel.getThesisState().getSortPosition() <= ThesisStateModel.TURNED_IN.getSortPosition()) {
+                            continue;
+                        }
+                        if (invoiceState == InvoiceStateModel.INVOICE_PAID
+                                && thesisModel.getInvoiceState().getSortPosition() < InvoiceStateModel.INVOICE_PAID.getSortPosition()) {
                             continue;
                         }
                         invoiceStateAdapter.add(getResources().getString(invoiceState.getResourceId()));

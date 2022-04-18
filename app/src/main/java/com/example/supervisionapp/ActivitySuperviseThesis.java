@@ -109,7 +109,7 @@ public class ActivitySuperviseThesis extends AppCompatActivity {
                 // which means that a student is already supervised
                 if (thesisModel.getSupervisoryType() == SupervisoryTypeModel.FIRST_SUPERVISOR
                         && !thesisModel.hasSecondSupervisor()
-                        && thesisModel.getSupervisoryState() != SupervisoryStateModel.DRAFT) {
+                        && thesisModel.getSupervisoryState().getSortPosition() >= SupervisoryStateModel.DRAFT.getSortPosition()) {
                     secondSupervisorButton.setVisibility(View.VISIBLE);
                 }
 
