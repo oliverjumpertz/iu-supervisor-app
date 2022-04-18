@@ -78,6 +78,7 @@ public abstract class AppDatabase extends RoomDatabase {
 
                                 User userThree = new User();
                                 userThree.username = "c";
+                                userThree.title = "Prof.";
                                 userThree.foreName = "Bernd";
                                 userThree.name = "Spaßvogel";
                                 userThree.type = userTypeSupervisor.id;
