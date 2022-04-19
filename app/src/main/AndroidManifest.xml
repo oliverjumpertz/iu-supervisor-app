@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.supervisionapp">
 
+    <uses-sdk
+        android:minSdkVersion="21"
+        android:targetSdkVersion="31"/>
+
     <application
         android:name="com.example.supervisionapp.ui.main.SupervisorApplication"
         android:allowBackup="true"
@@ -56,6 +60,7 @@
             </intent-filter>
         </activity>
     </application>
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 </manifest>

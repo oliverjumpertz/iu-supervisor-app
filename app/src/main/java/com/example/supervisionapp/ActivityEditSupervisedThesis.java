@@ -228,9 +228,9 @@ public class ActivityEditSupervisedThesis extends AppCompatActivity {
         LoginRepository loginRepository = LoginRepository.getInstance(null);
         loginRepository.logout();
         Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
         // prevent users from going back in history after they logged out
-        finish();
+        finishAffinity();
+        startActivity(intent);
     }
 
     private void loadData(long thesisId) {
