@@ -60,7 +60,7 @@ public abstract class AppDatabase extends RoomDatabase {
 
                                 UserDao userDao = INSTANCE.userDao();
                                 User userOne = new User();
-                                userOne.username = "a";
+                                userOne.username = "betreuereins";
                                 userOne.foreName = "Bernd";
                                 userOne.name = "Scheuert";
                                 userOne.title = "Prof. Dr. rer. nat.";
@@ -69,7 +69,7 @@ public abstract class AppDatabase extends RoomDatabase {
                                 userOne.id = userDao.insert(userOne).blockingGet();
 
                                 User userTwo = new User();
-                                userTwo.username = "b";
+                                userTwo.username = "student";
                                 userTwo.foreName = "Kai";
                                 userTwo.name = "Lampe";
                                 userTwo.type = userTypeStudent.id;
@@ -77,7 +77,7 @@ public abstract class AppDatabase extends RoomDatabase {
                                 userTwo.id = userDao.insert(userTwo).blockingGet();
 
                                 User userThree = new User();
-                                userThree.username = "c";
+                                userThree.username = "betreuerzwei";
                                 userThree.title = "Prof.";
                                 userThree.foreName = "Bernd";
                                 userThree.name = "Spaßvogel";

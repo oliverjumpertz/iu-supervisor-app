@@ -29,6 +29,7 @@ public class LoginDataSource {
             while (users.isEmpty()) {
                 users = userRepository.getAll().blockingGet();
             }
+            username = username.toLowerCase();
             User user = userRepository.getUserByUsername(username).blockingGet();
             if (user == null) {
                 return new Result.Error(new IllegalArgumentException("User or password wrong"));
