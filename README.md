@@ -60,3 +60,6 @@ is not carried over to other devices!
 If you find any issues, please feel free to leave a comment!
 
 (Icons Source: https://unicode.org/emoji/charts/full-emoji-list.html)
+
+## Design
+You can find the design file [here.](https://www.figma.com/file/2CTseTNSImAjiOoZUMAIRH/Supervisor-App?node-id=0%3A1)
