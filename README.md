@@ -14,7 +14,7 @@ This app was created as part of the study *Projekt Mobile Software Engineering (
 
 ## Usage 🔧
 
-1. download the app here: - will follow -
+1. Build the app locally (there is no released APK. Sorry.)
 2. open with [Adroid Studio](https://developer.android.com/studio?hl=de&gclid=CjwKCAjwoduRBhA4EiwACL5RPzPoqmVauzQiHXuMqgo9KJwbawVOsrknG0Obk6y5k1NOHb8nQkjXIhoCiQYQAvD_BwE&gclsrc=aw.ds) or an Android device.
 
 2.1 Android Studio:
